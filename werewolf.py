@@ -8,36 +8,40 @@ import colorama
 import dotenv
 import openai
 from colorama import Fore, Style
-
 colorama.init()
+
+from openai import OpenAI
+client = OpenAI()
 
 if os.path.isfile('.env'):
     dotenv.load_dotenv()
     openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def return_dict_from_json_or_fix(message_json, use_gpt4):
-    """
-    If the data is valid json, return it as a dictionary, if not, it will attempt to use AI to intelligently fix the JSON.
-    If that still does not work, it will print the original (bad) JSON, the new bad JSON, and then exit gracefully.
-
-    This totally badass code came from Yosef Frost: https://github.com/FrostyTheSouthernSnowman
-    """
-
-    model = 'gpt-3.5-turbo' if not use_gpt4 else 'gpt-4'
+    model = 'gpt-5-nano' if not use_gpt4 else 'gpt-4o-mini'
 
     try:
         message_dict = json.loads(message_json)
 
     except ValueError:
-        completion = openai.ChatCompletion.create(model=model, temperature=0.8, messages=[
-            {
-                'role': 'user', 
-                'content': 'I have a JSON string, but it is not valid JSON. Possibly, the message contains other text besides just the JSON. Could you make it valid? Or, ' \
-                + 'if there is valid JSON in the response, please just extact the JSON and do NOT update it. Please respond ONLY in valid JSON! Do not comment on your response. Do not start or ' \
-                + 'end with backpacks ("`" or "```")!  You must ONLY respond in JSON! Anything after the colon is JSON I need you to fix. The original message that contains the ' \
-                + f'bad JSON is: \n {message_json}'
-            }])
-        fixed_json = completion.choices[0].message.content
+        response = client.responses.create(
+            model=model,
+            input=[
+                {
+                    "role": "user",
+                    "content": (
+                        "I have a JSON string, but it is not valid JSON. Possibly, the message contains other text besides just the JSON. "
+                        "Could you make it valid? Or, if there is valid JSON in the response, please just extract the JSON and do NOT update it. "
+                        "Please respond ONLY in valid JSON! Do not comment on your response. Do not start or end with backticks! "
+                        "You must ONLY respond in JSON!\n\n"
+                        f"Bad JSON:\n{message_json}"
+                    )
+                }
+            ]
+        )
+
+        fixed_json = response.output_text
+
         try:
             message_dict = json.loads(fixed_json)
 
@@ -72,9 +76,15 @@ class Player:
 
         full_prompt += prompt
 
-        model = 'gpt-3.5-turbo' if not self.use_gpt4 else 'gpt-4'
-        completion = openai.ChatCompletion.create(model=model, temperature=0.8, messages=[{'role': 'user', 'content': full_prompt}])
-        return completion.choices[0].message.content
+        model = 'gpt-5-nano' if not self.use_gpt4 else 'gpt-4'
+        response = client.responses.create(model=model, input=full_prompt)
+
+        if not response.output_text:
+            print("No text returned from model.")
+            print(response.model_dump_json(indent=2))
+            return ""
+
+        return response.output_text
 
 class ConsoleRenderingEngine:
 
@@ -143,7 +153,7 @@ class ConsoleRenderingEngine:
                 print(f'{player.player_name} : {player.card} : {votes[player.player_name]}')
 
     def render_game_details(self, player_count, discussion_depth, use_gpt4):
-        model = 'gpt-3.5-turbo' if not use_gpt4 else 'gpt-4'
+        model = 'gpt-5-nano-2025-08-07' if not use_gpt4 else 'gpt-4'
 
         print()
         print('## Run Details')
@@ -203,7 +213,7 @@ class MarkdownRenderingEngine:
                 print(f'* {player.player_name} : {player.card} : {votes[player.player_name]}')
 
     def render_game_details(self, player_count, discussion_depth, use_gpt4):
-        model = 'gpt-3.5-turbo' if not use_gpt4 else 'gpt-4'
+        model = 'gpt-5-nano' if not use_gpt4 else 'gpt-4'
 
         print()
         print('## Run Details')
@@ -511,7 +521,7 @@ class Game:
 
             if len(players_with_max_votes) > 1:
                 game_result = f'There was a tie between {", ".join([player.player_name for player in players_with_max_votes])}.'
-                if players_with_max_votes[0].card != 'Werewolf' and players_with_max_votes[1].card != 'Werewolf':
+                if all(player.card != 'Werewolf' for player in players_with_max_votes):
                     game_result += ' The werewolves win.'
                 else:
                     game_result += ' The villagers win.'
