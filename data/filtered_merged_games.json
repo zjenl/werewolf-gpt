@@ -1,0 +1,1822 @@
+[
+  {
+    "EG_ID": "698f6bbe-4347-4a06-bd5d-3482f5e4fbbe",
+    "Game_ID": "Game1",
+    "Dialogue": [
+      {
+        "speaker": "James",
+        "utterance": "This wasn't what I was expecting.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "I know.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "It's a lot more dramatic than it looked.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Yeah.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Copyright.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I realize that we should be able to make noise. Shuffle in our chairs.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Our poor chairs.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Just side to side.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Just bounce up and down.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Not up and down.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Maybe I'll just whistle ",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I can't risk some of these cards.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Me neither.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "You can stop now.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "James, that's enough. <TURN_SPLIT> Uh-oh. <TURN_SPLIT> All right, who's hungover as fuck? <TURN_SPLIT> I think you're hungover as fuck.",
+        "annotation": [
+          "No Strategy",
+          "Interrogation",
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "I'm so hungover and drunk. I'm the Drunk.",
+        "annotation": [
+          "Identity Declaration"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "I felt your little hand ",
+        "annotation": [
+          "Accusation",
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "All right, so we know who Sian is now.",
+        "annotation": [
+          "Accusation",
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "No. The three.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Well the Drunk went after the Troublemaker.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "But what did you start as?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Yeah, the Drunk comes the last.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Drunk is We all know the Drunk.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "So she was drunk, but now she could be...",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "I don't know, guys. .. I had a good night. I had a great night last night. Woo!",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "But didn't you wake up in jail?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Well what did you wake up as?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "A drunk. Yeah.",
+        "annotation": [
+          "Identity Declaration"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "No like, she's a functional drunk. She got really drunk in the night, woke up and now she's like, \"all right, now I'm going back to my tanning job\".",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "She doesn't get to look.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I know.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Oh.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "But I'm saying like, she's a functional drunk cause she wakes up.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Are you trying to role play a little bit?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Yeah. Now I'm going back to my tanning job. ",
+        "annotation": [
+          "Identity Declaration"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "We don't care about the role play.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Well, I love the role play.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "So that means the Drunk is definitely out, which means we don't know.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Was anyone?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Was anyone the seer?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Yeah, I was going to say that.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Are you the Werewolve?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "No.",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Are you the Werewolve?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "No.",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Are you the Werewolve?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "No.",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "What is-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Are you the Werewolve?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "What is this strategy?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I don't know.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Are you the Werewolve?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "No.",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Oh really? I hate you.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I just, I love it.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Actually I think",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "All right, I would say, was anyone the Robber? <TURN_SPLIT> The Troublemaker. Like, who switched cards?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "I switched cards.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "What were you?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "No, I need other people to talk first.",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Why?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "What do you mean why?",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Why, why do you have people to talk first?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "I didn't hear anything from this side.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "I heard James do something.",
+        "annotation": [
+          "Accusation",
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "What were you, Chris?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I was the Villager.",
+        "annotation": [
+          "Identity Declaration"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "You were? <TURN_SPLIT> I think you might be a little drunk now.",
+        "annotation": [
+          "Interrogation",
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Chocolate?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Yeah, that's possible. ",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "It was his morning chocolate",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "No!",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I need my morning ba-, chocolate banana.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "No?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Oh, so you switched me.",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Oh.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "So I was a Drunk.",
+        "annotation": [
+          "Identity Declaration"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "So you're a Villager, you're a Drunky.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "So these three again.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "God damn it.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "But I switched with the middle too, so...",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Yeah.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "You saw my plans.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "So there's a Villager in there.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Yeah.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "So you're the only one who is telling the truth.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "You're definitely not.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I was the Seer and Chris was the Villager.",
+        "annotation": [
+          "Identity Declaration"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Okay.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "So...",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "So that doesn't help.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "No. I know, so I'm like, well I'm useless.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "So the Villager is now in the middle.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "In the middle, and now we have an unknown here.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I'm glad to see that our trust is still strong over here.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Okay so, let's use these bad boys.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Yeah, so we know Drunk and Troublemaker. Well, unless I was switched with a Robber.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Unless a Robber.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Was anybody a Robber?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Does anyone want to fess up to being the Robber? In order to...",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "You switched so you're a Troublemaker?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "I was, but I don't know if the Robber switched with me.",
+        "annotation": [
+          "Identity Declaration",
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "I will be the Robber.",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Wait, but you know-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "I was the robber.",
+        "annotation": [
+          "Identity Declaration",
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "You'll be the Robber now?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "You switched two other people, right?",
+        "annotation": [
+          "Accusation",
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "You'll be the Robber?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Right.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Or is Ashley a-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Yeah.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "I think it's Ashley again. I think Ashley is a Minion.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Okay, so potential.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Okay.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Because-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I think James-",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "All the way she said no about the Werewolve.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I mean, then so would it be Ashley and Elliot?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "I did, because we said \"I'll be a Robber.\"",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "I didn't see Ashley open her eyes if I was the Werewolf.",
+        "annotation": [
+          "Accusation",
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "\"I'll be a Robber\" implies \"Sure, I don't want you to know what I am.\"",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Well...",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Who did you switch with?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "You'd be fine if you were the Robber if you switched for something else.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "I swapped with James.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Right?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Okay, good point.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Cause then you'd go yeah, I was the Robber, and now I'm a-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "So they would put a thing on-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Ready?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Yep.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "3, 2, 1, go!",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "As you were saying.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "As you were saying, you're accusing me like a real rude person.",
+        "annotation": [
+          "Accusation",
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Why though?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Because she was so quick to, \"Yeah, I swapped these two. Blah, blah, blah.\"",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Was anyone the Tanner?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Well, to be fair, I did say I would like someone else to speak.",
+        "annotation": [
+          "Call for Action",
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Yeah, nobody's going to say they're the tanner.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Everyone was quiet and so I was like, well, we can either have a boring round or ",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "The Tanner's gonna try and convince us it's a Werewolf.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "But again, you wouldn't say if you are the Tanner.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "You're wrong!",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Yeah. Right.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "And I don't like you throwing shade when we literally have no idea who you are.",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "I think you're just mad because you missed your opportunity to vote for me last time.",
+        "annotation": [
+          "Accusation",
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I have a theory.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "That's not fair.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I think Elliot is the Tanner.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Elliot's not said a fucking word.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "I was confirming that the Tanner was in the game. I wasn't saying though that I was the Tanner.",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Because he has been accused of being a werewolf and he's like, \"That's cool, that's cool. I might be the werewolf. What?\"",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Yeah. What are you? What were you Elliot?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "I said I was the robber.",
+        "annotation": [
+          "Identity Declaration"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Yeah, he said he swapped with James who said he was a seer, who said he saw the villager, which I then swapped. ",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Wait. Hold on.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "There's also two cards in the middle that we...",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Don't know.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Don't know.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "But one of them is out because of the drunk.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "There's one card here that we don't know.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Because the drunks swap from the middle.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Yeah, but we don't know what she is.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Right.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "So she could be a werewolf or the tanner.",
+        "annotation": [
+          "Accusation",
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "I wouldn't put the Tanner on her.",
+        "annotation": [
+          "Call for Action",
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "But you wouldn't know.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "I have no idea who's the drunk.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "No, I mean, I wouldn't...",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "So she's safe to kill. Just, you know..",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "I would put-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "I don't know guys.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I don't remember what I did. Exactly. Whack.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "There could have been a werewolf in the middle.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "I would put the Tanner over here just because-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "That's true.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "That way for sure nobody wins, because we didn't have the Tanner. Oh wait, then that's where Villagers were. N Nevermind.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "There could be no minion too.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Right. Let's be petty. Who heard shit? ",
+        "annotation": [
+          "Interrogation",
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "I already told you, I felt Sian reach for the drunk title.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "No, I believe you are the drunk.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "I don't know how to do it.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Yeah, it is kind of hard.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Yeah.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "But no, you're definitely the drunk.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "It's hard. We have to find the balance of ",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Yeah. I believe that.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I personally think, if you're whistling like I was it creates a lot of noise in your head. Even just like, \"Shoo.\"",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Oh, humming?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Yeah.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Yeah, it also makes it miserable for the editors for a whistle.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Wow. I'm so happy you're thinking of the editors.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "That's not my problem.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "A shrill. A shrill.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "A hum would be better.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Yeah. Yeah, we could just go om. We could do meditation noises.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "All right. Guys.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Does anyone know for sure that Ashley would be a werewolf. Has anyone gotten any?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "No.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Last game I was the seer and I saw her as the werewolf. ",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Once again, I have no detective tools in my pocket other than the sounds in my ears.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "You are not a seer?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I am not the seer.",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Wait, what?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I know. I was a werewolf.",
+        "annotation": [
+          "Identity Declaration",
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Don't believe him. Oh my gosh.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "What are you doing?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I was a werewolf. So Elliot was the robber and he switched with me. No, I'm saying Elliot switched with me so he's a werewolf now.",
+        "annotation": [
+          "Identity Declaration",
+          "Accusation",
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "He's watching the timer. He's trying to make sure he wins.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Yeah, he made sure to wait for this argument to come up within the last minute and a half.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Oh, Jim thing.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I'm being honest here. This is a lot of fun for me.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "It's weird that he was also honest about my starting role.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "No.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "But he's no longer the seer.",
+        "annotation": [
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Speaker 4",
+        "utterance": "Or is he the Tanner?",
+        "annotation": [
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Yeah. So you can kill me, but I think I'm the robber now. Elliot switched with me so he's the werewolf now.",
+        "annotation": [
+          "Identity Declaration",
+          "Call for Action",
+          "Evidence"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Ahhh.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "I think we should get the jam.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Okay. We can get it after this.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "So werewolf.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "What code is that?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "I think we either vote for her or put that the werewolf was here.",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "we have to vote for someone.",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "So, Elliot's either a werewolf or he's had an amazing play as the tanner. If Elliot's the tanner, I'm going to like...",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "I think James is the tanner.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I think it might be like, not because-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I'm trying not to get killed by ",
+        "annotation": [
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Sorry, not because you're suspicious but because you don't know what you are.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Yeah. I'm kind of-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "And there's no confidence. I think we might-",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "THere's too much tanner shit going on. I'm voting for Sian.",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "I think we might kill you just to be safe.",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "Sian",
+        "utterance": "Okay. I just want a good night.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "This villager is fucked by the way.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "Let's do that.",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "It's Elliot.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Like, just for safety.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "Elliot has a 50 percent chance of being the werewolf.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "And a 25 percent chance of being a tanner.",
+        "annotation": [
+          "Accusation"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "I don't think it's that. I don't think he is. I've got to go with Elliot.",
+        "annotation": [
+          "Call for Action",
+          "Defense"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Well.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "Okay.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Hands aloft.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Ashley",
+        "utterance": "I'm going over here.",
+        "annotation": [
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "Because I got three seconds.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Don't trust James. That's what I have to say here.",
+        "annotation": [
+          "Accusation",
+          "Call for Action"
+        ]
+      },
+      {
+        "speaker": "Sukeshi",
+        "utterance": "I haven't decided yet. I haven't decided yet.",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "Elliot",
+        "utterance": "Can you ever trust James in a game like this?",
+        "annotation": [
+          "Accusation",
+          "Interrogation"
+        ]
+      },
+      {
+        "speaker": "Chris",
+        "utterance": "All right, ready?",
+        "annotation": [
+          "No Strategy"
+        ]
+      },
+      {
+        "speaker": "James",
+        "utterance": "3, 2.",
+        "annotation": [
+          "No Strategy"
+        ]
+      }
+    ],
+    "playerNames": [
+      "Chris",
+      "Sian",
+      "James",
+      "Ashley",
+      "Elliot",
+      "Sukeshi"
+    ],
+    "votingOutcome": [
+      1,
+      1,
+      4,
+      1,
+      1,
+      1
+    ],
+    "startRoles": [
+      "Minion",
+      "Drunk",
+      "Werewolf",
+      "Werewolf",
+      "Robber",
+      "Troublemaker"
+    ],
+    "endRoles": [
+      "Drunk",
+      "Seer",
+      "Robber",
+      "Werewolf",
+      "Werewolf",
+      "Troublemaker"
+    ],
+    "warning": "Sian incorrectly votes for self"
+  }
+]
