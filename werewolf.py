@@ -2,6 +2,7 @@ import json
 import os
 import random
 import time
+import uuid
 from datetime import datetime, timezone
 
 import click
@@ -16,6 +17,7 @@ from openai import OpenAI
 DEFAULT_MODEL = 'openai/gpt-oss-120b:free'
 DEFAULT_API_BASE_URL = 'https://openrouter.ai/api/v1'
 DEFAULT_RESULTS_FILE = 'results/baseline-results.json'
+DEFAULT_GAMES_JSON_FILE = 'results/baseline-games.json'
 MODEL_MAX_RETRIES = 3
 MODEL_RETRY_SLEEP_SECONDS = 5
 
@@ -128,6 +130,23 @@ def return_dict_from_json_or_fix(message_json, model):
             raise ValueError(f'Unable to get valid JSON response. Original Response: {message_json} Attempted Fix: {fixed_json}')
 
     return message_dict
+
+
+def stringify_action_value(value):
+    if value is None:
+        return ''
+    if isinstance(value, str):
+        return value.strip()
+    return json.dumps(value)
+
+
+def get_first_action_value(action, keys, default=''):
+    for key in keys:
+        value = stringify_action_value(action.get(key))
+        if value:
+            return value
+    return default
+
 
 class Player:
 
@@ -322,7 +341,7 @@ class SilentRenderingEngine:
 
 class Game:
 
-    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False):
+    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False):
         self.player_count = player_count
         self.discussion_depth = discussion_depth
         self.card_list = None
@@ -331,6 +350,10 @@ class Game:
         self.middle_cards = []
         self.model = model
         self.result = None
+        self.dialogue = []
+        self.voting_outcome = []
+        self.warning = ''
+        self.targeted_werewolf_persuasion = targeted_werewolf_persuasion
 
         if silent:
             self.rendering_engine = SilentRenderingEngine()
@@ -338,6 +361,93 @@ class Game:
             self.rendering_engine = MarkdownRenderingEngine()
         else:
             self.rendering_engine = ConsoleRenderingEngine()
+
+    def record_dialogue_turn(self, speaker, phase, utterance, thoughts):
+        rec_id = len(self.dialogue) + 1
+        self.dialogue.append({
+            'Rec_Id': rec_id,
+            'speaker': speaker,
+            'timestamp': f'00:{rec_id:02d}',
+            'phase': phase,
+            'utterance': utterance or '',
+            'thoughts': thoughts or ''
+        })
+
+    def append_warning(self, message):
+        self.warning = (self.warning + '; ' if self.warning else '') + message
+
+    def get_reasoning(self, action, raw_response, player_name, phase):
+        reasoning = get_first_action_value(action, ['reasoning', 'thoughts', 'rationale', 'explanation', 'justification'])
+        if reasoning:
+            return reasoning
+
+        self.append_warning(f'{player_name} did not provide reasoning during {phase}')
+        raw_response = stringify_action_value(raw_response)
+        if raw_response:
+            return f'No reasoning supplied. Raw response: {raw_response}'
+        return 'No reasoning supplied.'
+
+    def get_statement(self, action, player_name):
+        statement = get_first_action_value(action, ['statement', 'utterance', 'message', 'response', 'question', 'claim'])
+        if statement:
+            return statement
+
+        self.append_warning(f'{player_name} did not provide a day statement')
+        return 'I need more information before making a claim.'
+
+    def get_targeted_werewolf_reasoning(self, action, raw_response, player_name):
+        reasoning = self.get_reasoning(action, raw_response, player_name, 'DAY')
+        analysis = action.get('target_analysis') or action.get('analysis') or action.get('player_analysis')
+        if analysis:
+            reasoning += f'\nTarget analysis: {stringify_action_value(analysis)}'
+        return reasoning
+
+    def get_player_name_from_action(self, action, keys):
+        candidate = get_first_action_value(action, keys)
+        if candidate in self.player_names:
+            return candidate
+
+        for value in action.values():
+            value = stringify_action_value(value)
+            if value in self.player_names:
+                return value
+
+        return candidate
+
+    def get_day_prompt(self, player, default_day_prompt):
+        if not self.targeted_werewolf_persuasion or player.card != 'Werewolf':
+            return default_day_prompt
+
+        known_werewolves = [
+            other_player.player_name
+            for other_player in self.players
+            if other_player.card == 'Werewolf' and other_player.player_name != player.player_name
+        ]
+        persuasion_candidates = [
+            other_player.player_name
+            for other_player in self.players
+            if other_player.player_name != player.player_name and other_player.player_name not in known_werewolves
+        ]
+
+        known_werewolves_text = '; '.join(known_werewolves) if known_werewolves else 'None'
+        persuasion_candidates_text = '; '.join(persuasion_candidates)
+
+        return open('prompts/werewolf_targeted_day.txt').read().format(
+            known_werewolves=known_werewolves_text,
+            persuasion_candidates=persuasion_candidates_text
+        )
+
+    def to_ego4d_like_game(self, game_number):
+        return {
+            'EG_ID': str(uuid.uuid4()),
+            'Game_ID': f'GeneratedGame{game_number}',
+            'Dialogue': self.dialogue,
+            'playerNames': self.player_names,
+            'votingOutcome': self.voting_outcome,
+            'startRoles': [player.card for player in self.players],
+            'endRoles': [player.card for player in self.players],
+            'warning': self.warning
+        }
 
     def play(self):
 
@@ -505,17 +615,32 @@ class Game:
             response = seer_players[0].run_prompt(prompt)
 
             action = return_dict_from_json_or_fix(response, self.model)
-            reasoning = action['reasoning']
-            choice = action['choice']
+            reasoning = self.get_reasoning(action, response, seer_players[0].player_name, 'NIGHT')
+            choice = get_first_action_value(action, ['choice', 'action', 'selection'], 'center').lower()
+            if choice not in ['player', 'center']:
+                self.append_warning(f'{seer_players[0].player_name} supplied invalid seer choice {choice}')
+                choice = 'center'
             
             thoughts_message = f'NIGHT ROUND THOUGHTS: {reasoning}'
             seer_players[0].append_memory(thoughts_message)
+            self.record_dialogue_turn(seer_players[0].player_name, 'NIGHT', f'I choose to look at {choice}.', reasoning)
 
             self.rendering_engine.render_player_turn(seer_players[0], None, reasoning)
 
             if choice == 'player':
-                player_name = action['player']
+                player_name = self.get_player_name_from_action(action, ['player', 'target_player', 'selected_player'])
                 player = next((p for p in self.players if p.player_name == player_name), None)
+                if player is None or player.player_name == seer_players[0].player_name:
+                    self.append_warning(f'{seer_players[0].player_name} supplied invalid seer target {player_name} and viewed center cards instead')
+                    viewed_cards = random.sample(self.middle_cards, k=2)
+
+                    message = f'GAME (NIGHT PHASE): You have seen two cards in the center of the table: {viewed_cards[0]} and {viewed_cards[1]}'
+                    seer_players[0].append_memory(message)
+
+                    self.rendering_engine.render_system_message('The seer looked at two cards from the center of the table and saw the cards {ref_cards[0]} and {ref_cards[1]}',
+                        ref_cards = viewed_cards)
+                    self.rendering_engine.render_game_statement('Seer, close your eyes.')
+                    return
                 
                 message = f'GAME (NIGHT PHASE): You are have seen that {player.player_name} has the card: {player.card}.'
                 seer_players[0].append_memory(message)
@@ -561,13 +686,20 @@ class Game:
 
             self.rendering_engine.render_player_turn_init(player)
 
-            response = player.run_prompt(day_prompt)
+            prompt = self.get_day_prompt(player, day_prompt)
+            response = player.run_prompt(prompt)
 
             action = return_dict_from_json_or_fix(response, self.model)
-            reasoning = action['reasoning']
-            statement = action['statement']
-            if 'target_player' in action:
-                target_player = action['target_player']
+            if self.targeted_werewolf_persuasion and player.card == 'Werewolf':
+                reasoning = self.get_targeted_werewolf_reasoning(action, response, player.player_name)
+            else:
+                reasoning = self.get_reasoning(action, response, player.player_name, 'DAY')
+            statement = self.get_statement(action, player.player_name)
+            if any(key in action for key in ['target_player', 'target', 'player']):
+                target_player = self.get_player_name_from_action(action, ['target_player', 'target', 'player'])
+                if target_player not in self.player_names or target_player == player.player_name:
+                    self.append_warning(f'{player.player_name} supplied invalid day target {target_player}')
+                    target_player = None
 
             thoughts_message = f'DAY ROUND THOUGHTS: {reasoning}'
             player.append_memory(thoughts_message)
@@ -575,6 +707,8 @@ class Game:
             message = f'{player.player_name}: {statement}'
             for i_player in self.players:
                 i_player.append_memory(message)
+
+            self.record_dialogue_turn(player.player_name, 'DAY', statement, reasoning)
 
             self.rendering_engine.render_player_turn(
                 player,
@@ -590,6 +724,7 @@ class Game:
         vote_prompt = open('prompts/vote.txt').read()
 
         votes = {}
+        vote_by_player_number = {}
 
         for player in self.players:
             votes[player.player_name] = 0
@@ -600,15 +735,23 @@ class Game:
             response = player.run_prompt(vote_prompt)
 
             action = return_dict_from_json_or_fix(response, self.model)
-            reasoning = action['reasoning']
-            voted_player = action['voted_player']
+            reasoning = self.get_reasoning(action, response, player.player_name, 'VOTE')
+            voted_player = self.get_player_name_from_action(action, ['voted_player', 'vote', 'player', 'target_player', 'target'])
 
             if voted_player not in votes or voted_player == player.player_name:
                 voted_player = random.choice([p.player_name for p in self.players if p.player_name != player.player_name])
+                self.append_warning(f'{player.player_name} supplied an invalid vote and was assigned {voted_player}')
 
             self.rendering_engine.render_player_vote(player, voted_player, reasoning)
 
             votes[voted_player] += 1
+            vote_by_player_number[player.player_number] = next(p.player_number for p in self.players if p.player_name == voted_player)
+            self.record_dialogue_turn(player.player_name, 'VOTE', f'I am voting for {voted_player}.', reasoning)
+
+        self.voting_outcome = [
+            vote_by_player_number.get(player.player_number, 'NA')
+            for player in self.players
+        ]
 
         self.rendering_engine.render_vote_results(votes, self.players)
 
@@ -647,6 +790,7 @@ class Game:
             'winner': winner,
             'werewolf_win': winner == 'werewolves',
             'result': game_result,
+            'targeted_werewolf_persuasion': self.targeted_werewolf_persuasion,
             'votes': votes,
             'players': [
                 {
@@ -670,21 +814,22 @@ class Game:
 #game.play()
 
 
-def write_batch_results(results_file, payload):
-    results_dir = os.path.dirname(results_file)
+def write_json_file(json_file, payload):
+    results_dir = os.path.dirname(json_file)
     if results_dir:
         os.makedirs(results_dir, exist_ok=True)
 
-    with open(results_file, 'w', encoding='utf-8') as f:
+    with open(json_file, 'w', encoding='utf-8') as f:
         json.dump(payload, f, indent=2)
 
 
-def run_batch(player_count, discussion_depth, model, game_count, results_file):
+def run_batch(player_count, discussion_depth, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion):
     payload = {
         'summary': {
             'model': model,
             'player_count': player_count,
             'discussion_depth': discussion_depth,
+            'targeted_werewolf_persuasion': targeted_werewolf_persuasion,
             'games_requested': game_count,
             'games_completed': 0,
             'games_failed': 0,
@@ -694,13 +839,21 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file):
         },
         'games': []
     }
+    games_json = []
 
     for game_number in range(1, game_count + 1):
         try:
-            game = Game(player_count=player_count, discussion_depth=discussion_depth, model=model, silent=True)
+            game = Game(
+                player_count=player_count,
+                discussion_depth=discussion_depth,
+                model=model,
+                silent=True,
+                targeted_werewolf_persuasion=targeted_werewolf_persuasion
+            )
             result = game.play()
             result['game_number'] = game_number
             result['status'] = 'completed'
+            games_json.append(game.to_ego4d_like_game(game_number))
 
             payload['summary']['games_completed'] += 1
             if result['werewolf_win']:
@@ -715,13 +868,15 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file):
                 'result': None
             }
             payload['summary']['games_failed'] += 1
+            click.echo(f'Game {game_number} error: {e}', err=True)
 
         completed = payload['summary']['games_completed']
         if completed > 0:
             payload['summary']['werewolf_win_rate'] = payload['summary']['werewolf_wins'] / completed
 
         payload['games'].append(result)
-        write_batch_results(results_file, payload)
+        write_json_file(results_file, payload)
+        write_json_file(games_json_file, games_json)
 
         click.echo(f'Game {game_number}/{game_count}: {result["status"]}', err=True)
 
@@ -734,9 +889,11 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file):
 @click.option('--api-base-url', default=DEFAULT_API_BASE_URL, show_default=True, help='OpenAI-compatible API base URL')
 @click.option('--games', type=int, default=1, show_default=True, help='Number of games to run. Use 1000 for a baseline batch.')
 @click.option('--results-file', default=DEFAULT_RESULTS_FILE, show_default=True, help='JSON file for batch results')
+@click.option('--games-json-file', default=DEFAULT_GAMES_JSON_FILE, show_default=True, help='Ego4D-like JSON file containing generated game dialogue')
+@click.option('--targeted-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze candidates and target the highest-utility player during day discussion')
 @click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
-def play_game(player_count, discussion_depth, model, api_base_url, games, results_file, use_gpt4, render_markdown):
+def play_game(player_count, discussion_depth, model, api_base_url, games, results_file, games_json_file, targeted_werewolf_persuasion, use_gpt4, render_markdown):
     if use_gpt4:
         model = 'openai/gpt-4'
 
@@ -746,15 +903,22 @@ def play_game(player_count, discussion_depth, model, api_base_url, games, result
         raise click.ClickException('--games must be at least 1.')
 
     if games > 1:
-        summary = run_batch(player_count, discussion_depth, model, games, results_file)
+        summary = run_batch(player_count, discussion_depth, model, games, results_file, games_json_file, targeted_werewolf_persuasion)
         click.echo()
         click.echo(f'Batch complete. Results saved to {results_file}')
+        click.echo(f'Generated game dialogue saved to {games_json_file}')
         click.echo(f'Games completed: {summary["games_completed"]}')
         click.echo(f'Games failed: {summary["games_failed"]}')
         click.echo(f'Werewolf wins: {summary["werewolf_wins"]}')
         click.echo(f'Werewolf win rate: {summary["werewolf_win_rate"]:.2%}')
     else:
-        game = Game(player_count=player_count, discussion_depth=discussion_depth, model=model, render_markdown=render_markdown)
+        game = Game(
+            player_count=player_count,
+            discussion_depth=discussion_depth,
+            model=model,
+            render_markdown=render_markdown,
+            targeted_werewolf_persuasion=targeted_werewolf_persuasion
+        )
         game.play()
 
 if __name__ == '__main__':

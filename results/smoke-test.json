@@ -1,0 +1,64 @@
+{
+  "summary": {
+    "model": "openai/gpt-oss-120b:free",
+    "player_count": 5,
+    "discussion_depth": 3,
+    "games_requested": 2,
+    "games_completed": 1,
+    "games_failed": 1,
+    "werewolf_wins": 0,
+    "werewolf_win_rate": 0.0,
+    "generated_at": "2026-04-15T06:43:24.543124+00:00"
+  },
+  "games": [
+    {
+      "game_number": 1,
+      "status": "failed",
+      "error": "'reasoning'",
+      "winner": null,
+      "werewolf_win": null,
+      "result": null
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Marius, Semira. The villagers win.",
+      "votes": {
+        "Marius": 2,
+        "Alexia": 0,
+        "Alexandra": 1,
+        "Semira": 2,
+        "Lucian": 0
+      },
+      "players": [
+        {
+          "name": "Marius",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Mason"
+        },
+        {
+          "name": "Semira",
+          "card": "Seer"
+        },
+        {
+          "name": "Lucian",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Minion"
+      ],
+      "game_number": 2,
+      "status": "completed"
+    }
+  ]
+}

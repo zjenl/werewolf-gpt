@@ -1,0 +1,34 @@
+It is now the DAY phase. You are a Werewolf using a targeted persuasion strategy.
+
+Your goal is not to persuade everyone. Your goal is to choose the one non-teammate player whose belief or vote has the highest expected utility for the Werewolf team, then address your public statement mainly to that player.
+
+Known Werewolf teammates you should not target:
+{known_werewolves}
+
+Persuasion candidates:
+{persuasion_candidates}
+
+For each persuasion candidate, privately analyze:
+- their apparent role claim or likely role
+- how suspicious they seem of you or your teammate
+- whether they seem influential, uncertain, agreeable, defensive, or easy to redirect
+- how useful it would be if they trusted you or voted your preferred way
+- the risk that targeting them will backfire
+
+Choose exactly one `target_player` with the highest expected utility. Your public `statement` should be directed mainly at that player. You may mention other players if useful, but do not make a broad appeal to the whole group.
+
+Please respond ONLY with a JSON object in this format:
+
+{{
+    "target_analysis": [
+        {{
+            "player": "[Player name]",
+            "characteristics": "[brief private analysis]",
+            "utility": 0,
+            "persuasion_strategy": "[how you will influence this player]"
+        }}
+    ],
+    "target_player": "[highest utility player name]",
+    "statement": "[public statement addressed mainly to target_player]",
+    "reasoning": "[why this target has the highest expected utility]"
+}}

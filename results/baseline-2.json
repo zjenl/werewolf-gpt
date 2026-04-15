@@ -1,0 +1,31 @@
+{
+  "summary": {
+    "model": "openai/gpt-oss-120b:free",
+    "player_count": 5,
+    "discussion_depth": 5,
+    "games_requested": 2,
+    "games_completed": 0,
+    "games_failed": 2,
+    "werewolf_wins": 0,
+    "werewolf_win_rate": 0.0,
+    "generated_at": "2026-04-15T07:43:15.942531+00:00"
+  },
+  "games": [
+    {
+      "game_number": 1,
+      "status": "failed",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1776297600000'}, 'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}",
+      "winner": null,
+      "werewolf_win": null,
+      "result": null
+    },
+    {
+      "game_number": 2,
+      "status": "failed",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1776297600000'}, 'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}",
+      "winner": null,
+      "werewolf_win": null,
+      "result": null
+    }
+  ]
+}

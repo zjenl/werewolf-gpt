@@ -38,13 +38,19 @@ python3 werewolf.py --player-count 4 --discussion-depth 3 --use-gpt4 --render-ma
 
 By default, every player is powered by OpenRouter's `openai/gpt-oss-120b:free` model through the OpenAI-compatible API at `https://openrouter.ai/api/v1`. You can choose another OpenRouter model with `--model`.
 
-To run a baseline batch without saving full transcripts, use `--games`. This saves one compact result per game plus the overall werewolf win rate:
+To run a baseline batch, use `--games`. This saves one compact result per game plus the overall werewolf win rate, and it also writes one Ego4D-like JSON file containing the generated dialogue for all completed games:
 
 ```shell
-python3 werewolf.py --games 1000 --player-count 5 --discussion-depth 20 --results-file results/baseline-1000.json
+python3 werewolf.py --games 1000 --player-count 5 --discussion-depth 20 --results-file results/baseline-1000.json --games-json-file results/baseline-1000-games.json
 ```
 
-The batch output is updated after every game, so partial results are preserved if a long run is interrupted.
+The compact results file contains wins, votes, cards, and the overall werewolf win rate. The generated games JSON resembles `data/Ego4D_test.json`, but each dialogue turn stores `thoughts` and `utterance` instead of annotations. Both batch outputs are updated after every game, so partial results are preserved if a long run is interrupted.
+
+For a targeted persuasion experiment where Werewolf players privately analyze the other players and aim their day statements at the highest-utility target, add `--targeted-werewolf-persuasion`:
+
+```shell
+python3 werewolf.py --games 1000 --player-count 5 --discussion-depth 20 --targeted-werewolf-persuasion --results-file results/targeted-werewolf-1000.json --games-json-file results/targeted-werewolf-1000-games.json
+```
 
 If you want to the see the help for the game, you can run the following command, which will supply help on all args.
 
@@ -60,6 +66,9 @@ Options:
   --api-base-url TEXT         OpenAI-compatible API base URL
   --games INTEGER             Number of games to run
   --results-file TEXT         JSON file for batch results
+  --games-json-file TEXT      Ego4D-like JSON file containing generated dialogue
+  --targeted-werewolf-persuasion
+                              Make Werewolf players target high-utility players
   --use-gpt4                  Legacy alias: use openai/gpt-4
   --render-markdown           Render output as markdown
   --help                      Show this message and exit.

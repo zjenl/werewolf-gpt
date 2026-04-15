@@ -1,0 +1,100 @@
+{
+  "summary": {
+    "model": "gpt-5-nano",
+    "player_count": 5,
+    "discussion_depth": 5,
+    "targeted_werewolf_persuasion": false,
+    "games_requested": 2,
+    "games_completed": 2,
+    "games_failed": 0,
+    "werewolf_wins": 2,
+    "werewolf_win_rate": 1.0,
+    "generated_at": "2026-04-15T09:08:10.033916+00:00"
+  },
+  "games": [
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Andrei was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "votes": {
+        "Alexandra": 1,
+        "Vladimir": 1,
+        "Dracula": 1,
+        "Viktor": 0,
+        "Andrei": 2
+      },
+      "players": [
+        {
+          "name": "Alexandra",
+          "card": "Seer"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Dracula",
+          "card": "Mason"
+        },
+        {
+          "name": "Viktor",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Mason",
+        "Werewolf"
+      ],
+      "game_number": 1,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Vladimir was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "votes": {
+        "Emil": 0,
+        "Selene": 1,
+        "Stefan": 1,
+        "Vladimir": 3,
+        "Cristina": 0
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Selene",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Minion"
+        },
+        {
+          "name": "Cristina",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Seer",
+        "Villager"
+      ],
+      "game_number": 2,
+      "status": "completed"
+    }
+  ]
+}
