@@ -14,7 +14,7 @@ Option 1: Two center cards
 Option 2: Another player card (not yourself) 
 
 {
-    "choice": "player".
+    "choice": "player",
     "player": "[Player name]",
     "reasoning": "[reasoning]"
 }

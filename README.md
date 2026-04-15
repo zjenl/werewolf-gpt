@@ -16,7 +16,7 @@ To run the game, you need to first install the requirements file with the follow
 pip install -r requirements.txt
 ```
 
-Next, you should set the `OPENAI_API_KEY` environment variable to your OpenAI API key.
+Next, you should set the `OPENROUTER_API_KEY` environment variable to your OpenRouter API key. For compatibility with older setups, the script will also read `OPENAI_API_KEY` if `OPENROUTER_API_KEY` is not set.
 
 Finally, run the following command:
 
@@ -36,6 +36,16 @@ The following example shows all of the args in use:
 python3 werewolf.py --player-count 4 --discussion-depth 3 --use-gpt4 --render-markdown
 ```
 
+By default, every player is powered by OpenRouter's `openai/gpt-oss-120b:free` model through the OpenAI-compatible API at `https://openrouter.ai/api/v1`. You can choose another OpenRouter model with `--model`.
+
+To run a baseline batch without saving full transcripts, use `--games`. This saves one compact result per game plus the overall werewolf win rate:
+
+```shell
+python3 werewolf.py --games 1000 --player-count 5 --discussion-depth 20 --results-file results/baseline-1000.json
+```
+
+The batch output is updated after every game, so partial results are preserved if a long run is interrupted.
+
 If you want to the see the help for the game, you can run the following command, which will supply help on all args.
 
 ```shell
@@ -46,12 +56,16 @@ Usage: werewolf.py [OPTIONS]
 Options:
   --player-count INTEGER      Number of players
   --discussion-depth INTEGER  Number of discussion questions
-  --use-gpt4                  Use GPT-4 for discussion
+  --model TEXT                Model used for every player and JSON repair call
+  --api-base-url TEXT         OpenAI-compatible API base URL
+  --games INTEGER             Number of games to run
+  --results-file TEXT         JSON file for batch results
+  --use-gpt4                  Legacy alias: use openai/gpt-4
   --render-markdown           Render output as markdown
   --help                      Show this message and exit.
 ```
 
-The defaults are 5 players, 20 discussion questions, rendering the console, using the GPT 3.5 Turbo model.
+The defaults are 5 players, 20 discussion questions, rendering the console, using `openai/gpt-oss-120b:free`.
 
 ## Recorded Playthroughs
 

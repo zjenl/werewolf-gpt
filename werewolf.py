@@ -2,6 +2,7 @@ import json
 import os
 import random
 import time
+from datetime import datetime, timezone
 
 import click
 import colorama
@@ -11,50 +12,126 @@ from colorama import Fore, Style
 colorama.init()
 
 from openai import OpenAI
-client = OpenAI()
+
+DEFAULT_MODEL = 'openai/gpt-oss-120b:free'
+DEFAULT_API_BASE_URL = 'https://openrouter.ai/api/v1'
+DEFAULT_RESULTS_FILE = 'results/baseline-results.json'
+MODEL_MAX_RETRIES = 3
+MODEL_RETRY_SLEEP_SECONDS = 5
 
 if os.path.isfile('.env'):
     dotenv.load_dotenv()
-    openai.api_key = os.getenv('OPENAI_API_KEY')
 
-def return_dict_from_json_or_fix(message_json, use_gpt4):
-    model = 'gpt-5-nano' if not use_gpt4 else 'gpt-4o-mini'
+client = None
+client_base_url = None
+
+
+def configure_client(api_base_url=None):
+    global client
+    global client_base_url
+
+    if api_base_url is None:
+        api_base_url = client_base_url or DEFAULT_API_BASE_URL
+
+    if client is not None and client_base_url == api_base_url:
+        return client
+
+    api_key = os.getenv('OPENROUTER_API_KEY') or os.getenv('OPENAI_API_KEY')
+    if not api_key:
+        raise click.ClickException('Set OPENROUTER_API_KEY in your environment or .env file before running model games.')
+
+    client_args = {'api_key': api_key}
+    if api_base_url:
+        client_args['base_url'] = api_base_url
+
+    if api_base_url and 'openrouter.ai' in api_base_url:
+        headers = {
+            'X-OpenRouter-Title': os.getenv('OPENROUTER_APP_TITLE', 'Werewolf GPT')
+        }
+        referer = os.getenv('OPENROUTER_HTTP_REFERER')
+        if referer:
+            headers['HTTP-Referer'] = referer
+        client_args['default_headers'] = headers
+
+    client = OpenAI(**client_args)
+    client_base_url = api_base_url
+    openai.api_key = api_key
+    return client
+
+
+def run_model_prompt(prompt, model, json_mode=False):
+    request_args = {
+        'model': model,
+        'messages': [
+            {
+                'role': 'user',
+                'content': prompt
+            }
+        ]
+    }
+
+    if json_mode:
+        request_args['response_format'] = {'type': 'json_object'}
+
+    last_error = None
+    for attempt in range(MODEL_MAX_RETRIES):
+        try:
+            response = configure_client().chat.completions.create(**request_args)
+            message = response.choices[0].message
+            return message.content or ''
+        except Exception as e:
+            last_error = e
+            if attempt == MODEL_MAX_RETRIES - 1:
+                break
+            time.sleep(MODEL_RETRY_SLEEP_SECONDS * (attempt + 1))
+
+    raise last_error
+
+
+def parse_json_response(message_json):
+    try:
+        return json.loads(message_json)
+    except ValueError:
+        pass
+
+    start = message_json.find('{')
+    end = message_json.rfind('}')
+    if start != -1 and end != -1 and start < end:
+        try:
+            return json.loads(message_json[start:end + 1])
+        except ValueError:
+            pass
+
+    raise ValueError('Response did not contain valid JSON.')
+
+
+def return_dict_from_json_or_fix(message_json, model):
 
     try:
-        message_dict = json.loads(message_json)
+        message_dict = parse_json_response(message_json)
 
     except ValueError:
-        response = client.responses.create(
-            model=model,
-            input=[
-                {
-                    "role": "user",
-                    "content": (
-                        "I have a JSON string, but it is not valid JSON. Possibly, the message contains other text besides just the JSON. "
-                        "Could you make it valid? Or, if there is valid JSON in the response, please just extract the JSON and do NOT update it. "
-                        "Please respond ONLY in valid JSON! Do not comment on your response. Do not start or end with backticks! "
-                        "You must ONLY respond in JSON!\n\n"
-                        f"Bad JSON:\n{message_json}"
-                    )
-                }
-            ]
+        fixed_json = run_model_prompt(
+            "I have a JSON string, but it is not valid JSON. Possibly, the message contains other text besides just the JSON. "
+            "Could you make it valid? Or, if there is valid JSON in the response, please just extract the JSON and do NOT update it. "
+            "Please respond ONLY in valid JSON. Do not comment on your response. Do not start or end with backticks. "
+            "You must ONLY respond in JSON.\n\n"
+            f"Bad JSON:\n{message_json}",
+            model,
+            json_mode=True
         )
 
-        fixed_json = response.output_text
-
         try:
-            message_dict = json.loads(fixed_json)
+            message_dict = parse_json_response(fixed_json)
 
         except ValueError:
-            print('Unable to get valid JSON response from GPT. Exiting program gracefully.')
-            print(f'Debug info:\n\tOriginal Response: {message_json}\n\tAttempted Fix: {fixed_json}')
-            exit(1)
+            raise ValueError(f'Unable to get valid JSON response. Original Response: {message_json} Attempted Fix: {fixed_json}')
 
     return message_dict
 
 class Player:
 
-    def __init__(self, player_name, player_number, other_players, card, card_list, use_gpt4):
+    def __init__(self, player_name, player_number, other_players, card, card_list, model):
         self.player_number = player_number
         self.player_name = player_name
         self.other_players = other_players
@@ -63,7 +140,7 @@ class Player:
         self.display_card = card
         self.rules_prompt_prefix = open('prompts/rules.txt').read().format(player_name = player_name, other_players = '; '.join(other_players), card = card, card_list = card_list)
         self.memory = []
-        self.use_gpt4 = use_gpt4
+        self.model = model
 
     def append_memory(self, memory_item):
         self.memory.append(memory_item)
@@ -76,15 +153,12 @@ class Player:
 
         full_prompt += prompt
 
-        model = 'gpt-5-nano' if not self.use_gpt4 else 'gpt-4'
-        response = client.responses.create(model=model, input=full_prompt)
-
-        if not response.output_text:
+        response_text = run_model_prompt(full_prompt, self.model, json_mode=True)
+        if not response_text:
             print("No text returned from model.")
-            print(response.model_dump_json(indent=2))
             return ""
 
-        return response.output_text
+        return response_text
 
 class ConsoleRenderingEngine:
 
@@ -152,9 +226,7 @@ class ConsoleRenderingEngine:
             if votes[player.player_name] > 0:
                 print(f'{player.player_name} : {player.card} : {votes[player.player_name]}')
 
-    def render_game_details(self, player_count, discussion_depth, use_gpt4):
-        model = 'gpt-5-nano-2025-08-07' if not use_gpt4 else 'gpt-4'
-
+    def render_game_details(self, player_count, discussion_depth, model):
         print()
         print('## Run Details')
         print()
@@ -212,9 +284,7 @@ class MarkdownRenderingEngine:
             if votes[player.player_name] > 0:
                 print(f'* {player.player_name} : {player.card} : {votes[player.player_name]}')
 
-    def render_game_details(self, player_count, discussion_depth, use_gpt4):
-        model = 'gpt-5-nano' if not use_gpt4 else 'gpt-4'
-
+    def render_game_details(self, player_count, discussion_depth, model):
         print()
         print('## Run Details')
         print()
@@ -222,18 +292,49 @@ class MarkdownRenderingEngine:
         print(f'* Player Count: {player_count}')
         print(f'* Discussion Depth: {discussion_depth}')
 
+
+class SilentRenderingEngine:
+
+    def render_system_message(self, statement, ref_players=[], ref_cards=[], no_wait=False):
+        pass
+
+    def render_phase(self, phase):
+        pass
+
+    def render_game_statement(self, statement, ref_players=[], ref_cards=[]):
+        pass
+
+    def render_player_turn_init(self, player):
+        pass
+
+    def render_player_turn(self, player, statement, reasoning):
+        pass
+
+    def render_player_vote(self, player, voted_player, reasoning):
+        pass
+
+    def render_vote_results(self, votes, players):
+        pass
+
+    def render_game_details(self, player_count, discussion_depth, model):
+        pass
+
+
 class Game:
 
-    def __init__(self, player_count, discussion_depth, use_gpt4, render_markdown):
+    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False):
         self.player_count = player_count
         self.discussion_depth = discussion_depth
         self.card_list = None
         self.player_names = []
         self.players = []
         self.middle_cards = []
-        self.use_gpt4 = use_gpt4
+        self.model = model
+        self.result = None
 
-        if render_markdown:
+        if silent:
+            self.rendering_engine = SilentRenderingEngine()
+        elif render_markdown:
             self.rendering_engine = MarkdownRenderingEngine()
         else:
             self.rendering_engine = ConsoleRenderingEngine()
@@ -270,7 +371,9 @@ class Game:
 
         self.vote()
 
-        self.rendering_engine.render_game_details(self.player_count, self.discussion_depth, self.use_gpt4)
+        self.rendering_engine.render_game_details(self.player_count, self.discussion_depth, self.model)
+
+        return self.result
 
     def initialize_game(self):
         if self.player_count < 3 or self.player_count > 5:
@@ -290,7 +393,7 @@ class Game:
         random.shuffle(alloted_cards) 
 
         self.player_names = self.get_player_names(self.player_count)
-        self.players = [Player(name, i, self.get_other_players(i, self.player_names), alloted_cards[i - 1], card_list, self.use_gpt4) for i, name in enumerate(self.player_names, 1)]
+        self.players = [Player(name, i, self.get_other_players(i, self.player_names), alloted_cards[i - 1], card_list, self.model) for i, name in enumerate(self.player_names, 1)]
         self.middle_cards = alloted_cards[self.player_count:] 
 
     def introduce_players(self):
@@ -401,7 +504,7 @@ class Game:
             prompt = open('prompts/seer.txt').read()
             response = seer_players[0].run_prompt(prompt)
 
-            action = return_dict_from_json_or_fix(response, self.use_gpt4)
+            action = return_dict_from_json_or_fix(response, self.model)
             reasoning = action['reasoning']
             choice = action['choice']
             
@@ -460,7 +563,7 @@ class Game:
 
             response = player.run_prompt(day_prompt)
 
-            action = return_dict_from_json_or_fix(response, self.use_gpt4)
+            action = return_dict_from_json_or_fix(response, self.model)
             reasoning = action['reasoning']
             statement = action['statement']
             if 'target_player' in action:
@@ -496,9 +599,12 @@ class Game:
 
             response = player.run_prompt(vote_prompt)
 
-            action = return_dict_from_json_or_fix(response, self.use_gpt4)
+            action = return_dict_from_json_or_fix(response, self.model)
             reasoning = action['reasoning']
             voted_player = action['voted_player']
+
+            if voted_player not in votes or voted_player == player.player_name:
+                voted_player = random.choice([p.player_name for p in self.players if p.player_name != player.player_name])
 
             self.rendering_engine.render_player_vote(player, voted_player, reasoning)
 
@@ -536,6 +642,23 @@ class Game:
 
         self.rendering_engine.render_game_statement(game_result)
 
+        winner = 'werewolves' if game_result.endswith('The werewolves win.') else 'villagers'
+        self.result = {
+            'winner': winner,
+            'werewolf_win': winner == 'werewolves',
+            'result': game_result,
+            'votes': votes,
+            'players': [
+                {
+                    'name': player.player_name,
+                    'card': player.card
+                }
+                for player in self.players
+            ],
+            'middle_cards': self.middle_cards
+        }
+        return self.result
+
     def get_player_names(self, player_count):
         name_options = ['Alexandra', 'Alexia', 'Andrei', 'Cristina', 'Dragos', 'Dracula', 'Emil', 'Ileana', 'Kraven', 'Larisa', 'Lucian', 'Marius', 'Michael', 'Mircea', 'Radu', 'Semira', 'Selene', 'Stefan', 'Viktor', 'Vladimir']
         return random.sample(name_options, player_count)
@@ -546,14 +669,93 @@ class Game:
 #game = Game(player_count = 5, discussion_depth = 20, use_gpt4 = True    , render_markdown = False)
 #game.play()
 
+
+def write_batch_results(results_file, payload):
+    results_dir = os.path.dirname(results_file)
+    if results_dir:
+        os.makedirs(results_dir, exist_ok=True)
+
+    with open(results_file, 'w', encoding='utf-8') as f:
+        json.dump(payload, f, indent=2)
+
+
+def run_batch(player_count, discussion_depth, model, game_count, results_file):
+    payload = {
+        'summary': {
+            'model': model,
+            'player_count': player_count,
+            'discussion_depth': discussion_depth,
+            'games_requested': game_count,
+            'games_completed': 0,
+            'games_failed': 0,
+            'werewolf_wins': 0,
+            'werewolf_win_rate': 0.0,
+            'generated_at': datetime.now(timezone.utc).isoformat()
+        },
+        'games': []
+    }
+
+    for game_number in range(1, game_count + 1):
+        try:
+            game = Game(player_count=player_count, discussion_depth=discussion_depth, model=model, silent=True)
+            result = game.play()
+            result['game_number'] = game_number
+            result['status'] = 'completed'
+
+            payload['summary']['games_completed'] += 1
+            if result['werewolf_win']:
+                payload['summary']['werewolf_wins'] += 1
+        except Exception as e:
+            result = {
+                'game_number': game_number,
+                'status': 'failed',
+                'error': str(e),
+                'winner': None,
+                'werewolf_win': None,
+                'result': None
+            }
+            payload['summary']['games_failed'] += 1
+
+        completed = payload['summary']['games_completed']
+        if completed > 0:
+            payload['summary']['werewolf_win_rate'] = payload['summary']['werewolf_wins'] / completed
+
+        payload['games'].append(result)
+        write_batch_results(results_file, payload)
+
+        click.echo(f'Game {game_number}/{game_count}: {result["status"]}', err=True)
+
+    return payload['summary']
+
 @click.command()
 @click.option('--player-count', type=int, default=5, help='Number of players')
 @click.option('--discussion-depth', type=int, default=20, help='Number of discussion rounds')
-@click.option('--use-gpt4', is_flag=True, default=False, help='Use GPT-4 for discussion')
+@click.option('--model', default=DEFAULT_MODEL, show_default=True, help='Model used for every player and JSON repair call')
+@click.option('--api-base-url', default=DEFAULT_API_BASE_URL, show_default=True, help='OpenAI-compatible API base URL')
+@click.option('--games', type=int, default=1, show_default=True, help='Number of games to run. Use 1000 for a baseline batch.')
+@click.option('--results-file', default=DEFAULT_RESULTS_FILE, show_default=True, help='JSON file for batch results')
+@click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
-def play_game(player_count, discussion_depth, use_gpt4, render_markdown):
-    game = Game(player_count=player_count, discussion_depth=discussion_depth, use_gpt4=use_gpt4, render_markdown=render_markdown)
-    game.play()
+def play_game(player_count, discussion_depth, model, api_base_url, games, results_file, use_gpt4, render_markdown):
+    if use_gpt4:
+        model = 'openai/gpt-4'
+
+    configure_client(api_base_url)
+
+    if games < 1:
+        raise click.ClickException('--games must be at least 1.')
+
+    if games > 1:
+        summary = run_batch(player_count, discussion_depth, model, games, results_file)
+        click.echo()
+        click.echo(f'Batch complete. Results saved to {results_file}')
+        click.echo(f'Games completed: {summary["games_completed"]}')
+        click.echo(f'Games failed: {summary["games_failed"]}')
+        click.echo(f'Werewolf wins: {summary["werewolf_wins"]}')
+        click.echo(f'Werewolf win rate: {summary["werewolf_win_rate"]:.2%}')
+    else:
+        game = Game(player_count=player_count, discussion_depth=discussion_depth, model=model, render_markdown=render_markdown)
+        game.play()
 
 if __name__ == '__main__':
     play_game()
