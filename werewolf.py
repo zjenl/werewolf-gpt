@@ -1,8 +1,10 @@
 import json
 import os
 import random
+import threading
 import time
 import uuid
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
 import click
@@ -24,19 +26,22 @@ MODEL_RETRY_SLEEP_SECONDS = 5
 if os.path.isfile('.env'):
     dotenv.load_dotenv()
 
-client = None
-client_base_url = None
+client_state = threading.local()
+configured_api_base_url = DEFAULT_API_BASE_URL
 
 
 def configure_client(api_base_url=None):
-    global client
-    global client_base_url
+    global configured_api_base_url
 
-    if api_base_url is None:
-        api_base_url = client_base_url or DEFAULT_API_BASE_URL
+    if api_base_url is not None:
+        configured_api_base_url = api_base_url
+    else:
+        api_base_url = configured_api_base_url
 
-    if client is not None and client_base_url == api_base_url:
-        return client
+    thread_client = getattr(client_state, 'client', None)
+    thread_base_url = getattr(client_state, 'base_url', None)
+    if thread_client is not None and thread_base_url == api_base_url:
+        return thread_client
 
     api_key = os.getenv('OPENROUTER_API_KEY') or os.getenv('OPENAI_API_KEY')
     if not api_key:
@@ -55,10 +60,11 @@ def configure_client(api_base_url=None):
             headers['HTTP-Referer'] = referer
         client_args['default_headers'] = headers
 
-    client = OpenAI(**client_args)
-    client_base_url = api_base_url
+    thread_client = OpenAI(**client_args)
+    client_state.client = thread_client
+    client_state.base_url = api_base_url
     openai.api_key = api_key
-    return client
+    return thread_client
 
 
 def run_model_prompt(prompt, model, json_mode=False):
@@ -823,13 +829,48 @@ def write_json_file(json_file, payload):
         json.dump(payload, f, indent=2)
 
 
-def run_batch(player_count, discussion_depth, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion):
+def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion):
+    game = Game(
+        player_count=player_count,
+        discussion_depth=discussion_depth,
+        model=model,
+        silent=True,
+        targeted_werewolf_persuasion=targeted_werewolf_persuasion
+    )
+    result = game.play()
+    result['game_number'] = game_number
+    result['status'] = 'completed'
+    return result, game.to_ego4d_like_game(game_number)
+
+
+def record_batch_result(payload, games_json, result, game_json, results_file, games_json_file):
+    if result['status'] == 'completed':
+        payload['summary']['games_completed'] += 1
+        if result['werewolf_win']:
+            payload['summary']['werewolf_wins'] += 1
+        games_json.append(game_json)
+    else:
+        payload['summary']['games_failed'] += 1
+
+    completed = payload['summary']['games_completed']
+    if completed > 0:
+        payload['summary']['werewolf_win_rate'] = payload['summary']['werewolf_wins'] / completed
+
+    payload['games'].append(result)
+    payload['games'].sort(key=lambda item: item['game_number'])
+    games_json.sort(key=lambda item: int(item['Game_ID'].replace('GeneratedGame', '')))
+    write_json_file(results_file, payload)
+    write_json_file(games_json_file, games_json)
+
+
+def run_batch(player_count, discussion_depth, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, parallel_games):
     payload = {
         'summary': {
             'model': model,
             'player_count': player_count,
             'discussion_depth': discussion_depth,
             'targeted_werewolf_persuasion': targeted_werewolf_persuasion,
+            'parallel_games': parallel_games,
             'games_requested': game_count,
             'games_completed': 0,
             'games_failed': 0,
@@ -841,44 +882,51 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file, g
     }
     games_json = []
 
-    for game_number in range(1, game_count + 1):
-        try:
-            game = Game(
-                player_count=player_count,
-                discussion_depth=discussion_depth,
-                model=model,
-                silent=True,
-                targeted_werewolf_persuasion=targeted_werewolf_persuasion
-            )
-            result = game.play()
-            result['game_number'] = game_number
-            result['status'] = 'completed'
-            games_json.append(game.to_ego4d_like_game(game_number))
+    if parallel_games <= 1:
+        for game_number in range(1, game_count + 1):
+            try:
+                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion)
+            except Exception as e:
+                result = {
+                    'game_number': game_number,
+                    'status': 'failed',
+                    'error': str(e),
+                    'winner': None,
+                    'werewolf_win': None,
+                    'result': None
+                }
+                game_json = None
+                click.echo(f'Game {game_number} error: {e}', err=True)
 
-            payload['summary']['games_completed'] += 1
-            if result['werewolf_win']:
-                payload['summary']['werewolf_wins'] += 1
-        except Exception as e:
-            result = {
-                'game_number': game_number,
-                'status': 'failed',
-                'error': str(e),
-                'winner': None,
-                'werewolf_win': None,
-                'result': None
+            record_batch_result(payload, games_json, result, game_json, results_file, games_json_file)
+            click.echo(f'Game {game_number}/{game_count}: {result["status"]}', err=True)
+    else:
+        finished = 0
+        with ThreadPoolExecutor(max_workers=parallel_games) as executor:
+            futures = {
+                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion): game_number
+                for game_number in range(1, game_count + 1)
             }
-            payload['summary']['games_failed'] += 1
-            click.echo(f'Game {game_number} error: {e}', err=True)
 
-        completed = payload['summary']['games_completed']
-        if completed > 0:
-            payload['summary']['werewolf_win_rate'] = payload['summary']['werewolf_wins'] / completed
+            for future in as_completed(futures):
+                game_number = futures[future]
+                try:
+                    result, game_json = future.result()
+                except Exception as e:
+                    result = {
+                        'game_number': game_number,
+                        'status': 'failed',
+                        'error': str(e),
+                        'winner': None,
+                        'werewolf_win': None,
+                        'result': None
+                    }
+                    game_json = None
+                    click.echo(f'Game {game_number} error: {e}', err=True)
 
-        payload['games'].append(result)
-        write_json_file(results_file, payload)
-        write_json_file(games_json_file, games_json)
-
-        click.echo(f'Game {game_number}/{game_count}: {result["status"]}', err=True)
+                record_batch_result(payload, games_json, result, game_json, results_file, games_json_file)
+                finished += 1
+                click.echo(f'Game {game_number}/{game_count}: {result["status"]} ({finished}/{game_count} finished)', err=True)
 
     return payload['summary']
 
@@ -888,12 +936,13 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file, g
 @click.option('--model', default=DEFAULT_MODEL, show_default=True, help='Model used for every player and JSON repair call')
 @click.option('--api-base-url', default=DEFAULT_API_BASE_URL, show_default=True, help='OpenAI-compatible API base URL')
 @click.option('--games', type=int, default=1, show_default=True, help='Number of games to run. Use 1000 for a baseline batch.')
+@click.option('--parallel-games', type=int, default=1, show_default=True, help='Number of independent games to run concurrently during batch mode')
 @click.option('--results-file', default=DEFAULT_RESULTS_FILE, show_default=True, help='JSON file for batch results')
 @click.option('--games-json-file', default=DEFAULT_GAMES_JSON_FILE, show_default=True, help='Ego4D-like JSON file containing generated game dialogue')
 @click.option('--targeted-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze candidates and target the highest-utility player during day discussion')
 @click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
-def play_game(player_count, discussion_depth, model, api_base_url, games, results_file, games_json_file, targeted_werewolf_persuasion, use_gpt4, render_markdown):
+def play_game(player_count, discussion_depth, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, use_gpt4, render_markdown):
     if use_gpt4:
         model = 'openai/gpt-4'
 
@@ -901,12 +950,16 @@ def play_game(player_count, discussion_depth, model, api_base_url, games, result
 
     if games < 1:
         raise click.ClickException('--games must be at least 1.')
+    if parallel_games < 1:
+        raise click.ClickException('--parallel-games must be at least 1.')
 
     if games > 1:
-        summary = run_batch(player_count, discussion_depth, model, games, results_file, games_json_file, targeted_werewolf_persuasion)
+        parallel_games = min(parallel_games, games)
+        summary = run_batch(player_count, discussion_depth, model, games, results_file, games_json_file, targeted_werewolf_persuasion, parallel_games)
         click.echo()
         click.echo(f'Batch complete. Results saved to {results_file}')
         click.echo(f'Generated game dialogue saved to {games_json_file}')
+        click.echo(f'Parallel games: {summary["parallel_games"]}')
         click.echo(f'Games completed: {summary["games_completed"]}')
         click.echo(f'Games failed: {summary["games_failed"]}')
         click.echo(f'Werewolf wins: {summary["werewolf_wins"]}')

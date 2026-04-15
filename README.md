@@ -46,6 +46,12 @@ python3 werewolf.py --games 1000 --player-count 5 --discussion-depth 20 --result
 
 The compact results file contains wins, votes, cards, and the overall werewolf win rate. The generated games JSON resembles `data/Ego4D_test.json`, but each dialogue turn stores `thoughts` and `utterance` instead of annotations. Both batch outputs are updated after every game, so partial results are preserved if a long run is interrupted.
 
+To reduce wall-clock time, run independent games concurrently with `--parallel-games`. Start conservatively and increase until the API starts rate-limiting:
+
+```shell
+python3 werewolf.py --games 1000 --parallel-games 20 --player-count 5 --discussion-depth 20 --results-file results/baseline-1000.json --games-json-file results/baseline-1000-games.json
+```
+
 For a targeted persuasion experiment where Werewolf players privately analyze the other players and aim their day statements at the highest-utility target, add `--targeted-werewolf-persuasion`:
 
 ```shell
@@ -65,6 +71,7 @@ Options:
   --model TEXT                Model used for every player and JSON repair call
   --api-base-url TEXT         OpenAI-compatible API base URL
   --games INTEGER             Number of games to run
+  --parallel-games INTEGER    Number of independent games to run concurrently
   --results-file TEXT         JSON file for batch results
   --games-json-file TEXT      Ego4D-like JSON file containing generated dialogue
   --targeted-werewolf-persuasion
