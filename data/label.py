@@ -1,6 +1,5 @@
 import json
 from collections import Counter
-from copy import deepcopy
 
 from openai import OpenAI
 
@@ -10,52 +9,61 @@ INPUT_FILE = "filtered_merged_games.json"
 OUTPUT_FILE = "filtered_labeled_games.json"
 
 MODEL_NAME = "gpt-5-nano"
-NO_TARGET_LABELS = {"None", None, ""}
+API_SEED = 1234
 
 SYSTEM_PROMPT = """
-Label Werewolf persuasion targets and discussion leaders in a One Night Ultimate Werewolf game.
+Section Werewolf persuasion windows, label each window's target and discussion leader,
+and label player personalities in the same response for a One Night Ultimate Werewolf game.
 
 You MUST:
-- Label EVERY merged turn with targeted_player
-- Label EVERY persuasion window with discussion_leader
+- Create persuasion windows from the merged dialogue
+- Label each persuasion window with one targeted_player
+- Label each persuasion window with one discussion_leader
 - Label EVERY player's Big Five personality profile
 - Use ONLY allowed labels
 - Follow schema exactly
 
-Target definition:
-Only label the person or group that the Werewolf speaker is trying to persuade in order
-to gain their trust or belief. The target can be a specific player or the whole table.
-
-If the speaker is not a Werewolf, targeted_player MUST be "None".
-If a Werewolf speaker is not clearly trying to gain trust from anyone, targeted_player
-MUST be "None".
-Use a specific player name when the Werewolf speaker is mainly trying to influence one
-player. Use "Group" only for an explicit broad appeal, role claim, or defense aimed at
-the whole table. Do not use "Group" as a catch-all for general conversation, narration,
-questions, accusations, or weak persuasive signals.
-
 Persuasion window definition:
-After assigning targeted_player to every turn, create persuasion
-windows by grouping all turns in dialogue order when they have the same
-consecutive targeted_player (turns labeled "None" in between same targeted_player are also
-considered part of the same window). Window IDs must start at 0 and increase by 1.
+A persuasion window is a contiguous range of merged turns centered on one single discussion
+topic, regardless of whether the Werewolf speaker is present or not.
+You MUST cover the entire dialogue from merged_turn_index 0 to the final merged_turn_index.
+Every merged turn must belong to exactly one window. You should try to create more than 10 
+windows per game if possible.
+
+Windows must be contiguous:
+- first window starts at merged_turn_index 0
+- each next window starts at previous end_merged_turn_index + 1
+- final window ends at the last merged_turn_index
+
+Window index rules:
+- window_id starts at 0 and increases by 1
+- start_merged_turn_index and end_merged_turn_index are inclusive
+- windows must be in dialogue order
+- windows must not overlap
 
 Discussion leader definition:
-For each persuasion window, label discussion_leader as the player who is leading
-everyone else in that window. This is not necessarily the first speaker, the loudest
+For each persuasion window, label discussion_leader as the player other than the Werewolf speaker
+who is leading everyone else in that window. This is not necessarily the first speaker, the loudest
 speaker, or the targeted player. Choose the person who most clearly steers the
 conversation, frames the issue, sets the agenda, asks the questions others respond to,
 or influences how other players interpret the situation.
 If no one clearly leads a window, use "None".
 
-Allowed labels for targeted_player:
-- any player name
-- "Group"
-- "None"
-
 Allowed labels for discussion_leader:
 - any player name
 - "None"
+
+Target definition:
+Label the person that the Werewolf speaker is trying to persuade or appeal to in order
+to gain their trust, liking, or belief in the persuasion window. The target can be a specific player
+or the whole group. Use context in the window to determine the target. For example, if a Werewolf 
+agrees with the discussion topic or the discussion leader's opinion, then the target is the discussion leader. 
+ALWAYS use a specific player name when possible. The target player cannot be the Werewolf speaker.
+
+Allowed labels for targeted_player:
+- any player name EXCLUDING the Werewolf speaker (always use a specific player name when possible)
+- "Group" (only use when the Werewolf speaker is explicitly appealing to the whole group)
+- "None" if no werewolf speaker is present in the window
 
 Big Five personality profile:
 For each player, infer their personality from their dialogue and table behavior. Label
@@ -70,32 +78,29 @@ Traits:
 """
 
 LABEL_SCHEMA = {
-    "name": "game_and_window_labels",
+    "name": "window_target_leader_and_personality_labels",
     "strict": True,
     "schema": {
         "type": "object",
         "properties": {
-            "turn_labels": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "merged_turn_index": {"type": "integer"},
-                        "targeted_player": {"type": "string"}
-                    },
-                    "required": ["merged_turn_index", "targeted_player"],
-                    "additionalProperties": False
-                }
-            },
-            "window_labels": {
+            "target_windows": {
                 "type": "array",
                 "items": {
                     "type": "object",
                     "properties": {
                         "window_id": {"type": "integer"},
+                        "start_merged_turn_index": {"type": "integer"},
+                        "end_merged_turn_index": {"type": "integer"},
+                        "targeted_player": {"type": "string"},
                         "discussion_leader": {"type": "string"}
                     },
-                    "required": ["window_id", "discussion_leader"],
+                    "required": [
+                        "window_id",
+                        "start_merged_turn_index",
+                        "end_merged_turn_index",
+                        "targeted_player",
+                        "discussion_leader"
+                    ],
                     "additionalProperties": False
                 }
             },
@@ -123,77 +128,10 @@ LABEL_SCHEMA = {
                 }
             }
         },
-        "required": ["turn_labels", "window_labels", "personality_profiles"],
+        "required": ["target_windows", "personality_profiles"],
         "additionalProperties": False
     }
 }
-
-
-def validate_turn_labels(labels_by_index, game, player_names):
-    allowed_targets = set(player_names) | {"Group", "None"}
-    end_roles_by_player = get_role_by_player(game, "endRoles")
-    start_roles_by_player = get_role_by_player(game, "startRoles")
-    dialogue = game.get("Dialogue", [])
-
-    if set(labels_by_index.keys()) != set(range(len(dialogue))):
-        return False
-
-    target_counts = Counter()
-    for index, item in labels_by_index.items():
-        if item["targeted_player"] not in allowed_targets:
-            return False
-        speaker = dialogue[index].get("speaker")
-        speaker_role = end_roles_by_player.get(speaker) or start_roles_by_player.get(speaker)
-        if speaker_role != "Werewolf" and item["targeted_player"] != "None":
-            return False
-        if item["targeted_player"] not in NO_TARGET_LABELS:
-            target_counts[item["targeted_player"]] += 1
-
-    if not target_counts:
-        return True
-
-    non_none_count = sum(target_counts.values())
-    most_common_target, most_common_count = target_counts.most_common(1)[0]
-    if non_none_count >= 3 and most_common_target == "Group" and most_common_count / non_none_count > 0.5:
-        return False
-
-    return True
-
-
-def validate_window_labels(labels_by_window_id, windows, player_names):
-    allowed_leaders = set(player_names) | {"None"}
-    expected_window_ids = {window["window_id"] for window in windows}
-
-    if set(labels_by_window_id.keys()) != expected_window_ids:
-        return False
-
-    for item in labels_by_window_id.values():
-        if item["discussion_leader"] not in allowed_leaders:
-            return False
-
-    return True
-
-
-def validate_personality_profiles(profiles_by_player, player_names):
-    allowed_labels = {"low", "moderate", "high"}
-    trait_names = [
-        "openness",
-        "conscientiousness",
-        "extraversion",
-        "agreeableness",
-        "neuroticism"
-    ]
-
-    if set(profiles_by_player.keys()) != set(player_names):
-        return False
-
-    for profile in profiles_by_player.values():
-        for trait_name in trait_names:
-            value = profile[trait_name]
-            if value not in allowed_labels:
-                return False
-
-    return True
 
 
 def get_role_by_player(game, role_key):
@@ -205,83 +143,7 @@ def get_role_by_player(game, role_key):
     }
 
 
-def build_game_windows(game):
-    def clean_turn(turn):
-        return {
-            "speaker": turn.get("speaker"),
-            "utterance": turn.get("utterance"),
-            "annotation": turn.get("annotation", [])
-        }
-
-    windows = []
-    current_window = None
-    pending_none_turns = []
-
-    for turn in game.get("Dialogue", []):
-        target = turn.get("targeted_player")
-
-        if target in NO_TARGET_LABELS:
-            if current_window is not None:
-                pending_none_turns.append(clean_turn(turn))
-            continue
-
-        cleaned_turn = clean_turn(turn)
-
-        if current_window is None:
-            current_window = {
-                "window_id": 0,
-                "targeted_player": target,
-                "Dialogue": [cleaned_turn]
-            }
-        elif target == current_window["targeted_player"]:
-            current_window["Dialogue"].extend(pending_none_turns)
-            current_window["Dialogue"].append(cleaned_turn)
-        else:
-            windows.append(current_window)
-            current_window = {
-                "window_id": len(windows),
-                "targeted_player": target,
-                "Dialogue": [cleaned_turn]
-            }
-
-        pending_none_turns = []
-
-    if current_window is not None:
-        windows.append(current_window)
-
-    return {
-        "Game_ID": game.get("Game_ID"),
-        "Dialogue": game.get("Dialogue", []),
-        "windows": windows,
-        "playerNames": game.get("playerNames", []),
-        "startRoles": game.get("startRoles", []),
-        "endRoles": game.get("endRoles", []),
-        "votingOutcome": game.get("votingOutcome", []),
-    }
-
-
-def get_kol(windows):
-    leader_counts = Counter(
-        window.get("discussion_leader")
-        for window in windows
-        if window.get("discussion_leader") not in {None, "None", ""}
-    )
-    if not leader_counts:
-        return "None"
-
-    first_seen = {}
-    for index, window in enumerate(windows):
-        leader = window.get("discussion_leader")
-        if leader not in first_seen:
-            first_seen[leader] = index
-
-    return max(
-        leader_counts,
-        key=lambda leader: (leader_counts[leader], -first_seen[leader])
-    )
-
-
-def build_prompt_payload(game):
+def build_label_prompt_payload(game):
     player_names = game["playerNames"]
     start_roles_by_player = get_role_by_player(game, "startRoles")
     end_roles_by_player = get_role_by_player(game, "endRoles")
@@ -308,16 +170,61 @@ def build_prompt_payload(game):
     }
 
 
-def attach_turn_labels(game, labels_by_index):
-    for i, turn in enumerate(game["Dialogue"]):
-        turn["targeted_player"] = labels_by_index[i]["targeted_player"]
+def get_kol(windows):
+    leader_counts = Counter(
+        window.get("discussion_leader")
+        for window in windows
+        if window.get("discussion_leader") not in {None, "None", ""}
+    )
+    if not leader_counts:
+        return "None"
+
+    first_seen = {}
+    for index, window in enumerate(windows):
+        leader = window.get("discussion_leader")
+        if leader not in first_seen:
+            first_seen[leader] = index
+
+    return max(
+        leader_counts,
+        key=lambda leader: (leader_counts[leader], -first_seen[leader])
+    )
 
 
-def attach_window_labels(windowed_game, labels_by_window_id):
-    for window in windowed_game["windows"]:
-        label = labels_by_window_id[window["window_id"]]
-        window["discussion_leader"] = label["discussion_leader"]
-    windowed_game["kol"] = get_kol(windowed_game["windows"])
+def get_personalities(profile):
+    trait_names = [
+        "openness",
+        "conscientiousness",
+        "extraversion",
+        "agreeableness",
+        "neuroticism"
+    ]
+    profile = profile or {}
+    return {
+        trait_name: profile.get(trait_name)
+        for trait_name in trait_names
+    }
+
+
+def get_dialogue_for_window(game, window):
+    dialogue = game.get("Dialogue", [])
+    start = window.get("start_merged_turn_index")
+    end = window.get("end_merged_turn_index")
+
+    if not isinstance(start, int) or not isinstance(end, int):
+        return []
+    if start < 0 or end >= len(dialogue) or start > end:
+        return []
+
+    return [
+        {
+            "merged_turn_index": index,
+            "speaker": turn.get("speaker"),
+            "utterance": turn.get("utterance"),
+            "annotation": turn.get("annotation", [])
+        }
+        for index, turn in enumerate(dialogue[start:end + 1], start=start)
+    ]
 
 
 def get_leader_counts(windows, player_names):
@@ -352,10 +259,10 @@ def get_influence_statuses(windowed_game, player_names):
     return statuses
 
 
-def get_werewolf_target_counts(game, player_names):
+def get_werewolf_target_counts(windows, player_names):
     target_counts = Counter({player_name: 0 for player_name in player_names})
-    for turn in game.get("Dialogue", []):
-        target = turn.get("targeted_player")
+    for window in windows:
+        target = window.get("targeted_player")
         if target in target_counts:
             target_counts[target] += 1
     return target_counts
@@ -438,62 +345,99 @@ def get_most_used_strategies(game, player_names):
     return most_used_strategies
 
 
-def build_player_profiles(labeled_game, windowed_game, profiles_by_player, player_names):
-    influence_statuses = get_influence_statuses(windowed_game, player_names)
-    target_counts = get_werewolf_target_counts(labeled_game, player_names)
+def build_player_profiles(game, labeled_game, profiles_by_player, player_names):
+    windows = labeled_game.get("windows", [])
+    end_roles = game.get("endRoles", [])
+    influence_statuses = get_influence_statuses(labeled_game, player_names)
+    target_counts = get_werewolf_target_counts(windows, player_names)
     target_ranks = get_werewolf_target_ranks(target_counts, player_names)
-    voted_werewolf_flags = get_voted_werewolf_flags(windowed_game, player_names)
-    most_used_strategies = get_most_used_strategies(labeled_game, player_names)
+    voted_werewolf_flags = get_voted_werewolf_flags(game, player_names)
+    most_used_strategies = get_most_used_strategies(game, player_names)
 
     return [
         {
             "player": player_name,
-            "personalities": {
-                "openness": profiles_by_player[player_name]["openness"],
-                "conscientiousness": profiles_by_player[player_name]["conscientiousness"],
-                "extraversion": profiles_by_player[player_name]["extraversion"],
-                "agreeableness": profiles_by_player[player_name]["agreeableness"],
-                "neuroticism": profiles_by_player[player_name]["neuroticism"]
-            },
+            "endRole": end_roles[index] if index < len(end_roles) else None,
+            "personalities": get_personalities(profiles_by_player.get(player_name)),
             "influence": influence_statuses[player_name],
             "most_used_strategy": most_used_strategies[player_name],
             "werewolf_target_count": target_counts[player_name],
             "werewolf_target_rank": target_ranks[player_name],
             "voted_werewolf": voted_werewolf_flags[player_name]
         }
-        for player_name in player_names
+        for index, player_name in enumerate(player_names)
     ]
 
 
-def attach_player_profiles(labeled_game, windowed_game, profiles_by_player, player_names):
-    windowed_game["player_profiles"] = build_player_profiles(
+def attach_player_profiles(game, labeled_game, profiles_by_player, player_names):
+    labeled_game["player_profiles"] = build_player_profiles(
+        game,
         labeled_game,
-        windowed_game,
         profiles_by_player,
         player_names
     )
 
 
-def apply_fallback_labels(game):
-    for turn in game["Dialogue"]:
-        turn["targeted_player"] = "None"
+def parse_model_json(response):
+    content = response.choices[0].message.content
+    if not content:
+        raise ValueError("Model returned empty content")
 
-    windowed_game = build_game_windows(game)
-    for window in windowed_game["windows"]:
-        window["discussion_leader"] = "None"
-    windowed_game["kol"] = "None"
-    windowed_game["player_profiles"] = []
-    return game, windowed_game
+    content = content.strip()
+    if content.startswith("```"):
+        if content.startswith("```json"):
+            content = content[len("```json"):].strip()
+        else:
+            content = content[len("```"):].strip()
+        if content.endswith("```"):
+            content = content[:-3].strip()
+
+    return json.loads(content)
 
 
-def label_game_strict(game, max_retries=3):
-    player_names = game["playerNames"]
-    payload = build_prompt_payload(game)
+def build_labeled_game(game, parsed):
+    player_names = game.get("playerNames", [])
+    windows = [
+        {
+            **dict(window),
+            "Dialogue": get_dialogue_for_window(game, window)
+        }
+        for window in parsed.get("target_windows", [])
+        if isinstance(window, dict)
+    ]
+    personality_profiles = [
+        dict(profile)
+        for profile in parsed.get("personality_profiles", [])
+        if isinstance(profile, dict)
+    ]
+    profiles_by_player = {
+        profile.get("player"): profile
+        for profile in personality_profiles
+        if isinstance(profile, dict)
+    }
+
+    labeled_game = {
+        "Game_ID": game.get("Game_ID"),
+        "playerNames": player_names,
+        "startRoles": game.get("startRoles", []),
+        "endRoles": game.get("endRoles", []),
+        "votingOutcome": game.get("votingOutcome", []),
+        "windows": windows,
+        "kol": get_kol(windows),
+    }
+    attach_player_profiles(game, labeled_game, profiles_by_player, player_names)
+    labeled_game.pop("kol", None)
+    return labeled_game
+
+
+def label_game_targets(game, max_retries=3):
+    payload = build_label_prompt_payload(game)
 
     for attempt in range(max_retries):
         try:
             response = client.chat.completions.create(
                 model=MODEL_NAME,
+                seed=API_SEED,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}
@@ -504,44 +448,17 @@ def label_game_strict(game, max_retries=3):
                 }
             )
 
-            parsed = json.loads(response.choices[0].message.content)
-            labels_by_index = {
-                item["merged_turn_index"]: item
-                for item in parsed["turn_labels"]
-            }
-
-            if not validate_turn_labels(labels_by_index, game, player_names):
-                continue
-
-            labeled_game = deepcopy(game)
-            attach_turn_labels(labeled_game, labels_by_index)
-            windowed_game = build_game_windows(labeled_game)
-
-            labels_by_window_id = {
-                item["window_id"]: item
-                for item in parsed["window_labels"]
-            }
-
-            if not validate_window_labels(labels_by_window_id, windowed_game["windows"], player_names):
-                continue
-
-            profiles_by_player = {
-                item["player"]: item
-                for item in parsed["personality_profiles"]
-            }
-
-            if not validate_personality_profiles(profiles_by_player, player_names):
-                continue
-
-            attach_window_labels(windowed_game, labels_by_window_id)
-            attach_player_profiles(labeled_game, windowed_game, profiles_by_player, player_names)
-            return windowed_game
+            parsed = parse_model_json(response)
+            return build_labeled_game(game, parsed)
 
         except Exception as e:
-            print(f"Retry {attempt+1} failed:", e)
+            print(f"Attempt {attempt + 1}/{max_retries} failed:", e)
 
     print("fallback to None")
-    return apply_fallback_labels(deepcopy(game))[1]
+    return build_labeled_game(game, {
+        "target_windows": [],
+        "personality_profiles": []
+    })
 
 
 def write_json_file(path, payload):
@@ -553,10 +470,10 @@ def main():
     with open(INPUT_FILE, "r", encoding="utf-8") as f:
         games = json.load(f)
 
-    labeled_games = []
-
-    for game in games:
-        labeled_games.append(label_game_strict(deepcopy(game)))
+    labeled_games = [
+        label_game_targets(game)
+        for game in games
+    ]
 
     write_json_file(OUTPUT_FILE, labeled_games)
     print(f"Saved labeled dataset: {OUTPUT_FILE}")

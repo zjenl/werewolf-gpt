@@ -34,8 +34,7 @@ for game in data:
             target_examples[target].append({
                 "game_id": game_id,
                 "utterance": turn.get("utterance", ""),
-                "annotation": annotations,
-                "effect": turn.get("effect", "")
+                "annotation": annotations
             })
 
 print(f"\nWho Ashley mainly focuses on persuading\n{'='*45}")
@@ -56,7 +55,7 @@ else:
         print(f"\nTARGET: {target}")
         for ex in examples:
             print(f"- [{ex['game_id']}] {ex['utterance']}")
-            print(f"  annotation={ex['annotation']}, effect={ex['effect']}")
+            print(f"  annotation={ex['annotation']}")
 
 # Optional: save results to a text file
 with open("ashley_target_analysis.txt", "w", encoding="utf-8") as out:

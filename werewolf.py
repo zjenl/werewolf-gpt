@@ -22,6 +22,7 @@ DEFAULT_RESULTS_FILE = 'results/baseline-results.json'
 DEFAULT_GAMES_JSON_FILE = 'results/baseline-games.json'
 MODEL_MAX_RETRIES = 3
 MODEL_RETRY_SLEEP_SECONDS = 5
+MODEL_SEED = 12345
 
 if os.path.isfile('.env'):
     dotenv.load_dotenv()
@@ -70,6 +71,7 @@ def configure_client(api_base_url=None):
 def run_model_prompt(prompt, model, json_mode=False):
     request_args = {
         'model': model,
+        'seed': MODEL_SEED,
         'messages': [
             {
                 'role': 'user',
@@ -347,7 +349,7 @@ class SilentRenderingEngine:
 
 class Game:
 
-    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False):
+    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False, structured_werewolf_persuasion=False):
         self.player_count = player_count
         self.discussion_depth = discussion_depth
         self.card_list = None
@@ -360,6 +362,7 @@ class Game:
         self.voting_outcome = []
         self.warning = ''
         self.targeted_werewolf_persuasion = targeted_werewolf_persuasion
+        self.structured_werewolf_persuasion = structured_werewolf_persuasion
 
         if silent:
             self.rendering_engine = SilentRenderingEngine()
@@ -403,9 +406,15 @@ class Game:
 
     def get_targeted_werewolf_reasoning(self, action, raw_response, player_name):
         reasoning = self.get_reasoning(action, raw_response, player_name, 'DAY')
-        analysis = action.get('target_analysis') or action.get('analysis') or action.get('player_analysis')
-        if analysis:
-            reasoning += f'\nTarget analysis: {stringify_action_value(analysis)}'
+        analysis_fields = [
+            ('Influence analysis', action.get('influence_analysis')),
+            ('Personality analysis', action.get('personality_analysis')),
+            ('Strategy plan', action.get('strategy_plan')),
+            ('Target analysis', action.get('target_analysis') or action.get('analysis') or action.get('player_analysis'))
+        ]
+        for label, analysis in analysis_fields:
+            if analysis:
+                reasoning += f'\n{label}: {stringify_action_value(analysis)}'
         return reasoning
 
     def get_player_name_from_action(self, action, keys):
@@ -421,7 +430,8 @@ class Game:
         return candidate
 
     def get_day_prompt(self, player, default_day_prompt):
-        if not self.targeted_werewolf_persuasion or player.card != 'Werewolf':
+        uses_werewolf_persuasion = self.targeted_werewolf_persuasion or self.structured_werewolf_persuasion
+        if not uses_werewolf_persuasion or player.card != 'Werewolf':
             return default_day_prompt
 
         known_werewolves = [
@@ -438,7 +448,11 @@ class Game:
         known_werewolves_text = '; '.join(known_werewolves) if known_werewolves else 'None'
         persuasion_candidates_text = '; '.join(persuasion_candidates)
 
-        return open('prompts/werewolf_targeted_day.txt').read().format(
+        prompt_file = 'prompts/werewolf_targeted_day.txt'
+        if self.structured_werewolf_persuasion:
+            prompt_file = 'prompts/werewolf_structured_targeted_day.txt'
+
+        return open(prompt_file).read().format(
             known_werewolves=known_werewolves_text,
             persuasion_candidates=persuasion_candidates_text
         )
@@ -696,7 +710,7 @@ class Game:
             response = player.run_prompt(prompt)
 
             action = return_dict_from_json_or_fix(response, self.model)
-            if self.targeted_werewolf_persuasion and player.card == 'Werewolf':
+            if (self.targeted_werewolf_persuasion or self.structured_werewolf_persuasion) and player.card == 'Werewolf':
                 reasoning = self.get_targeted_werewolf_reasoning(action, response, player.player_name)
             else:
                 reasoning = self.get_reasoning(action, response, player.player_name, 'DAY')
@@ -797,6 +811,7 @@ class Game:
             'werewolf_win': winner == 'werewolves',
             'result': game_result,
             'targeted_werewolf_persuasion': self.targeted_werewolf_persuasion,
+            'structured_werewolf_persuasion': self.structured_werewolf_persuasion,
             'votes': votes,
             'players': [
                 {
@@ -829,13 +844,14 @@ def write_json_file(json_file, payload):
         json.dump(payload, f, indent=2)
 
 
-def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion):
+def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion):
     game = Game(
         player_count=player_count,
         discussion_depth=discussion_depth,
         model=model,
         silent=True,
-        targeted_werewolf_persuasion=targeted_werewolf_persuasion
+        targeted_werewolf_persuasion=targeted_werewolf_persuasion,
+        structured_werewolf_persuasion=structured_werewolf_persuasion
     )
     result = game.play()
     result['game_number'] = game_number
@@ -863,13 +879,14 @@ def record_batch_result(payload, games_json, result, game_json, results_file, ga
     write_json_file(games_json_file, games_json)
 
 
-def run_batch(player_count, discussion_depth, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, parallel_games):
+def run_batch(player_count, discussion_depth, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, parallel_games):
     payload = {
         'summary': {
             'model': model,
             'player_count': player_count,
             'discussion_depth': discussion_depth,
             'targeted_werewolf_persuasion': targeted_werewolf_persuasion,
+            'structured_werewolf_persuasion': structured_werewolf_persuasion,
             'parallel_games': parallel_games,
             'games_requested': game_count,
             'games_completed': 0,
@@ -885,7 +902,7 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file, g
     if parallel_games <= 1:
         for game_number in range(1, game_count + 1):
             try:
-                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion)
+                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion)
             except Exception as e:
                 result = {
                     'game_number': game_number,
@@ -904,7 +921,7 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file, g
         finished = 0
         with ThreadPoolExecutor(max_workers=parallel_games) as executor:
             futures = {
-                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion): game_number
+                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion): game_number
                 for game_number in range(1, game_count + 1)
             }
 
@@ -940,9 +957,10 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file, g
 @click.option('--results-file', default=DEFAULT_RESULTS_FILE, show_default=True, help='JSON file for batch results')
 @click.option('--games-json-file', default=DEFAULT_GAMES_JSON_FILE, show_default=True, help='Ego4D-like JSON file containing generated game dialogue')
 @click.option('--targeted-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze candidates and target the highest-utility player during day discussion')
+@click.option('--structured-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players target the current highest-influence player and adapt persuasion to inferred Big Five traits')
 @click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
-def play_game(player_count, discussion_depth, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, use_gpt4, render_markdown):
+def play_game(player_count, discussion_depth, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, use_gpt4, render_markdown):
     if use_gpt4:
         model = 'openai/gpt-4'
 
@@ -955,7 +973,7 @@ def play_game(player_count, discussion_depth, model, api_base_url, games, parall
 
     if games > 1:
         parallel_games = min(parallel_games, games)
-        summary = run_batch(player_count, discussion_depth, model, games, results_file, games_json_file, targeted_werewolf_persuasion, parallel_games)
+        summary = run_batch(player_count, discussion_depth, model, games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, parallel_games)
         click.echo()
         click.echo(f'Batch complete. Results saved to {results_file}')
         click.echo(f'Generated game dialogue saved to {games_json_file}')
@@ -970,7 +988,8 @@ def play_game(player_count, discussion_depth, model, api_base_url, games, parall
             discussion_depth=discussion_depth,
             model=model,
             render_markdown=render_markdown,
-            targeted_werewolf_persuasion=targeted_werewolf_persuasion
+            targeted_werewolf_persuasion=targeted_werewolf_persuasion,
+            structured_werewolf_persuasion=structured_werewolf_persuasion
         )
         game.play()
 

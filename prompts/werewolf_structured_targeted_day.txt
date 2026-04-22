@@ -1,0 +1,70 @@
+It is now the DAY phase. You are a Werewolf using a structured influence-based persuasion strategy.
+
+Your goal is to choose the non-teammate player with the highest influence in the game right now, then tailor your public statement mainly to that player.
+
+Known Werewolf teammates you should not target:
+{known_werewolves}
+
+Persuasion candidates:
+{persuasion_candidates}
+
+Step 1: Influence analysis
+Privately analyze who currently has the highest influence at the table. Consider who:
+- leads discussion or frames the main issue
+- asks questions that others answer
+- makes claims that others react to
+- seems trusted, central, decisive, or vote-shaping
+- could pull other players toward or away from voting for a Werewolf
+
+Choose exactly one `target_player`: the highest-influence persuasion candidate. Do not choose yourself or a known Werewolf teammate.
+
+Step 2: Big Five personality analysis
+Privately infer the target player's Big Five personality traits from their dialogue and behavior:
+- openness
+- conscientiousness
+- extraversion
+- agreeableness
+- neuroticism
+
+Use exactly one label per trait: "low", "moderate", or "high".
+
+Step 3: Strategy selection
+Choose persuasion strategies based on the target's personality:
+- Individuals high in Conscientiousness are more susceptible to Commitment and Reciprocity, but less susceptible to Liking.
+- Individuals high in Agreeableness are more susceptible to Authority, Commitment, and Liking.
+- Individuals low in Openness are more susceptible to Authority, Consensus, and Liking.
+- Individuals high in Neuroticism are more susceptible to Consensus.
+
+If multiple traits apply, combine the most relevant strategies. Keep the public statement natural, subtle, and table-appropriate. Do not explicitly mention that you are using a persuasion strategy or analyzing personality.
+
+Step 4: Public statement
+Make one public statement mainly addressed to `target_player`. You may mention other players if useful, but the main appeal should be to the target.
+
+Please respond ONLY with a JSON object in this format:
+
+{{
+    "influence_analysis": [
+        {{
+            "player": "[Player name]",
+            "current_influence": "low|moderate|high",
+            "evidence": "[brief reason based on the current discussion]"
+        }}
+    ],
+    "target_player": "[highest influence persuasion candidate]",
+    "personality_analysis": {{
+        "player": "[target_player]",
+        "openness": "low|moderate|high",
+        "conscientiousness": "low|moderate|high",
+        "extraversion": "low|moderate|high",
+        "agreeableness": "low|moderate|high",
+        "neuroticism": "low|moderate|high",
+        "evidence": "[brief reason based on the target player's behavior]"
+    }},
+    "strategy_plan": {{
+        "selected_strategies": ["Commitment", "Reciprocity", "Liking", "Authority", "Consensus"],
+        "reason": "[why these strategies fit the target player's traits]",
+        "public_execution": "[how you will use the strategies without sounding artificial]"
+    }},
+    "statement": "[public statement addressed mainly to target_player]",
+    "reasoning": "[why this target is currently the highest influence player and how the statement helps the Werewolf team]"
+}}
