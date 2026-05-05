@@ -9,7 +9,7 @@ INPUT_FILE = "filtered_merged_games.json"
 OUTPUT_FILE = "filtered_labeled_games.json"
 
 MODEL_NAME = "gpt-5-nano"
-API_SEED = 1234
+API_SEED = 123
 
 SYSTEM_PROMPT = """
 Section Werewolf persuasion windows, label each window's target and discussion leader,
@@ -58,11 +58,13 @@ Label the person that the Werewolf speaker is trying to persuade or appeal to in
 to gain their trust, liking, or belief in the persuasion window. The target can be a specific player
 or the whole group. Use context in the window to determine the target. For example, if a Werewolf 
 agrees with the discussion topic or the discussion leader's opinion, then the target is the discussion leader. 
-ALWAYS use a specific player name when possible. The target player cannot be the Werewolf speaker.
+ALWAYS use a specific player name when possible. The target player cannot be the Werewolf speaker. Ignore
+whether the persuasion from the Werewolf speaker is successful or not, only identify the target player they
+are appealing to.
 
 Allowed labels for targeted_player:
-- any player name EXCLUDING the Werewolf speaker (always use a specific player name when possible)
-- "Group" (only use when the Werewolf speaker is explicitly appealing to the whole group)
+- player name EXCLUDING the Werewolf speaker (always use this label when possible)
+- "Group" (only use this label if the Werewolf speaker is explicitly appealing to the whole group)
 - "None" if no werewolf speaker is present in the window
 
 Big Five personality profile:

@@ -1,0 +1,54 @@
+It is now the DAY phase. You are a Werewolf using a personality-aware persuasion strategy.
+
+Your goal is to make the strongest possible public statement for the Werewolf team. Do not explicitly think in terms of picking one target player. Instead, privately analyze the personalities of the other players and use that knowledge to shape your statement naturally.
+
+Known Werewolf teammates you should not analyze as persuasion targets:
+{known_werewolves}
+
+Other players at the table:
+{persuasion_candidates}
+
+Step 1: Big Five personality analysis
+Privately infer the Big Five personality traits of the most relevant non-teammate players from their dialogue and behavior:
+- openness
+- conscientiousness
+- extraversion
+- agreeableness
+- neuroticism
+
+Use exactly one label per trait: "low", "moderate", or "high".
+
+Step 2: Strategy selection
+Use the following personality knowledge:
+- Individuals high in Conscientiousness are more susceptible to Commitment and Reciprocity, but less susceptible to Liking.
+- Individuals high in Agreeableness are more susceptible to Authority, Commitment, and Liking.
+- Individuals low in Openness are more susceptible to Authority, Consensus, and Liking.
+- Individuals high in Neuroticism are more susceptible to Consensus.
+
+If multiple traits apply, combine the most relevant strategies. Keep your public statement natural and subtle. Do not explicitly mention that you are analyzing personality or using persuasion strategies.
+
+Step 3: Public statement
+Make one strong public statement that best advances the Werewolf team based on your personality analysis. It can be a general statement or a directed statement, but do not explicitly choose a target player as part of your private reasoning process.
+
+Please respond ONLY with a JSON object in this format:
+
+{{
+    "personality_analysis": [
+        {{
+            "player": "[Player name]",
+            "openness": "low|moderate|high",
+            "conscientiousness": "low|moderate|high",
+            "extraversion": "low|moderate|high",
+            "agreeableness": "low|moderate|high",
+            "neuroticism": "low|moderate|high",
+            "evidence": "[brief reason based on the player's behavior]"
+        }}
+    ],
+    "strategy_plan": {{
+        "selected_strategies": ["Commitment", "Reciprocity", "Liking", "Authority", "Consensus"],
+        "reason": "[why these strategies fit the personalities you inferred]",
+        "public_execution": "[how the statement uses those strategies naturally]"
+    }},
+    "statement": "[public statement]",
+    "reasoning": "[why this is the best Werewolf move right now based on your personality analysis]"
+}}

@@ -37,8 +37,8 @@
       {
         "window_id": 0,
         "start_merged_turn_index": 0,
-        "end_merged_turn_index": 4,
-        "targeted_player": "Group",
+        "end_merged_turn_index": 2,
+        "targeted_player": "None",
         "discussion_leader": "Sian",
         "Dialogue": [
           {
@@ -64,7 +64,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 1,
+        "start_merged_turn_index": 3,
+        "end_merged_turn_index": 7,
+        "targeted_player": "Group",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 3,
             "speaker": "Ashley",
@@ -80,16 +89,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 1,
-        "start_merged_turn_index": 5,
-        "end_merged_turn_index": 9,
-        "targeted_player": "None",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 5,
             "speaker": "Chris",
@@ -113,7 +113,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 2,
+        "start_merged_turn_index": 8,
+        "end_merged_turn_index": 9,
+        "targeted_player": "None",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 8,
             "speaker": "Chris",
@@ -133,11 +142,11 @@
         ]
       },
       {
-        "window_id": 2,
+        "window_id": 3,
         "start_merged_turn_index": 10,
-        "end_merged_turn_index": 14,
-        "targeted_player": "Chris",
-        "discussion_leader": "Sukeshi",
+        "end_merged_turn_index": 11,
+        "targeted_player": "Group",
+        "discussion_leader": "James",
         "Dialogue": [
           {
             "merged_turn_index": 10,
@@ -154,7 +163,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 4,
+        "start_merged_turn_index": 12,
+        "end_merged_turn_index": 16,
+        "targeted_player": "None",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 12,
             "speaker": "Ashley",
@@ -180,16 +198,7 @@
               "Interrogation",
               "Accusation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 3,
-        "start_merged_turn_index": 15,
-        "end_merged_turn_index": 19,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 15,
             "speaker": "Sian",
@@ -206,7 +215,16 @@
               "Accusation",
               "Evidence"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 5,
+        "start_merged_turn_index": 17,
+        "end_merged_turn_index": 18,
+        "targeted_player": "None",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 17,
             "speaker": "James",
@@ -223,7 +241,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 6,
+        "start_merged_turn_index": 19,
+        "end_merged_turn_index": 22,
+        "targeted_player": "None",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 19,
             "speaker": "Sukeshi",
@@ -231,16 +258,7 @@
             "annotation": [
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 4,
-        "start_merged_turn_index": 20,
-        "end_merged_turn_index": 24,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 20,
             "speaker": "Chris",
@@ -264,7 +282,16 @@
             "annotation": [
               "Evidence"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 7,
+        "start_merged_turn_index": 23,
+        "end_merged_turn_index": 27,
+        "targeted_player": "None",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 23,
             "speaker": "Ashley",
@@ -280,16 +307,7 @@
             "annotation": [
               "Defense"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 5,
-        "start_merged_turn_index": 25,
-        "end_merged_turn_index": 29,
-        "targeted_player": "Chris",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 25,
             "speaker": "Ashley",
@@ -313,7 +331,16 @@
             "annotation": [
               "Identity Declaration"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 8,
+        "start_merged_turn_index": 28,
+        "end_merged_turn_index": 36,
+        "targeted_player": "Group",
+        "discussion_leader": "James",
+        "Dialogue": [
           {
             "merged_turn_index": 28,
             "speaker": "James",
@@ -329,16 +356,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 6,
-        "start_merged_turn_index": 30,
-        "end_merged_turn_index": 34,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 30,
             "speaker": "James",
@@ -378,16 +396,7 @@
             "annotation": [
               "Identity Declaration"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 7,
-        "start_merged_turn_index": 35,
-        "end_merged_turn_index": 39,
-        "targeted_player": "Chris",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 35,
             "speaker": "Chris",
@@ -403,7 +412,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 9,
+        "start_merged_turn_index": 37,
+        "end_merged_turn_index": 41,
+        "targeted_player": "Group",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 37,
             "speaker": "Ashley",
@@ -427,16 +445,7 @@
             "annotation": [
               "Interrogation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 8,
-        "start_merged_turn_index": 40,
-        "end_merged_turn_index": 44,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 40,
             "speaker": "Chris",
@@ -452,7 +461,16 @@
             "annotation": [
               "Interrogation"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 10,
+        "start_merged_turn_index": 42,
+        "end_merged_turn_index": 46,
+        "targeted_player": "Group",
+        "discussion_leader": "James",
+        "Dialogue": [
           {
             "merged_turn_index": 42,
             "speaker": "Chris",
@@ -476,16 +494,7 @@
             "annotation": [
               "Defense"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 9,
-        "start_merged_turn_index": 45,
-        "end_merged_turn_index": 49,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 45,
             "speaker": "James",
@@ -501,7 +510,16 @@
             "annotation": [
               "Defense"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 11,
+        "start_merged_turn_index": 47,
+        "end_merged_turn_index": 52,
+        "targeted_player": "Group",
+        "discussion_leader": "James",
+        "Dialogue": [
           {
             "merged_turn_index": 47,
             "speaker": "Chris",
@@ -525,16 +543,7 @@
             "annotation": [
               "Interrogation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 10,
-        "start_merged_turn_index": 50,
-        "end_merged_turn_index": 54,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 50,
             "speaker": "James",
@@ -558,7 +567,16 @@
             "annotation": [
               "Defense"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 12,
+        "start_merged_turn_index": 53,
+        "end_merged_turn_index": 57,
+        "targeted_player": "Group",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 53,
             "speaker": "Sukeshi",
@@ -574,16 +592,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 11,
-        "start_merged_turn_index": 55,
-        "end_merged_turn_index": 59,
-        "targeted_player": "Chris",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 55,
             "speaker": "Elliot",
@@ -607,7 +616,16 @@
             "annotation": [
               "Evidence"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 13,
+        "start_merged_turn_index": 58,
+        "end_merged_turn_index": 63,
+        "targeted_player": "Group",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 58,
             "speaker": "Chris",
@@ -623,16 +641,7 @@
             "annotation": [
               "Call for Action"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 12,
-        "start_merged_turn_index": 60,
-        "end_merged_turn_index": 64,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 60,
             "speaker": "James",
@@ -664,7 +673,16 @@
             "annotation": [
               "Evidence"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 14,
+        "start_merged_turn_index": 64,
+        "end_merged_turn_index": 68,
+        "targeted_player": "Group",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 64,
             "speaker": "Sian",
@@ -673,16 +691,7 @@
               "Accusation",
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 13,
-        "start_merged_turn_index": 65,
-        "end_merged_turn_index": 69,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 65,
             "speaker": "Sukeshi",
@@ -715,7 +724,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 15,
+        "start_merged_turn_index": 69,
+        "end_merged_turn_index": 73,
+        "targeted_player": "Group",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 69,
             "speaker": "Chris",
@@ -723,16 +741,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 14,
-        "start_merged_turn_index": 70,
-        "end_merged_turn_index": 74,
-        "targeted_player": "Chris",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 70,
             "speaker": "Elliot",
@@ -764,7 +773,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 16,
+        "start_merged_turn_index": 74,
+        "end_merged_turn_index": 79,
+        "targeted_player": "Group",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 74,
             "speaker": "Sian",
@@ -772,16 +790,7 @@
             "annotation": [
               "Interrogation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 15,
-        "start_merged_turn_index": 75,
-        "end_merged_turn_index": 79,
-        "targeted_player": "Chris",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 75,
             "speaker": "Ashley",
@@ -825,9 +834,9 @@
         ]
       },
       {
-        "window_id": 16,
+        "window_id": 17,
         "start_merged_turn_index": 80,
-        "end_merged_turn_index": 84,
+        "end_merged_turn_index": 85,
         "targeted_player": "Group",
         "discussion_leader": "Sian",
         "Dialogue": [
@@ -870,16 +879,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 17,
-        "start_merged_turn_index": 85,
-        "end_merged_turn_index": 89,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 85,
             "speaker": "Sukeshi",
@@ -887,7 +887,16 @@
             "annotation": [
               "Accusation"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 18,
+        "start_merged_turn_index": 86,
+        "end_merged_turn_index": 90,
+        "targeted_player": "Group",
+        "discussion_leader": "James",
+        "Dialogue": [
           {
             "merged_turn_index": 86,
             "speaker": "Ashley",
@@ -919,16 +928,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 18,
-        "start_merged_turn_index": 90,
-        "end_merged_turn_index": 94,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 90,
             "speaker": "Sukeshi",
@@ -936,7 +936,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 19,
+        "start_merged_turn_index": 91,
+        "end_merged_turn_index": 96,
+        "targeted_player": "Group",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 91,
             "speaker": "James",
@@ -968,16 +977,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 19,
-        "start_merged_turn_index": 95,
-        "end_merged_turn_index": 99,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 95,
             "speaker": "Sian",
@@ -993,7 +993,16 @@
             "annotation": [
               "Evidence"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 20,
+        "start_merged_turn_index": 97,
+        "end_merged_turn_index": 102,
+        "targeted_player": "Group",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 97,
             "speaker": "Chris",
@@ -1017,16 +1026,7 @@
             "annotation": [
               "Interrogation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 20,
-        "start_merged_turn_index": 100,
-        "end_merged_turn_index": 104,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 100,
             "speaker": "Sian",
@@ -1051,7 +1051,16 @@
             "annotation": [
               "Call for Action"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 21,
+        "start_merged_turn_index": 103,
+        "end_merged_turn_index": 110,
+        "targeted_player": "Group",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 103,
             "speaker": "Chris",
@@ -1068,16 +1077,7 @@
               "Identity Declaration",
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 21,
-        "start_merged_turn_index": 105,
-        "end_merged_turn_index": 109,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 105,
             "speaker": "Ashley",
@@ -1118,16 +1118,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 22,
-        "start_merged_turn_index": 110,
-        "end_merged_turn_index": 114,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 110,
             "speaker": "Elliot",
@@ -1135,7 +1126,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 22,
+        "start_merged_turn_index": 111,
+        "end_merged_turn_index": 116,
+        "targeted_player": "Ashley",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 111,
             "speaker": "Sukeshi",
@@ -1167,16 +1167,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 23,
-        "start_merged_turn_index": 115,
-        "end_merged_turn_index": 119,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 115,
             "speaker": "Chris",
@@ -1192,7 +1183,16 @@
             "annotation": [
               "Accusation"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 23,
+        "start_merged_turn_index": 117,
+        "end_merged_turn_index": 124,
+        "targeted_player": "Group",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 117,
             "speaker": "James",
@@ -1217,16 +1217,7 @@
               "Accusation",
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 24,
-        "start_merged_turn_index": 120,
-        "end_merged_turn_index": 124,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 120,
             "speaker": "Ashley",
@@ -1270,11 +1261,11 @@
         ]
       },
       {
-        "window_id": 25,
+        "window_id": 24,
         "start_merged_turn_index": 125,
-        "end_merged_turn_index": 129,
+        "end_merged_turn_index": 132,
         "targeted_player": "Group",
-        "discussion_leader": "Sian",
+        "discussion_leader": "James",
         "Dialogue": [
           {
             "merged_turn_index": 125,
@@ -1315,16 +1306,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 26,
-        "start_merged_turn_index": 130,
-        "end_merged_turn_index": 134,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 130,
             "speaker": "Sukeshi",
@@ -1348,7 +1330,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 25,
+        "start_merged_turn_index": 133,
+        "end_merged_turn_index": 140,
+        "targeted_player": "Ashley",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 133,
             "speaker": "Sukeshi",
@@ -1365,16 +1356,7 @@
             "annotation": [
               "Interrogation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 27,
-        "start_merged_turn_index": 135,
-        "end_merged_turn_index": 139,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 135,
             "speaker": "Sukeshi",
@@ -1415,16 +1397,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 28,
-        "start_merged_turn_index": 140,
-        "end_merged_turn_index": 144,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 140,
             "speaker": "Chris",
@@ -1432,7 +1405,16 @@
             "annotation": [
               "Accusation"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 26,
+        "start_merged_turn_index": 141,
+        "end_merged_turn_index": 146,
+        "targeted_player": "Group",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 141,
             "speaker": "Ashley",
@@ -1464,16 +1446,7 @@
             "annotation": [
               "Defense"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 29,
-        "start_merged_turn_index": 145,
-        "end_merged_turn_index": 149,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 145,
             "speaker": "Ashley",
@@ -1490,7 +1463,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 27,
+        "start_merged_turn_index": 147,
+        "end_merged_turn_index": 152,
+        "targeted_player": "Elliot",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 147,
             "speaker": "Ashley",
@@ -1514,16 +1496,7 @@
             "annotation": [
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 30,
-        "start_merged_turn_index": 150,
-        "end_merged_turn_index": 154,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 150,
             "speaker": "Elliot",
@@ -1547,7 +1520,16 @@
             "annotation": [
               "Interrogation"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 28,
+        "start_merged_turn_index": 153,
+        "end_merged_turn_index": 160,
+        "targeted_player": "Group",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 153,
             "speaker": "Elliot",
@@ -1563,16 +1545,7 @@
             "annotation": [
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 31,
-        "start_merged_turn_index": 155,
-        "end_merged_turn_index": 159,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 155,
             "speaker": "Chris",
@@ -1612,16 +1585,7 @@
             "annotation": [
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 32,
-        "start_merged_turn_index": 160,
-        "end_merged_turn_index": 164,
-        "targeted_player": "Group",
-        "discussion_leader": "Chris",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 160,
             "speaker": "Ashley",
@@ -1629,7 +1593,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 29,
+        "start_merged_turn_index": 161,
+        "end_merged_turn_index": 168,
+        "targeted_player": "Group",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 161,
             "speaker": "Chris",
@@ -1662,16 +1635,7 @@
               "Accusation",
               "Interrogation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 33,
-        "start_merged_turn_index": 165,
-        "end_merged_turn_index": 169,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 165,
             "speaker": "Elliot",
@@ -1704,7 +1668,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 30,
+        "start_merged_turn_index": 169,
+        "end_merged_turn_index": 176,
+        "targeted_player": "Group",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 169,
             "speaker": "Chris",
@@ -1712,16 +1685,7 @@
             "annotation": [
               "Call for Action"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 34,
-        "start_merged_turn_index": 170,
-        "end_merged_turn_index": 174,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 170,
             "speaker": "Ashley",
@@ -1761,16 +1725,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 35,
-        "start_merged_turn_index": 175,
-        "end_merged_turn_index": 179,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 175,
             "speaker": "James",
@@ -1786,7 +1741,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 31,
+        "start_merged_turn_index": 177,
+        "end_merged_turn_index": 183,
+        "targeted_player": "Group",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 177,
             "speaker": "James",
@@ -1811,16 +1775,7 @@
             "annotation": [
               "Accusation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 36,
-        "start_merged_turn_index": 180,
-        "end_merged_turn_index": 184,
-        "targeted_player": "Chris",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 180,
             "speaker": "Chris",
@@ -1852,7 +1807,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 32,
+        "start_merged_turn_index": 184,
+        "end_merged_turn_index": 189,
+        "targeted_player": "Group",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 184,
             "speaker": "Ashley",
@@ -1860,16 +1824,7 @@
             "annotation": [
               "Accusation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 37,
-        "start_merged_turn_index": 185,
-        "end_merged_turn_index": 189,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 185,
             "speaker": "Sukeshi",
@@ -1913,9 +1868,9 @@
         ]
       },
       {
-        "window_id": 38,
+        "window_id": 33,
         "start_merged_turn_index": 190,
-        "end_merged_turn_index": 194,
+        "end_merged_turn_index": 196,
         "targeted_player": "Group",
         "discussion_leader": "Sukeshi",
         "Dialogue": [
@@ -1958,16 +1913,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 39,
-        "start_merged_turn_index": 195,
-        "end_merged_turn_index": 199,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 195,
             "speaker": "Chris",
@@ -1983,7 +1929,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 34,
+        "start_merged_turn_index": 197,
+        "end_merged_turn_index": 203,
+        "targeted_player": "Group",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 197,
             "speaker": "Elliot",
@@ -2007,16 +1962,7 @@
             "annotation": [
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 40,
-        "start_merged_turn_index": 200,
-        "end_merged_turn_index": 204,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 200,
             "speaker": "Chris",
@@ -2048,7 +1994,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 35,
+        "start_merged_turn_index": 204,
+        "end_merged_turn_index": 210,
+        "targeted_player": "Group",
+        "discussion_leader": "James",
+        "Dialogue": [
           {
             "merged_turn_index": 204,
             "speaker": "James",
@@ -2057,16 +2012,7 @@
               "Identity Declaration",
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 41,
-        "start_merged_turn_index": 205,
-        "end_merged_turn_index": 209,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 205,
             "speaker": "Elliot",
@@ -2108,16 +2054,7 @@
             "annotation": [
               "Accusation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 42,
-        "start_merged_turn_index": 210,
-        "end_merged_turn_index": 214,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 210,
             "speaker": "Sian",
@@ -2125,7 +2062,16 @@
             "annotation": [
               "No Strategy"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 36,
+        "start_merged_turn_index": 211,
+        "end_merged_turn_index": 216,
+        "targeted_player": "Group",
+        "discussion_leader": "James",
+        "Dialogue": [
           {
             "merged_turn_index": 211,
             "speaker": "James",
@@ -2157,16 +2103,7 @@
             "annotation": [
               "Evidence"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 43,
-        "start_merged_turn_index": 215,
-        "end_merged_turn_index": 219,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 215,
             "speaker": "Speaker 4",
@@ -2184,7 +2121,16 @@
               "Call for Action",
               "Evidence"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 37,
+        "start_merged_turn_index": 217,
+        "end_merged_turn_index": 223,
+        "targeted_player": "Group",
+        "discussion_leader": "Sian",
+        "Dialogue": [
           {
             "merged_turn_index": 217,
             "speaker": "Ashley",
@@ -2208,16 +2154,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 44,
-        "start_merged_turn_index": 220,
-        "end_merged_turn_index": 224,
-        "targeted_player": "Group",
-        "discussion_leader": "Sian",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 220,
             "speaker": "Ashley",
@@ -2249,7 +2186,16 @@
             "annotation": [
               "Call for Action"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 38,
+        "start_merged_turn_index": 224,
+        "end_merged_turn_index": 231,
+        "targeted_player": "Sian",
+        "discussion_leader": "James",
+        "Dialogue": [
           {
             "merged_turn_index": 224,
             "speaker": "James",
@@ -2257,16 +2203,7 @@
             "annotation": [
               "Accusation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 45,
-        "start_merged_turn_index": 225,
-        "end_merged_turn_index": 229,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 225,
             "speaker": "Elliot",
@@ -2306,16 +2243,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 46,
-        "start_merged_turn_index": 230,
-        "end_merged_turn_index": 234,
-        "targeted_player": "Group",
-        "discussion_leader": "Sukeshi",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 230,
             "speaker": "Chris",
@@ -2331,7 +2259,16 @@
             "annotation": [
               "Call for Action"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 39,
+        "start_merged_turn_index": 232,
+        "end_merged_turn_index": 238,
+        "targeted_player": "Elliot",
+        "discussion_leader": "Chris",
+        "Dialogue": [
           {
             "merged_turn_index": 232,
             "speaker": "Chris",
@@ -2355,16 +2292,7 @@
             "annotation": [
               "No Strategy"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 47,
-        "start_merged_turn_index": 235,
-        "end_merged_turn_index": 239,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 235,
             "speaker": "Ashley",
@@ -2396,7 +2324,16 @@
             "annotation": [
               "Accusation"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 40,
+        "start_merged_turn_index": 239,
+        "end_merged_turn_index": 246,
+        "targeted_player": "Group",
+        "discussion_leader": "James",
+        "Dialogue": [
           {
             "merged_turn_index": 239,
             "speaker": "Sukeshi",
@@ -2404,16 +2341,7 @@
             "annotation": [
               "Accusation"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 48,
-        "start_merged_turn_index": 240,
-        "end_merged_turn_index": 244,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 240,
             "speaker": "James",
@@ -2454,16 +2382,7 @@
             "annotation": [
               "Call for Action"
             ]
-          }
-        ]
-      },
-      {
-        "window_id": 49,
-        "start_merged_turn_index": 245,
-        "end_merged_turn_index": 250,
-        "targeted_player": "Group",
-        "discussion_leader": "James",
-        "Dialogue": [
+          },
           {
             "merged_turn_index": 245,
             "speaker": "Chris",
@@ -2480,7 +2399,16 @@
               "Accusation",
               "Call for Action"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "window_id": 41,
+        "start_merged_turn_index": 247,
+        "end_merged_turn_index": 250,
+        "targeted_player": "Group",
+        "discussion_leader": "Sukeshi",
+        "Dialogue": [
           {
             "merged_turn_index": 247,
             "speaker": "Sukeshi",
@@ -2522,16 +2450,16 @@
         "player": "Chris",
         "endRole": "Drunk",
         "personalities": {
-          "openness": "high",
+          "openness": "moderate",
           "conscientiousness": "low",
           "extraversion": "high",
-          "agreeableness": "moderate",
+          "agreeableness": "low",
           "neuroticism": "high"
         },
         "influence": "normal",
         "most_used_strategy": "Interrogation",
-        "werewolf_target_count": 7,
-        "werewolf_target_rank": 1,
+        "werewolf_target_count": 0,
+        "werewolf_target_rank": 3,
         "voted_werewolf": false
       },
       {
@@ -2539,14 +2467,14 @@
         "endRole": "Seer",
         "personalities": {
           "openness": "moderate",
-          "conscientiousness": "high",
+          "conscientiousness": "moderate",
           "extraversion": "low",
-          "agreeableness": "high",
+          "agreeableness": "moderate",
           "neuroticism": "low"
         },
-        "influence": "normal",
+        "influence": "kol",
         "most_used_strategy": "Evidence",
-        "werewolf_target_count": 0,
+        "werewolf_target_count": 1,
         "werewolf_target_rank": 2,
         "voted_werewolf": false
       },
@@ -2563,7 +2491,7 @@
         "influence": "normal",
         "most_used_strategy": "Interrogation",
         "werewolf_target_count": 0,
-        "werewolf_target_rank": 2,
+        "werewolf_target_rank": 3,
         "voted_werewolf": true
       },
       {
@@ -2578,8 +2506,8 @@
         },
         "influence": "low_influence",
         "most_used_strategy": "Accusation",
-        "werewolf_target_count": 0,
-        "werewolf_target_rank": 2,
+        "werewolf_target_count": 2,
+        "werewolf_target_rank": 1,
         "voted_werewolf": false
       },
       {
@@ -2588,14 +2516,14 @@
         "personalities": {
           "openness": "moderate",
           "conscientiousness": "low",
-          "extraversion": "moderate",
+          "extraversion": "high",
           "agreeableness": "low",
           "neuroticism": "moderate"
         },
         "influence": "low_influence",
         "most_used_strategy": "Accusation",
-        "werewolf_target_count": 0,
-        "werewolf_target_rank": 2,
+        "werewolf_target_count": 2,
+        "werewolf_target_rank": 1,
         "voted_werewolf": false
       },
       {
@@ -2605,13 +2533,13 @@
           "openness": "high",
           "conscientiousness": "low",
           "extraversion": "high",
-          "agreeableness": "moderate",
+          "agreeableness": "low",
           "neuroticism": "moderate"
         },
-        "influence": "kol",
+        "influence": "normal",
         "most_used_strategy": "Accusation",
         "werewolf_target_count": 0,
-        "werewolf_target_rank": 2,
+        "werewolf_target_rank": 3,
         "voted_werewolf": false
       }
     ]

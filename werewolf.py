@@ -4,6 +4,7 @@ import random
 import threading
 import time
 import uuid
+import hashlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
@@ -16,8 +17,28 @@ colorama.init()
 
 from openai import OpenAI
 
-DEFAULT_MODEL = 'openai/gpt-oss-120b:free'
-DEFAULT_API_BASE_URL = 'https://openrouter.ai/api/v1'
+OPENROUTER_API_BASE_URL = 'https://openrouter.ai/api/v1'
+MODEL_PRESETS = {
+    'openai-gpt5-nano': {
+        'model': 'gpt-5-nano',
+        'api_base_url': None,
+    },
+    'openrouter-grok': {
+        'model': 'x-ai/grok-4.1-fast',
+        'api_base_url': OPENROUTER_API_BASE_URL,
+    },
+    'openrouter-qwen': {
+        'model': 'qwen/qwen3.5-flash-02-23',
+        'api_base_url': OPENROUTER_API_BASE_URL,
+    },
+    'openrouter-gemini': {
+        'model': 'google/gemini-2.5-flash-lite',
+        'api_base_url': OPENROUTER_API_BASE_URL,
+    },
+}
+DEFAULT_MODEL_MODE = 'openai-gpt5-nano'
+DEFAULT_MODEL = MODEL_PRESETS[DEFAULT_MODEL_MODE]['model']
+DEFAULT_API_BASE_URL = MODEL_PRESETS[DEFAULT_MODEL_MODE]['api_base_url']
 DEFAULT_RESULTS_FILE = 'results/baseline-results.json'
 DEFAULT_GAMES_JSON_FILE = 'results/baseline-games.json'
 MODEL_MAX_RETRIES = 3
@@ -29,6 +50,28 @@ if os.path.isfile('.env'):
 
 client_state = threading.local()
 configured_api_base_url = DEFAULT_API_BASE_URL
+
+
+def get_model_preset(mode):
+    preset = MODEL_PRESETS.get(mode)
+    if preset is None:
+        raise click.ClickException(f'Unknown model mode: {mode}')
+    return preset
+
+
+def resolve_model_config(model_mode, model, api_base_url):
+    preset = get_model_preset(model_mode)
+    resolved_model = model or preset['model']
+    if api_base_url is None:
+        resolved_api_base_url = preset['api_base_url']
+    else:
+        resolved_api_base_url = api_base_url
+
+    return {
+        'model_mode': model_mode,
+        'model': resolved_model,
+        'api_base_url': resolved_api_base_url,
+    }
 
 
 def configure_client(api_base_url=None):
@@ -44,15 +87,21 @@ def configure_client(api_base_url=None):
     if thread_client is not None and thread_base_url == api_base_url:
         return thread_client
 
-    api_key = os.getenv('OPENROUTER_API_KEY') or os.getenv('OPENAI_API_KEY')
-    if not api_key:
-        raise click.ClickException('Set OPENROUTER_API_KEY in your environment or .env file before running model games.')
+    uses_openrouter = bool(api_base_url and 'openrouter.ai' in api_base_url)
+    if uses_openrouter:
+        api_key = os.getenv('OPENROUTER_API_KEY') or os.getenv('OPENAI_API_KEY')
+        if not api_key:
+            raise click.ClickException('Set OPENROUTER_API_KEY in your environment or .env file before running OpenRouter model games.')
+    else:
+        api_key = os.getenv('OPENAI_API_KEY')
+        if not api_key:
+            raise click.ClickException('Set OPENAI_API_KEY in your environment or .env file before running OpenAI model games.')
 
     client_args = {'api_key': api_key}
     if api_base_url:
         client_args['base_url'] = api_base_url
 
-    if api_base_url and 'openrouter.ai' in api_base_url:
+    if uses_openrouter:
         headers = {
             'X-OpenRouter-Title': os.getenv('OPENROUTER_APP_TITLE', 'Werewolf GPT')
         }
@@ -68,17 +117,30 @@ def configure_client(api_base_url=None):
     return thread_client
 
 
-def run_model_prompt(prompt, model, json_mode=False):
-    request_args = {
-        'model': model,
-        'seed': MODEL_SEED,
-        'messages': [
+def run_model_prompt(prompt, model, json_mode=False, prompt_cache_key=None):
+    messages = prompt
+    if isinstance(prompt, str):
+        messages = [
             {
                 'role': 'user',
                 'content': prompt
             }
         ]
+
+    request_args = {
+        'model': model,
+        'seed': MODEL_SEED,
+        'messages': messages
     }
+
+    client = configure_client()
+    api_base_url = getattr(client_state, 'base_url', None)
+    uses_openrouter = bool(api_base_url and 'openrouter.ai' in api_base_url)
+
+    if not uses_openrouter:
+        if prompt_cache_key:
+            request_args['prompt_cache_key'] = prompt_cache_key
+        request_args['prompt_cache_retention'] = 'in_memory'
 
     if json_mode:
         request_args['response_format'] = {'type': 'json_object'}
@@ -86,7 +148,7 @@ def run_model_prompt(prompt, model, json_mode=False):
     last_error = None
     for attempt in range(MODEL_MAX_RETRIES):
         try:
-            response = configure_client().chat.completions.create(**request_args)
+            response = client.chat.completions.create(**request_args)
             message = response.choices[0].message
             return message.content or ''
         except Exception as e:
@@ -168,19 +230,37 @@ class Player:
         self.rules_prompt_prefix = open('prompts/rules.txt').read().format(player_name = player_name, other_players = '; '.join(other_players), card = card, card_list = card_list)
         self.memory = []
         self.model = model
+        self.prompt_cache_key = hashlib.sha256(self.rules_prompt_prefix.encode('utf-8')).hexdigest()
 
     def append_memory(self, memory_item):
         self.memory.append(memory_item)
 
     def run_prompt(self, prompt):
-        full_prompt = self.rules_prompt_prefix
-
+        memory_block = ''
         if len(self.memory) > 0:
-            full_prompt += '\n\nYou have the following memory of interactions in this game: \n\n' + '\n\n'.join(self.memory)
+            memory_block = '\n\nYou have the following memory of interactions in this game:\n\n' + '\n\n'.join(self.memory)
 
-        full_prompt += prompt
+        messages = [
+            {
+                'role': 'system',
+                'content': self.rules_prompt_prefix
+            },
+            {
+                'role': 'user',
+                'content': 'Use your role instructions and the evolving game state to make the best move.'
+            },
+            {
+                'role': 'user',
+                'content': memory_block + '\n\n' + prompt
+            }
+        ]
 
-        response_text = run_model_prompt(full_prompt, self.model, json_mode=True)
+        response_text = run_model_prompt(
+            messages,
+            self.model,
+            json_mode=True,
+            prompt_cache_key=f'werewolf-player-{self.prompt_cache_key}'
+        )
         if not response_text:
             print("No text returned from model.")
             return ""
@@ -349,7 +429,7 @@ class SilentRenderingEngine:
 
 class Game:
 
-    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False, structured_werewolf_persuasion=False):
+    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False, structured_werewolf_persuasion=False, personality_aware_werewolf_persuasion=False):
         self.player_count = player_count
         self.discussion_depth = discussion_depth
         self.card_list = None
@@ -363,6 +443,7 @@ class Game:
         self.warning = ''
         self.targeted_werewolf_persuasion = targeted_werewolf_persuasion
         self.structured_werewolf_persuasion = structured_werewolf_persuasion
+        self.personality_aware_werewolf_persuasion = personality_aware_werewolf_persuasion
 
         if silent:
             self.rendering_engine = SilentRenderingEngine()
@@ -430,7 +511,11 @@ class Game:
         return candidate
 
     def get_day_prompt(self, player, default_day_prompt):
-        uses_werewolf_persuasion = self.targeted_werewolf_persuasion or self.structured_werewolf_persuasion
+        uses_werewolf_persuasion = (
+            self.targeted_werewolf_persuasion
+            or self.structured_werewolf_persuasion
+            or self.personality_aware_werewolf_persuasion
+        )
         if not uses_werewolf_persuasion or player.card != 'Werewolf':
             return default_day_prompt
 
@@ -451,6 +536,8 @@ class Game:
         prompt_file = 'prompts/werewolf_targeted_day.txt'
         if self.structured_werewolf_persuasion:
             prompt_file = 'prompts/werewolf_structured_targeted_day.txt'
+        elif self.personality_aware_werewolf_persuasion:
+            prompt_file = 'prompts/werewolf_personality_aware_day.txt'
 
         return open(prompt_file).read().format(
             known_werewolves=known_werewolves_text,
@@ -710,7 +797,11 @@ class Game:
             response = player.run_prompt(prompt)
 
             action = return_dict_from_json_or_fix(response, self.model)
-            if (self.targeted_werewolf_persuasion or self.structured_werewolf_persuasion) and player.card == 'Werewolf':
+            if (
+                self.targeted_werewolf_persuasion
+                or self.structured_werewolf_persuasion
+                or self.personality_aware_werewolf_persuasion
+            ) and player.card == 'Werewolf':
                 reasoning = self.get_targeted_werewolf_reasoning(action, response, player.player_name)
             else:
                 reasoning = self.get_reasoning(action, response, player.player_name, 'DAY')
@@ -812,6 +903,7 @@ class Game:
             'result': game_result,
             'targeted_werewolf_persuasion': self.targeted_werewolf_persuasion,
             'structured_werewolf_persuasion': self.structured_werewolf_persuasion,
+            'personality_aware_werewolf_persuasion': self.personality_aware_werewolf_persuasion,
             'votes': votes,
             'players': [
                 {
@@ -844,14 +936,15 @@ def write_json_file(json_file, payload):
         json.dump(payload, f, indent=2)
 
 
-def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion):
+def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion):
     game = Game(
         player_count=player_count,
         discussion_depth=discussion_depth,
         model=model,
         silent=True,
         targeted_werewolf_persuasion=targeted_werewolf_persuasion,
-        structured_werewolf_persuasion=structured_werewolf_persuasion
+        structured_werewolf_persuasion=structured_werewolf_persuasion,
+        personality_aware_werewolf_persuasion=personality_aware_werewolf_persuasion
     )
     result = game.play()
     result['game_number'] = game_number
@@ -879,14 +972,16 @@ def record_batch_result(payload, games_json, result, game_json, results_file, ga
     write_json_file(games_json_file, games_json)
 
 
-def run_batch(player_count, discussion_depth, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, parallel_games):
+def run_batch(player_count, discussion_depth, model_mode, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, parallel_games):
     payload = {
         'summary': {
+            'model_mode': model_mode,
             'model': model,
             'player_count': player_count,
             'discussion_depth': discussion_depth,
             'targeted_werewolf_persuasion': targeted_werewolf_persuasion,
             'structured_werewolf_persuasion': structured_werewolf_persuasion,
+            'personality_aware_werewolf_persuasion': personality_aware_werewolf_persuasion,
             'parallel_games': parallel_games,
             'games_requested': game_count,
             'games_completed': 0,
@@ -902,7 +997,7 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file, g
     if parallel_games <= 1:
         for game_number in range(1, game_count + 1):
             try:
-                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion)
+                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion)
             except Exception as e:
                 result = {
                     'game_number': game_number,
@@ -921,7 +1016,7 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file, g
         finished = 0
         with ThreadPoolExecutor(max_workers=parallel_games) as executor:
             futures = {
-                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion): game_number
+                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion): game_number
                 for game_number in range(1, game_count + 1)
             }
 
@@ -950,19 +1045,26 @@ def run_batch(player_count, discussion_depth, model, game_count, results_file, g
 @click.command()
 @click.option('--player-count', type=int, default=5, help='Number of players')
 @click.option('--discussion-depth', type=int, default=20, help='Number of discussion rounds')
-@click.option('--model', default=DEFAULT_MODEL, show_default=True, help='Model used for every player and JSON repair call')
-@click.option('--api-base-url', default=DEFAULT_API_BASE_URL, show_default=True, help='OpenAI-compatible API base URL')
+@click.option('--model-mode', type=click.Choice(list(MODEL_PRESETS.keys())), default=DEFAULT_MODEL_MODE, show_default=True, help='Preset model/API mode')
+@click.option('--model', default=None, help='Optional model override used for every player and JSON repair call')
+@click.option('--api-base-url', default=None, help='Optional OpenAI-compatible API base URL override')
 @click.option('--games', type=int, default=1, show_default=True, help='Number of games to run. Use 1000 for a baseline batch.')
 @click.option('--parallel-games', type=int, default=1, show_default=True, help='Number of independent games to run concurrently during batch mode')
 @click.option('--results-file', default=DEFAULT_RESULTS_FILE, show_default=True, help='JSON file for batch results')
 @click.option('--games-json-file', default=DEFAULT_GAMES_JSON_FILE, show_default=True, help='Ego4D-like JSON file containing generated game dialogue')
 @click.option('--targeted-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze candidates and target the highest-utility player during day discussion')
 @click.option('--structured-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players target the current highest-influence player and adapt persuasion to inferred Big Five traits')
+@click.option('--personality-aware-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze Big Five traits and adapt persuasion without being told to target a specific player')
 @click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
-def play_game(player_count, discussion_depth, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, use_gpt4, render_markdown):
+def play_game(player_count, discussion_depth, model_mode, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, use_gpt4, render_markdown):
+    model_config = resolve_model_config(model_mode, model, api_base_url)
+    model = model_config['model']
+    api_base_url = model_config['api_base_url']
+
     if use_gpt4:
         model = 'openai/gpt-4'
+        api_base_url = OPENROUTER_API_BASE_URL
 
     configure_client(api_base_url)
 
@@ -973,7 +1075,7 @@ def play_game(player_count, discussion_depth, model, api_base_url, games, parall
 
     if games > 1:
         parallel_games = min(parallel_games, games)
-        summary = run_batch(player_count, discussion_depth, model, games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, parallel_games)
+        summary = run_batch(player_count, discussion_depth, model_mode, model, games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, parallel_games)
         click.echo()
         click.echo(f'Batch complete. Results saved to {results_file}')
         click.echo(f'Generated game dialogue saved to {games_json_file}')
@@ -989,7 +1091,8 @@ def play_game(player_count, discussion_depth, model, api_base_url, games, parall
             model=model,
             render_markdown=render_markdown,
             targeted_werewolf_persuasion=targeted_werewolf_persuasion,
-            structured_werewolf_persuasion=structured_werewolf_persuasion
+            structured_werewolf_persuasion=structured_werewolf_persuasion,
+            personality_aware_werewolf_persuasion=personality_aware_werewolf_persuasion
         )
         game.play()
 
