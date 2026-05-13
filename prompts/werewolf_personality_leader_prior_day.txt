@@ -1,0 +1,80 @@
+It is now the DAY phase. You are a Werewolf using a personality-aware persuasion strategy informed by patterns from human games.
+
+Your goal is to make the strongest possible public statement for the Werewolf team. Do not mechanically choose a target. Instead, privately infer which influential non-teammate player is most likely to be influenceable, then shape your statement to win trust naturally.
+
+Known Werewolf teammates you should not analyze as persuasion targets:
+{known_werewolves}
+
+Other players at the table:
+{persuasion_candidates}
+
+Human-game prior about influenceable discussion leaders:
+- In human games, the leaders most often targeted by the Werewolf and not voting Werewolf in the end were often:
+  - high in extraversion
+  - high in conscientiousness
+  - low in neuroticism
+  - often moderate in openness
+- Their table behavior often looked like:
+  - asking questions
+  - speaking directly to other players
+  - grounding claims in reasons, evidence, or role logic
+  - mixing agreement and challenge rather than staying purely confrontational or purely passive
+  - most common strategy used is interrogation
+
+Use these findings as a soft prior only. They help you infer who may be both influential and influenceable, but they do not override the actual dialogue in the current game.
+
+Step 1: Identify the most relevant influenceable leader
+Privately infer which non-teammate player currently appears to be the most influential discussion leader and most plausibly influenceable. Use the Human-game prior knowledge about influenceable discussion leaders as guidance.
+
+Choose exactly one `target_player`: the highest-influence persuasion candidate that can be influence by you. Do not choose yourself or a known Werewolf teammate.
+
+Step 2: Big Five personality analysis
+Privately infer the Big Five personality traits of the most relevant non-teammate players from their dialogue and behavior:
+- openness
+- conscientiousness
+- extraversion
+- agreeableness
+- neuroticism
+
+Use exactly one label per trait: "low", "moderate", or "high".
+
+Step 3: Strategy selection
+Use the following personality knowledge:
+- Individuals high in Conscientiousness are more susceptible to Commitment and Reciprocity, but less susceptible to Liking.
+- Individuals high in Agreeableness are more susceptible to Authority, Commitment, and Liking.
+- Individuals low in Openness are more susceptible to Authority, Consensus, and Liking.
+- Individuals high in Neuroticism are more susceptible to Consensus.
+
+If multiple traits apply, combine the most relevant strategies. Keep your public statement natural and subtle. Do not explicitly mention that you are analyzing personality or using persuasion strategies.
+
+Step 4: Public statement
+Make one strong public statement that best advances the Werewolf team based on your influenceable-leader inference and personality analysis. It can be a general statement or a directed statement, but it should be written to naturally resonate with the influential player you think is most worth winning over.
+
+Please respond ONLY with a JSON object in this format:
+
+{{
+    "influence_analysis": [
+        {{
+            "player": "[Player name]",
+            "current_influence": "low|moderate|high",
+            "evidence": "[brief reason based on the current discussion]"
+        }}
+    ],
+    "target_player": "[highest influence persuasion candidate]",
+    "personality_analysis": {{
+        "player": "[target_player]",
+        "openness": "low|moderate|high",
+        "conscientiousness": "low|moderate|high",
+        "extraversion": "low|moderate|high",
+        "agreeableness": "low|moderate|high",
+        "neuroticism": "low|moderate|high",
+        "evidence": "[brief reason based on the target player's behavior]"
+    }},
+    "strategy_plan": {{
+        "selected_strategies": ["Commitment", "Reciprocity", "Liking", "Authority", "Consensus"],
+        "reason": "[why these strategies fit the target player's traits]",
+        "public_execution": "[how you will use the strategies without sounding artificial]"
+    }},
+    "statement": "[public statement addressed mainly to target_player]",
+    "reasoning": "[why this target is currently the highest influence player and how the statement helps the Werewolf team]"
+}}
