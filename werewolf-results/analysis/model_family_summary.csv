@@ -1,0 +1,4 @@
+model_family,runs,mean_win_rate,median_win_rate,mean_failure_rate,mean_warning_rate,mean_total_turns,mean_day_turns,mean_utterance_words,mean_werewolf_turn_share
+gemini,6,0.6217,0.6468,0.0098,0.4048,25.6059,20,109.9148,0.2307
+gpt5_nano,7,0.5371,0.57,0.0,0.0371,25.64,20,62.3139,0.2479
+qwen,6,0.73,0.735,0.0,0.1833,25.6283,20,56.6281,0.2221

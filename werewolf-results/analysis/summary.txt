@@ -1,0 +1,44 @@
+Werewolf Results Analysis
+=========================
+
+Experiments analyzed: 19
+Mean Werewolf win rate: 62.47%
+Median Werewolf win rate: 64.42%
+Correlation between average day turns and win rate: None
+Correlation between Werewolf talk share and win rate: -0.8269863897643756
+
+Best run:
+- qwen:structured:qwen-structured-100-1 (79.00% win rate)
+Worst run:
+- gpt5_nano:baseline:baseline-100 (40.00% win rate)
+
+By model family:
+- gemini: mean win rate 62.17% across 6 runs
+- gpt5_nano: mean win rate 53.71% across 7 runs
+- qwen: mean win rate 73.00% across 6 runs
+
+By persuasion mode:
+- baseline: mean win rate 55.71% across 7 runs
+- structured: mean win rate 67.65% across 6 runs
+- targeted: mean win rate 65.18% across 6 runs
+
+Per-experiment snapshot:
+- qwen-structured-100-1: 79.00% win rate, 0.00% failure, 25.7 avg turns, 0.88 avg votes on werewolves
+- qwen-100: 77.00% win rate, 0.00% failure, 25.6 avg turns, 0.96 avg votes on werewolves
+- qwen-structured-100: 75.00% win rate, 0.00% failure, 25.6 avg turns, 0.96 avg votes on werewolves
+- qwen-targeted-100: 72.00% win rate, 0.00% failure, 25.6 avg turns, 1.14 avg votes on werewolves
+- qwen-100-1: 68.00% win rate, 0.00% failure, 25.6 avg turns, 1.29 avg votes on werewolves
+- gemini-targeted-100-1: 67.68% win rate, 1.00% failure, 25.6 avg turns, 1.51 avg votes on werewolves
+- qwen-targeted-100-1: 67.00% win rate, 0.00% failure, 25.7 avg turns, 1.21 avg votes on werewolves
+- gemini-structured-100: 66.97% win rate, 0.91% failure, 25.6 avg turns, 1.49 avg votes on werewolves
+- gemini-structure-100-1: 64.95% win rate, 3.00% failure, 25.6 avg turns, 1.38 avg votes on werewolves
+- gemini-targeted-100: 64.42% win rate, 0.95% failure, 25.6 avg turns, 1.66 avg votes on werewolves
+- target-100-1: 63.00% win rate, 0.00% failure, 25.6 avg turns, 1.71 avg votes on werewolves
+- structure-100: 62.00% win rate, 0.00% failure, 25.6 avg turns, 1.52 avg votes on werewolves
+- structure-100-1: 58.00% win rate, 0.00% failure, 25.6 avg turns, 1.71 avg votes on werewolves
+- gemini-100-1: 57.00% win rate, 0.00% failure, 25.6 avg turns, 1.92 avg votes on werewolves
+- target-100: 57.00% win rate, 0.00% failure, 25.7 avg turns, 1.77 avg votes on werewolves
+- gemini-100: 52.00% win rate, 0.00% failure, 25.6 avg turns, 1.97 avg votes on werewolves
+- baseline-100-1: 48.00% win rate, 0.00% failure, 25.6 avg turns, 2.09 avg votes on werewolves
+- targeted-100: 48.00% win rate, 0.00% failure, 25.6 avg turns, 2.09 avg votes on werewolves
+- baseline-100: 40.00% win rate, 0.00% failure, 25.6 avg turns, 2.18 avg votes on werewolves

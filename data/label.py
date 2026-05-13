@@ -1,15 +1,34 @@
 import json
+import os
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from openai import OpenAI
 
-client = OpenAI()
+OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1"
 
-INPUT_FILE = "filtered_merged_games.json"
-OUTPUT_FILE = "filtered_labeled_games.json"
+INPUT_FILE = "filtered_merged_games_50.json"
+OUTPUT_FILE = "filtered_labeled_games_50.json"
+ERROR_FILE = "label_errors_50.json"
 
-MODEL_NAME = "gpt-5-nano"
+SYNC_MODEL_NAME = "x-ai/grok-4.1-fast"
 API_SEED = 123
+DEFAULT_PARALLEL_WORKERS = 5
+
+
+def get_sync_client():
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        raise ValueError("Set OPENROUTER_API_KEY before using sync labeling.")
+
+    return OpenAI(
+        api_key=api_key,
+        base_url=OPENROUTER_API_BASE_URL,
+        default_headers={
+            "X-OpenRouter-Title": os.getenv("OPENROUTER_APP_TITLE", "Werewolf GPT")
+        }
+    )
+
 
 SYSTEM_PROMPT = """
 Section Werewolf persuasion windows, label each window's target and discussion leader,
@@ -44,7 +63,7 @@ Window index rules:
 Discussion leader definition:
 For each persuasion window, label discussion_leader as the player other than the Werewolf speaker
 who is leading everyone else in that window. This is not necessarily the first speaker, the loudest
-speaker, or the targeted player. Choose the person who most clearly steers the
+speaker, or the targeted player. Choose the person who most clearly steers or affects the
 conversation, frames the issue, sets the agenda, asks the questions others respond to,
 or influences how other players interpret the situation.
 If no one clearly leads a window, use "None".
@@ -56,11 +75,40 @@ Allowed labels for discussion_leader:
 Target definition:
 Label the person that the Werewolf speaker is trying to persuade or appeal to in order
 to gain their trust, liking, or belief in the persuasion window. The target can be a specific player
-or the whole group. Use context in the window to determine the target. For example, if a Werewolf 
-agrees with the discussion topic or the discussion leader's opinion, then the target is the discussion leader. 
+or the whole group. Use context in the window to determine the target. For example, if a Werewolf
+agrees with the discussion topic or the discussion leader's opinion, then the target is the discussion leader.
 ALWAYS use a specific player name when possible. The target player cannot be the Werewolf speaker. Ignore
 whether the persuasion from the Werewolf speaker is successful or not, only identify the target player they
-are appealing to.
+are appealing to. Really analyse the werewolf's intention as it might be subtle and hidden under the surface.
+
+Important targeting heuristic:
+- If a Werewolf is subtly aligning with, validating, echoing, supporting, or building on the person
+  currently steering the discussion, label that player as the targeted_player.
+- If the Werewolf is making a public statement but is mainly trying to gain the trust of the current
+  discussion leader or opinion leader, the target is that player, not "Group".
+- Use "Group" only when the appeal is truly broad and not mainly aimed at one influential person.
+- If you are deciding between a specific player and "Group", strongly prefer the specific influential player.
+
+One-shot example from an actual game dialogue:
+- Sian (Seer): "Oh, so you switched me."
+- Sian (Seer): "So I was a Drunk."
+- Ashley (Werewolf): "So you're a Villager, you're a Drunky."
+- Sian (Seer): "But I switched with the middle too, so..."
+- Ashley (Werewolf): "Yeah."
+- Sukeshi (Troublemaker): "So there's a Villager in there."
+- Ashley (Werewolf): "Yeah."
+
+Correct interpretation of this example:
+- discussion_leader = "Sian"
+- targeted_player = "Sian"
+
+Why:
+- Ashley the Werewolf is not openly flattering Sian, but she is subtly reinforcing Sian's account
+  and going along with Sian's reasoning.
+- In this kind of subtle agreement pattern, the Werewolf is trying to gain the trust of the opinion
+  leader they are backing, so the target is that leader rather than "Group".
+- More generally, when the Werewolf appears to be winning over the current highest-influence player,
+  label that player as the target.
 
 Allowed labels for targeted_player:
 - player name EXCLUDING the Werewolf speaker (always use this label when possible)
@@ -350,6 +398,7 @@ def get_most_used_strategies(game, player_names):
 def build_player_profiles(game, labeled_game, profiles_by_player, player_names):
     windows = labeled_game.get("windows", [])
     end_roles = game.get("endRoles", [])
+    leader_counts = get_leader_counts(windows, player_names)
     influence_statuses = get_influence_statuses(labeled_game, player_names)
     target_counts = get_werewolf_target_counts(windows, player_names)
     target_ranks = get_werewolf_target_ranks(target_counts, player_names)
@@ -362,6 +411,7 @@ def build_player_profiles(game, labeled_game, profiles_by_player, player_names):
             "endRole": end_roles[index] if index < len(end_roles) else None,
             "personalities": get_personalities(profiles_by_player.get(player_name)),
             "influence": influence_statuses[player_name],
+            "discussion_leader_count": leader_counts[player_name],
             "most_used_strategy": most_used_strategies[player_name],
             "werewolf_target_count": target_counts[player_name],
             "werewolf_target_rank": target_ranks[player_name],
@@ -380,8 +430,7 @@ def attach_player_profiles(game, labeled_game, profiles_by_player, player_names)
     )
 
 
-def parse_model_json(response):
-    content = response.choices[0].message.content
+def parse_json_content(content):
     if not content:
         raise ValueError("Model returned empty content")
 
@@ -395,6 +444,90 @@ def parse_model_json(response):
             content = content[:-3].strip()
 
     return json.loads(content)
+
+
+def parse_model_json(response):
+    return parse_json_content(response.choices[0].message.content)
+
+
+def build_request_body(game, model_name):
+    payload = build_label_prompt_payload(game)
+    return {
+        "model": model_name,
+        "seed": API_SEED,
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}
+        ],
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": LABEL_SCHEMA
+        }
+    }
+
+def label_game_from_body(game, request_body, max_retries=3):
+    sync_client = get_sync_client()
+    for attempt in range(max_retries):
+        try:
+            response = sync_client.chat.completions.create(**request_body)
+            parsed = parse_model_json(response)
+            return build_labeled_game(game, parsed)
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise e
+
+    raise RuntimeError("Unreachable labeling failure")
+
+
+def process_game(index, game, model_name):
+    try:
+        labeled_game = label_game_from_body(game, build_request_body(game, model_name))
+        return {
+            "index": index,
+            "status": "completed",
+            "labeled_game": labeled_game
+        }
+    except Exception as e:
+        return {
+            "index": index,
+            "status": "failed",
+            "error": str(e),
+            "labeled_game": build_labeled_game(game, {
+                "target_windows": [],
+                "personality_profiles": []
+            })
+        }
+
+
+def run_parallel_labeling(input_file=INPUT_FILE, output_file=OUTPUT_FILE, workers=DEFAULT_PARALLEL_WORKERS, model_name=SYNC_MODEL_NAME, error_file=ERROR_FILE):
+    with open(input_file, "r", encoding="utf-8") as f:
+        games = json.load(f)
+
+    results = [None] * len(games)
+    failures = []
+
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(process_game, index, game, model_name): index
+            for index, game in enumerate(games)
+        }
+
+        for future in as_completed(futures):
+            result = future.result()
+            index = result["index"]
+            results[index] = result["labeled_game"]
+            if result["status"] != "completed":
+                failures.append({
+                    "index": index,
+                    "game_id": games[index].get("Game_ID"),
+                    "error": result["error"]
+                })
+
+    write_json_file(output_file, results)
+    write_json_file(error_file, failures)
+    print(f"Saved labeled dataset: {output_file}")
+    print(f"Completed games: {len(games) - len(failures)}/{len(games)}")
+    print(f"Saved labeling errors: {error_file}")
 
 
 def build_labeled_game(game, parsed):
@@ -433,34 +566,14 @@ def build_labeled_game(game, parsed):
 
 
 def label_game_targets(game, max_retries=3):
-    payload = build_label_prompt_payload(game)
-
-    for attempt in range(max_retries):
-        try:
-            response = client.chat.completions.create(
-                model=MODEL_NAME,
-                seed=API_SEED,
-                messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}
-                ],
-                response_format={
-                    "type": "json_schema",
-                    "json_schema": LABEL_SCHEMA
-                }
-            )
-
-            parsed = parse_model_json(response)
-            return build_labeled_game(game, parsed)
-
-        except Exception as e:
-            print(f"Attempt {attempt + 1}/{max_retries} failed:", e)
-
-    print("fallback to None")
-    return build_labeled_game(game, {
-        "target_windows": [],
-        "personality_profiles": []
-    })
+    try:
+        return label_game_from_body(game, build_request_body(game, SYNC_MODEL_NAME), max_retries=max_retries)
+    except Exception as e:
+        print(f"Labeling failed after {max_retries} attempts: {e}")
+        return build_labeled_game(game, {
+            "target_windows": [],
+            "personality_profiles": []
+        })
 
 
 def write_json_file(path, payload):
@@ -469,16 +582,7 @@ def write_json_file(path, payload):
 
 
 def main():
-    with open(INPUT_FILE, "r", encoding="utf-8") as f:
-        games = json.load(f)
-
-    labeled_games = [
-        label_game_targets(game)
-        for game in games
-    ]
-
-    write_json_file(OUTPUT_FILE, labeled_games)
-    print(f"Saved labeled dataset: {OUTPUT_FILE}")
+    run_parallel_labeling()
 
 
 if __name__ == "__main__":

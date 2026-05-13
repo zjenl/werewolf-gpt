@@ -1,0 +1,4 @@
+persuasion_mode,runs,mean_win_rate,median_win_rate,mean_failure_rate,mean_warning_rate,mean_total_turns,mean_day_turns,mean_utterance_words,mean_werewolf_turn_share
+baseline,7,0.5571,0.52,0.0,0.1986,25.6286,20,76.8876,0.2537
+structured,6,0.6765,0.6596,0.0065,0.2006,25.6204,20,73.8786,0.2181
+targeted,6,0.6518,0.6571,0.0032,0.1992,25.6272,20,75.6616,0.2279

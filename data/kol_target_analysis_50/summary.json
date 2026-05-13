@@ -1,0 +1,25 @@
+{
+  "player_count": 221,
+  "game_count": 50,
+  "pearson_leader_target": 0.752714536325928,
+  "spearman_leader_target": 0.7825806091250416,
+  "avg_target_count_by_influence": {
+    "low_influence": 0.3246753246753247,
+    "normal": 2.0425531914893615,
+    "kol": 4.72
+  },
+  "median_target_count_by_influence": {
+    "low_influence": 0,
+    "normal": 2.0,
+    "kol": 4.0
+  },
+  "kol_rank_distribution": {
+    "1": 38,
+    "2": 11,
+    "3": 1
+  },
+  "games_where_kol_rank_1": 38,
+  "games_with_kol": 50,
+  "avg_windows_targeting_kol": 4.72,
+  "avg_leader_target_overlap_rate": 0.43592215180760074
+}

@@ -1,0 +1,26 @@
+KOL vs Werewolf Target Analysis
+================================
+
+Games: 50
+Player rows: 221
+Pearson correlation (leader_count vs target_count): 0.752714536325928
+Spearman correlation (leader_count vs target_count): 0.7825806091250416
+Games with KOL: 50
+Games where KOL target rank = 1: 38
+Average windows targeting KOL: 4.720
+Average leader-target overlap rate: 0.436
+
+Average target count by influence:
+- low_influence: 0.325
+- normal: 2.043
+- kol: 4.720
+
+Median target count by influence:
+- low_influence: 0
+- normal: 2.0
+- kol: 4.0
+
+KOL target rank distribution:
+- rank 1: 38
+- rank 2: 11
+- rank 3: 1

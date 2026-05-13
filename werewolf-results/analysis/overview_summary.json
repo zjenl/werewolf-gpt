@@ -1,0 +1,128 @@
+{
+  "experiment_count": 19,
+  "models": [
+    "gemini",
+    "gpt5_nano",
+    "qwen"
+  ],
+  "persuasion_modes": [
+    "baseline",
+    "structured",
+    "targeted"
+  ],
+  "best_run": {
+    "experiment_id": "qwen:structured:qwen-structured-100-1",
+    "win_rate": 0.79,
+    "model_family": "qwen",
+    "persuasion_mode": "structured"
+  },
+  "worst_run": {
+    "experiment_id": "gpt5_nano:baseline:baseline-100",
+    "win_rate": 0.4,
+    "model_family": "gpt5_nano",
+    "persuasion_mode": "baseline"
+  },
+  "mean_win_rate": 0.6247,
+  "median_win_rate": 0.6442,
+  "turn_winrate_correlation": null,
+  "werewolf_talk_winrate_correlation": -0.8269863897643756,
+  "by_model_family": [
+    {
+      "model_family": "gemini",
+      "runs": 6,
+      "mean_win_rate": 0.6217,
+      "median_win_rate": 0.6468,
+      "mean_failure_rate": 0.0098,
+      "mean_warning_rate": 0.4048,
+      "mean_total_turns": 25.6059,
+      "mean_day_turns": 20,
+      "mean_utterance_words": 109.9148,
+      "mean_werewolf_turn_share": 0.2307
+    },
+    {
+      "model_family": "gpt5_nano",
+      "runs": 7,
+      "mean_win_rate": 0.5371,
+      "median_win_rate": 0.57,
+      "mean_failure_rate": 0.0,
+      "mean_warning_rate": 0.0371,
+      "mean_total_turns": 25.64,
+      "mean_day_turns": 20,
+      "mean_utterance_words": 62.3139,
+      "mean_werewolf_turn_share": 0.2479
+    },
+    {
+      "model_family": "qwen",
+      "runs": 6,
+      "mean_win_rate": 0.73,
+      "median_win_rate": 0.735,
+      "mean_failure_rate": 0.0,
+      "mean_warning_rate": 0.1833,
+      "mean_total_turns": 25.6283,
+      "mean_day_turns": 20,
+      "mean_utterance_words": 56.6281,
+      "mean_werewolf_turn_share": 0.2221
+    }
+  ],
+  "by_persuasion_mode": [
+    {
+      "persuasion_mode": "baseline",
+      "runs": 7,
+      "mean_win_rate": 0.5571,
+      "median_win_rate": 0.52,
+      "mean_failure_rate": 0.0,
+      "mean_warning_rate": 0.1986,
+      "mean_total_turns": 25.6286,
+      "mean_day_turns": 20,
+      "mean_utterance_words": 76.8876,
+      "mean_werewolf_turn_share": 0.2537
+    },
+    {
+      "persuasion_mode": "structured",
+      "runs": 6,
+      "mean_win_rate": 0.6765,
+      "median_win_rate": 0.6596,
+      "mean_failure_rate": 0.0065,
+      "mean_warning_rate": 0.2006,
+      "mean_total_turns": 25.6204,
+      "mean_day_turns": 20,
+      "mean_utterance_words": 73.8786,
+      "mean_werewolf_turn_share": 0.2181
+    },
+    {
+      "persuasion_mode": "targeted",
+      "runs": 6,
+      "mean_win_rate": 0.6518,
+      "median_win_rate": 0.6571,
+      "mean_failure_rate": 0.0032,
+      "mean_warning_rate": 0.1992,
+      "mean_total_turns": 25.6272,
+      "mean_day_turns": 20,
+      "mean_utterance_words": 75.6616,
+      "mean_werewolf_turn_share": 0.2279
+    }
+  ],
+  "model_mode_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 0.545,
+      "targeted": 0.6605,
+      "structured": 0.6596,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 0.4533,
+      "targeted": 0.6,
+      "structured": 0.6,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 0.725,
+      "targeted": 0.695,
+      "structured": 0.77,
+      "personality_aware": null
+    }
+  ]
+}

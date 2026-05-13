@@ -1,0 +1,209 @@
+{
+  "win_rate_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 0.545,
+      "targeted": 0.6605,
+      "structured": 0.6596,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 0.4533,
+      "targeted": 0.6,
+      "structured": 0.6,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 0.725,
+      "targeted": 0.695,
+      "structured": 0.77,
+      "personality_aware": null
+    }
+  ],
+  "avg_votes_on_werewolves_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 1.945,
+      "targeted": 1.5843,
+      "structured": 1.4338,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 2.12,
+      "targeted": 1.74,
+      "structured": 1.615,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 1.125,
+      "targeted": 1.175,
+      "structured": 0.92,
+      "personality_aware": null
+    }
+  ],
+  "avg_werewolf_vote_share_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 0.389,
+      "targeted": 0.3168,
+      "structured": 0.2868,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 0.424,
+      "targeted": 0.348,
+      "structured": 0.323,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 0.225,
+      "targeted": 0.235,
+      "structured": 0.184,
+      "personality_aware": null
+    }
+  ],
+  "failure_rate_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 0.0,
+      "targeted": 0.0097,
+      "structured": 0.0195,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 0.0,
+      "targeted": 0.0,
+      "structured": 0.0,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 0.0,
+      "targeted": 0.0,
+      "structured": 0.0,
+      "personality_aware": null
+    }
+  ],
+  "warning_rate_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 0.435,
+      "targeted": 0.3575,
+      "structured": 0.4218,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 0.0267,
+      "targeted": 0.04,
+      "structured": 0.05,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 0.22,
+      "targeted": 0.2,
+      "structured": 0.13,
+      "personality_aware": null
+    }
+  ],
+  "avg_total_turns_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 25.63,
+      "targeted": 25.5867,
+      "structured": 25.6011,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 25.65,
+      "targeted": 25.645,
+      "structured": 25.62,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 25.595,
+      "targeted": 25.65,
+      "structured": 25.64,
+      "personality_aware": null
+    }
+  ],
+  "avg_utterance_words_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 116.4655,
+      "targeted": 108.6225,
+      "structured": 104.6564,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 63.4701,
+      "targeted": 63.0721,
+      "structured": 59.8213,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 57.4362,
+      "targeted": 55.2901,
+      "structured": 57.1579,
+      "personality_aware": null
+    }
+  ],
+  "avg_werewolf_turn_share_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 0.2586,
+      "targeted": 0.2136,
+      "structured": 0.22,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 0.2697,
+      "targeted": 0.2464,
+      "structured": 0.2167,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 0.2249,
+      "targeted": 0.2238,
+      "structured": 0.2174,
+      "personality_aware": null
+    }
+  ],
+  "avg_vote_concentration_matrix": [
+    {
+      "model_family": "gemini",
+      "baseline": 0.2863,
+      "targeted": 0.2812,
+      "structured": 0.3061,
+      "personality_aware": null
+    },
+    {
+      "model_family": "gpt5_nano",
+      "baseline": 0.3015,
+      "targeted": 0.2983,
+      "structured": 0.2983,
+      "personality_aware": null
+    },
+    {
+      "model_family": "qwen",
+      "baseline": 0.3262,
+      "targeted": 0.3278,
+      "structured": 0.3221,
+      "personality_aware": null
+    }
+  ]
+}

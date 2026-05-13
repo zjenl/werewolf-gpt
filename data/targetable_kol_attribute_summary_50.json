@@ -1,0 +1,446 @@
+{
+  "selected_player_count": 23,
+  "games_represented": 6,
+  "most_used_strategy_counts": {
+    "Interrogation": 12,
+    "Accusation": 6,
+    "Call for Action": 2,
+    "Defense": 2,
+    "Evidence": 1
+  },
+  "start_role_counts": {
+    "Troublemaker": 8,
+    "Villager": 3,
+    "Robber": 3,
+    "Hunter": 2,
+    "Drunk": 2,
+    "Insomniac": 2,
+    "Tanner": 1,
+    "Mason": 1,
+    "Seer": 1
+  },
+  "end_role_counts": {
+    "Troublemaker": 7,
+    "Robber": 3,
+    "Villager": 3,
+    "Tanner": 3,
+    "Insomniac": 3,
+    "Seer": 2,
+    "Hunter": 1,
+    "Minion": 1
+  },
+  "trait_value_counts": {
+    "openness": {
+      "moderate": 14,
+      "high": 5,
+      "low": 4
+    },
+    "conscientiousness": {
+      "high": 17,
+      "low": 4,
+      "moderate": 2
+    },
+    "extraversion": {
+      "high": 19,
+      "moderate": 4
+    },
+    "agreeableness": {
+      "moderate": 12,
+      "low": 9,
+      "high": 2
+    },
+    "neuroticism": {
+      "low": 15,
+      "moderate": 5,
+      "high": 3
+    }
+  },
+  "top_joint_trait_profiles": [
+    {
+      "trait_profile": "openness=moderate; conscientiousness=high; extraversion=high; agreeableness=moderate; neuroticism=low",
+      "count": 4
+    },
+    {
+      "trait_profile": "openness=moderate; conscientiousness=high; extraversion=moderate; agreeableness=moderate; neuroticism=low",
+      "count": 3
+    },
+    {
+      "trait_profile": "openness=moderate; conscientiousness=high; extraversion=high; agreeableness=low; neuroticism=low",
+      "count": 2
+    },
+    {
+      "trait_profile": "openness=moderate; conscientiousness=low; extraversion=high; agreeableness=low; neuroticism=high",
+      "count": 2
+    },
+    {
+      "trait_profile": "openness=high; conscientiousness=high; extraversion=high; agreeableness=moderate; neuroticism=low",
+      "count": 2
+    },
+    {
+      "trait_profile": "openness=high; conscientiousness=high; extraversion=high; agreeableness=low; neuroticism=moderate",
+      "count": 1
+    },
+    {
+      "trait_profile": "openness=low; conscientiousness=high; extraversion=high; agreeableness=moderate; neuroticism=low",
+      "count": 1
+    },
+    {
+      "trait_profile": "openness=moderate; conscientiousness=high; extraversion=high; agreeableness=low; neuroticism=moderate",
+      "count": 1
+    },
+    {
+      "trait_profile": "openness=low; conscientiousness=moderate; extraversion=high; agreeableness=low; neuroticism=low",
+      "count": 1
+    },
+    {
+      "trait_profile": "openness=high; conscientiousness=low; extraversion=high; agreeableness=high; neuroticism=moderate",
+      "count": 1
+    }
+  ],
+  "discussion_leader_count_stats": {
+    "mean": 7.2609,
+    "median": 7,
+    "min": 5,
+    "max": 11
+  },
+  "werewolf_target_count_stats": {
+    "mean": 5.1304,
+    "median": 4,
+    "min": 1,
+    "max": 10
+  },
+  "targeted_window_count_stats": {
+    "mean": 5.1304,
+    "median": 4,
+    "min": 1,
+    "max": 10
+  },
+  "utterance_count_stats": {
+    "mean": 30.8261,
+    "median": 25,
+    "min": 6,
+    "max": 89
+  },
+  "utterance_word_count_stats": {
+    "mean": 8.0494,
+    "median": 6,
+    "min": 1,
+    "max": 58
+  },
+  "linguistic_marker_summary": {
+    "accusation_token_rate": {
+      "mean": 0.012,
+      "median": 0.0083,
+      "min": 0.0,
+      "max": 0.0303
+    },
+    "accusation_utterance_rate": {
+      "mean": 0.0909,
+      "median": 0.0769,
+      "min": 0.0,
+      "max": 0.25
+    },
+    "action_token_rate": {
+      "mean": 0.0147,
+      "median": 0.0114,
+      "min": 0.0,
+      "max": 0.0769
+    },
+    "action_utterance_rate": {
+      "mean": 0.0978,
+      "median": 0.0833,
+      "min": 0.0,
+      "max": 0.3333
+    },
+    "agreement_token_rate": {
+      "mean": 0.0273,
+      "median": 0.023,
+      "min": 0.0036,
+      "max": 0.0659
+    },
+    "agreement_utterance_rate": {
+      "mean": 0.1807,
+      "median": 0.1667,
+      "min": 0.0417,
+      "max": 0.381
+    },
+    "avg_words_per_utterance": {
+      "mean": 8.1794,
+      "median": 8.5,
+      "min": 5.0556,
+      "max": 11.6667
+    },
+    "certainty_token_rate": {
+      "mean": 0.0084,
+      "median": 0.0076,
+      "min": 0.0,
+      "max": 0.0288
+    },
+    "certainty_utterance_rate": {
+      "mean": 0.0612,
+      "median": 0.06,
+      "min": 0.0,
+      "max": 0.16
+    },
+    "disagreement_token_rate": {
+      "mean": 0.0344,
+      "median": 0.0287,
+      "min": 0.0096,
+      "max": 0.1036
+    },
+    "disagreement_utterance_rate": {
+      "mean": 0.1965,
+      "median": 0.2,
+      "min": 0.08,
+      "max": 0.3947
+    },
+    "evidence_token_rate": {
+      "mean": 0.0189,
+      "median": 0.0175,
+      "min": 0.0,
+      "max": 0.0534
+    },
+    "evidence_utterance_rate": {
+      "mean": 0.1323,
+      "median": 0.1,
+      "min": 0.0,
+      "max": 0.3421
+    },
+    "exclamation_utterance_rate": {
+      "mean": 0.0047,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.04
+    },
+    "hedge_token_rate": {
+      "mean": 0.0119,
+      "median": 0.0103,
+      "min": 0.0,
+      "max": 0.0305
+    },
+    "hedge_utterance_rate": {
+      "mean": 0.0869,
+      "median": 0.0833,
+      "min": 0.0,
+      "max": 0.25
+    },
+    "inclusive_token_rate": {
+      "mean": 0.0177,
+      "median": 0.0143,
+      "min": 0.0,
+      "max": 0.0747
+    },
+    "inclusive_utterance_rate": {
+      "mean": 0.1232,
+      "median": 0.1111,
+      "min": 0.0,
+      "max": 0.4
+    },
+    "name_mention_token_rate": {
+      "mean": 0.023,
+      "median": 0.0167,
+      "min": 0.0,
+      "max": 0.1053
+    },
+    "name_mention_utterance_rate": {
+      "mean": 0.1593,
+      "median": 0.15,
+      "min": 0.0,
+      "max": 0.4583
+    },
+    "negation_token_rate": {
+      "mean": 0.0356,
+      "median": 0.0321,
+      "min": 0.0,
+      "max": 0.1068
+    },
+    "negation_utterance_rate": {
+      "mean": 0.2046,
+      "median": 0.2,
+      "min": 0.0,
+      "max": 0.4474
+    },
+    "question_utterance_rate": {
+      "mean": 0.2368,
+      "median": 0.2333,
+      "min": 0.0,
+      "max": 0.4333
+    },
+    "question_word_token_rate": {
+      "mean": 0.0229,
+      "median": 0.022,
+      "min": 0.0,
+      "max": 0.0547
+    },
+    "question_word_utterance_rate": {
+      "mean": 0.1713,
+      "median": 0.1579,
+      "min": 0.0,
+      "max": 0.4737
+    },
+    "self_reference_token_rate": {
+      "mean": 0.0595,
+      "median": 0.0571,
+      "min": 0.0349,
+      "max": 0.1098
+    },
+    "self_reference_utterance_rate": {
+      "mean": 0.3577,
+      "median": 0.35,
+      "min": 0.1461,
+      "max": 0.6316
+    },
+    "total_utterances": {
+      "mean": 30.8261,
+      "median": 25,
+      "min": 6,
+      "max": 89
+    },
+    "total_words": {
+      "mean": 248.4348,
+      "median": 262,
+      "min": 39,
+      "max": 487
+    },
+    "unique_word_count": {
+      "mean": 115.7391,
+      "median": 119,
+      "min": 35,
+      "max": 185
+    },
+    "you_reference_token_rate": {
+      "mean": 0.046,
+      "median": 0.044,
+      "min": 0.0172,
+      "max": 0.0872
+    },
+    "you_reference_utterance_rate": {
+      "mean": 0.2882,
+      "median": 0.2584,
+      "min": 0.1,
+      "max": 0.5789
+    }
+  },
+  "top_words_across_selected_players": [
+    {
+      "word": "i",
+      "count": 273
+    },
+    {
+      "word": "you",
+      "count": 250
+    },
+    {
+      "word": "the",
+      "count": 227
+    },
+    {
+      "word": "to",
+      "count": 105
+    },
+    {
+      "word": "a",
+      "count": 93
+    },
+    {
+      "word": "no",
+      "count": 92
+    },
+    {
+      "word": "so",
+      "count": 72
+    },
+    {
+      "word": "that",
+      "count": 67
+    },
+    {
+      "word": "and",
+      "count": 64
+    },
+    {
+      "word": "what",
+      "count": 62
+    },
+    {
+      "word": "was",
+      "count": 52
+    },
+    {
+      "word": "i'm",
+      "count": 49
+    },
+    {
+      "word": "yeah",
+      "count": 42
+    },
+    {
+      "word": "werewolf",
+      "count": 41
+    },
+    {
+      "word": "okay",
+      "count": 33
+    },
+    {
+      "word": "is",
+      "count": 33
+    },
+    {
+      "word": "just",
+      "count": 32
+    },
+    {
+      "word": "this",
+      "count": 32
+    },
+    {
+      "word": "because",
+      "count": 32
+    },
+    {
+      "word": "of",
+      "count": 28
+    },
+    {
+      "word": "it",
+      "count": 28
+    },
+    {
+      "word": "are",
+      "count": 27
+    },
+    {
+      "word": "if",
+      "count": 26
+    },
+    {
+      "word": "we",
+      "count": 26
+    },
+    {
+      "word": "have",
+      "count": 25
+    },
+    {
+      "word": "you're",
+      "count": 25
+    },
+    {
+      "word": "tanner",
+      "count": 24
+    },
+    {
+      "word": "don't",
+      "count": 24
+    },
+    {
+      "word": "me",
+      "count": 23
+    },
+    {
+      "word": "were",
+      "count": 22
+    }
+  ]
+}

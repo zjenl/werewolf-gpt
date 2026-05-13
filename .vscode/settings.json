@@ -1,4 +1,5 @@
 {
     "chatgpt.openOnStartup": true,
-    "workbench.colorTheme": "Cursor Light"
+    "workbench.colorTheme": "Cursor Light",
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
 }

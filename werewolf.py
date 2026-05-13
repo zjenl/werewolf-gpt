@@ -429,7 +429,7 @@ class SilentRenderingEngine:
 
 class Game:
 
-    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False, structured_werewolf_persuasion=False, personality_aware_werewolf_persuasion=False):
+    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False, structured_werewolf_persuasion=False, personality_aware_werewolf_persuasion=False, leader_prior_personality_werewolf_persuasion=False):
         self.player_count = player_count
         self.discussion_depth = discussion_depth
         self.card_list = None
@@ -444,6 +444,7 @@ class Game:
         self.targeted_werewolf_persuasion = targeted_werewolf_persuasion
         self.structured_werewolf_persuasion = structured_werewolf_persuasion
         self.personality_aware_werewolf_persuasion = personality_aware_werewolf_persuasion
+        self.leader_prior_personality_werewolf_persuasion = leader_prior_personality_werewolf_persuasion
 
         if silent:
             self.rendering_engine = SilentRenderingEngine()
@@ -515,6 +516,7 @@ class Game:
             self.targeted_werewolf_persuasion
             or self.structured_werewolf_persuasion
             or self.personality_aware_werewolf_persuasion
+            or self.leader_prior_personality_werewolf_persuasion
         )
         if not uses_werewolf_persuasion or player.card != 'Werewolf':
             return default_day_prompt
@@ -536,6 +538,8 @@ class Game:
         prompt_file = 'prompts/werewolf_targeted_day.txt'
         if self.structured_werewolf_persuasion:
             prompt_file = 'prompts/werewolf_structured_targeted_day.txt'
+        elif self.leader_prior_personality_werewolf_persuasion:
+            prompt_file = 'prompts/werewolf_personality_leader_prior_day.txt'
         elif self.personality_aware_werewolf_persuasion:
             prompt_file = 'prompts/werewolf_personality_aware_day.txt'
 
@@ -904,6 +908,7 @@ class Game:
             'targeted_werewolf_persuasion': self.targeted_werewolf_persuasion,
             'structured_werewolf_persuasion': self.structured_werewolf_persuasion,
             'personality_aware_werewolf_persuasion': self.personality_aware_werewolf_persuasion,
+            'leader_prior_personality_werewolf_persuasion': self.leader_prior_personality_werewolf_persuasion,
             'votes': votes,
             'players': [
                 {
@@ -936,7 +941,7 @@ def write_json_file(json_file, payload):
         json.dump(payload, f, indent=2)
 
 
-def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion):
+def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, leader_prior_personality_werewolf_persuasion):
     game = Game(
         player_count=player_count,
         discussion_depth=discussion_depth,
@@ -944,7 +949,8 @@ def run_batch_game(game_number, player_count, discussion_depth, model, targeted_
         silent=True,
         targeted_werewolf_persuasion=targeted_werewolf_persuasion,
         structured_werewolf_persuasion=structured_werewolf_persuasion,
-        personality_aware_werewolf_persuasion=personality_aware_werewolf_persuasion
+        personality_aware_werewolf_persuasion=personality_aware_werewolf_persuasion,
+        leader_prior_personality_werewolf_persuasion=leader_prior_personality_werewolf_persuasion
     )
     result = game.play()
     result['game_number'] = game_number
@@ -972,7 +978,7 @@ def record_batch_result(payload, games_json, result, game_json, results_file, ga
     write_json_file(games_json_file, games_json)
 
 
-def run_batch(player_count, discussion_depth, model_mode, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, parallel_games):
+def run_batch(player_count, discussion_depth, model_mode, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, parallel_games):
     payload = {
         'summary': {
             'model_mode': model_mode,
@@ -982,6 +988,7 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
             'targeted_werewolf_persuasion': targeted_werewolf_persuasion,
             'structured_werewolf_persuasion': structured_werewolf_persuasion,
             'personality_aware_werewolf_persuasion': personality_aware_werewolf_persuasion,
+            'leader_prior_personality_werewolf_persuasion': leader_prior_personality_werewolf_persuasion,
             'parallel_games': parallel_games,
             'games_requested': game_count,
             'games_completed': 0,
@@ -997,7 +1004,7 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
     if parallel_games <= 1:
         for game_number in range(1, game_count + 1):
             try:
-                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion)
+                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, leader_prior_personality_werewolf_persuasion)
             except Exception as e:
                 result = {
                     'game_number': game_number,
@@ -1016,7 +1023,7 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
         finished = 0
         with ThreadPoolExecutor(max_workers=parallel_games) as executor:
             futures = {
-                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion): game_number
+                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, leader_prior_personality_werewolf_persuasion): game_number
                 for game_number in range(1, game_count + 1)
             }
 
@@ -1055,9 +1062,10 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
 @click.option('--targeted-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze candidates and target the highest-utility player during day discussion')
 @click.option('--structured-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players target the current highest-influence player and adapt persuasion to inferred Big Five traits')
 @click.option('--personality-aware-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze Big Five traits and adapt persuasion without being told to target a specific player')
+@click.option('--leader-prior-personality-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players use human-game priors about influenceable discussion leaders on top of personality-aware persuasion')
 @click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
-def play_game(player_count, discussion_depth, model_mode, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, use_gpt4, render_markdown):
+def play_game(player_count, discussion_depth, model_mode, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, use_gpt4, render_markdown):
     model_config = resolve_model_config(model_mode, model, api_base_url)
     model = model_config['model']
     api_base_url = model_config['api_base_url']
@@ -1075,7 +1083,7 @@ def play_game(player_count, discussion_depth, model_mode, model, api_base_url, g
 
     if games > 1:
         parallel_games = min(parallel_games, games)
-        summary = run_batch(player_count, discussion_depth, model_mode, model, games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, parallel_games)
+        summary = run_batch(player_count, discussion_depth, model_mode, model, games, results_file, games_json_file, targeted_werewolf_persuasion, structured_werewolf_persuasion, personality_aware_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, parallel_games)
         click.echo()
         click.echo(f'Batch complete. Results saved to {results_file}')
         click.echo(f'Generated game dialogue saved to {games_json_file}')
@@ -1092,7 +1100,8 @@ def play_game(player_count, discussion_depth, model_mode, model, api_base_url, g
             render_markdown=render_markdown,
             targeted_werewolf_persuasion=targeted_werewolf_persuasion,
             structured_werewolf_persuasion=structured_werewolf_persuasion,
-            personality_aware_werewolf_persuasion=personality_aware_werewolf_persuasion
+            personality_aware_werewolf_persuasion=personality_aware_werewolf_persuasion,
+            leader_prior_personality_werewolf_persuasion=leader_prior_personality_werewolf_persuasion
         )
         game.play()
 

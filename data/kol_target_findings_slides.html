@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KOL and Werewolf Targeting Findings</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --text: #142033;
+      --muted: #5e6b84;
+      --accent: #8b1e3f;
+      --accent-2: #2b6cb0;
+      --accent-3: #2f855a;
+      --border: #d8e0ee;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+
+    .deck {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      padding: 42px 56px 56px;
+      gap: 24px;
+      background: linear-gradient(180deg, #f8faff 0%, #eef3fb 100%);
+    }
+
+    .slide.active {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 20px;
+    }
+
+    h1, h2 {
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      line-height: 1.05;
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      line-height: 1.1;
+    }
+
+    .subtitle, .slide-num, .footnote {
+      color: var(--muted);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      max-width: 52rem;
+      line-height: 1.45;
+    }
+
+    .content {
+      display: grid;
+      gap: 22px;
+      min-height: 0;
+    }
+
+    .two-col {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .three-metric {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      box-shadow: 0 8px 24px rgba(19, 33, 63, 0.06);
+      min-width: 0;
+    }
+
+    .metric {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .metric .label {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .metric .value {
+      font-size: 2.1rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .metric .context {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      line-height: 1.5;
+      font-size: 1.02rem;
+    }
+
+    li + li {
+      margin-top: 0.5rem;
+    }
+
+    .big-callout {
+      font-size: 1.5rem;
+      line-height: 1.3;
+      font-weight: 650;
+      color: var(--accent);
+    }
+
+    .chart {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid #e3e8f2;
+      background: #fff;
+    }
+
+    .caption {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.35;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.98rem;
+    }
+
+    .table th,
+    .table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid #e5eaf4;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-size: 0.9rem;
+    }
+
+    .kbd {
+      display: inline-block;
+      padding: 2px 8px;
+      border: 1px solid #cfd7e6;
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media print {
+      body { overflow: visible; }
+      .deck { height: auto; }
+      .slide, .slide.active {
+        display: grid;
+        min-height: 100vh;
+        page-break-after: always;
+      }
+      .footer .hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide active">
+      <div class="title-row">
+        <div>
+          <h1>KOLs Are the Main Werewolf Targets</h1>
+          <div class="subtitle">Findings from 50 labeled One Night Ultimate Werewolf games. Analysis focuses on how discussion leadership and key opinion leader status relate to Werewolf persuasion targeting.</div>
+        </div>
+        <div class="slide-num">1 / 5</div>
+      </div>
+      <div class="content three-metric">
+        <div class="panel metric">
+          <div class="label">Games analyzed</div>
+          <div class="value">50</div>
+          <div class="context">All games contain labeled persuasion windows and player-level influence profiles.</div>
+        </div>
+        <div class="panel metric">
+          <div class="label">Pearson correlation</div>
+          <div class="value">0.753</div>
+          <div class="context">Discussion leader count and Werewolf target count rise together strongly.</div>
+        </div>
+        <div class="panel metric">
+          <div class="label">KOL rank-1 targeting</div>
+          <div class="value">76%</div>
+          <div class="context">In 38 of 50 games, the KOL was the top-ranked Werewolf target.</div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="footnote">Dataset: <code>filtered_labeled_games_50.json</code></div>
+        <div class="hint">Use <span class="kbd">←</span> <span class="kbd">→</span> or space to move through slides.</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="title-row">
+        <div>
+          <h2>How the Analysis Was Structured</h2>
+          <div class="subtitle">We flattened the labeled games into player-level, window-level, and game-level tables so the KOL-target relationship could be tested from multiple angles.</div>
+        </div>
+        <div class="slide-num">2 / 5</div>
+      </div>
+      <div class="content two-col">
+        <div class="panel">
+          <div class="big-callout">Main hypothesis</div>
+          <ul>
+            <li>Werewolves do not distribute persuasion evenly across the table.</li>
+            <li>They disproportionately orient their persuasion toward the current discussion leader or KOL.</li>
+            <li>If that is true, players with higher <code>discussion_leader_count</code> should also have higher <code>werewolf_target_count</code>.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>Key Variables</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Player</td>
+                <td>discussion_leader_count, influence, werewolf_target_count, werewolf_target_rank</td>
+              </tr>
+              <tr>
+                <td>Window</td>
+                <td>discussion_leader, targeted_player, target_is_kol, target_is_leader</td>
+              </tr>
+              <tr>
+                <td>Game</td>
+                <td>kol_player, kol_target_rank, windows_targeting_kol, leader-target overlap rate</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="caption">The analysis treats KOL as a game-level emergent role derived from discussion leadership rather than a fixed role card.</div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="footnote">221 player rows and multiple labeled persuasion windows per game.</div>
+        <div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="title-row">
+        <div>
+          <h2>Leadership and Targeting Move Together</h2>
+          <div class="subtitle">The core player-level pattern is a strong positive relationship between how often a player leads discussion and how often the Werewolf targets them.</div>
+        </div>
+        <div class="slide-num">3 / 5</div>
+      </div>
+      <div class="content two-col">
+        <div class="panel">
+          <img class="chart" src="./kol_target_analysis_50/leader_count_vs_target_count.svg" alt="Scatter plot of discussion leader count versus werewolf target count" />
+          <div class="caption">Figure 1. The fitted trend line and clustered high-value points show that players who lead discussion more often are also more frequently chosen as Werewolf targets.</div>
+        </div>
+        <div class="panel">
+          <div class="big-callout">Interpretation</div>
+          <ul>
+            <li><strong>Pearson r = 0.753</strong> and <strong>Spearman ρ = 0.783</strong>, which is a strong positive association.</li>
+            <li>This is consistent with a strategy where Werewolves concentrate persuasion on players who can shape the rest of the table.</li>
+            <li>The relationship is not just linear noise: rank correlation is similarly high, suggesting the pattern is robust even when target counts are not normally distributed.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="footnote">Player-level evidence: discussion leadership is a strong predictor of Werewolf targeting frequency.</div>
+        <div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="title-row">
+        <div>
+          <h2>KOLs Receive Far More Werewolf Attention</h2>
+          <div class="subtitle">Influence class provides a clean aggregate picture: KOLs are targeted much more often than normal or low-influence players.</div>
+        </div>
+        <div class="slide-num">4 / 5</div>
+      </div>
+      <div class="content two-col">
+        <div class="panel">
+          <img class="chart" src="./kol_target_analysis_50/avg_target_count_by_influence.svg" alt="Average target count by influence class" />
+          <div class="caption">Figure 2. Average Werewolf target count by influence class.</div>
+        </div>
+        <div class="panel">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Influence class</th>
+                <th>Average target count</th>
+                <th>Median target count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>KOL</td>
+                <td>4.72</td>
+                <td>4.0</td>
+              </tr>
+              <tr>
+                <td>Normal</td>
+                <td>2.04</td>
+                <td>2.0</td>
+              </tr>
+              <tr>
+                <td>Low influence</td>
+                <td>0.32</td>
+                <td>0.0</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="caption">KOLs are targeted more than twice as often as normal players and dramatically more often than low-influence players.</div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="footnote">Substantive effect size: influence is not a marginal factor; it strongly reorganizes where persuasion is directed.</div>
+        <div></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="title-row">
+        <div>
+          <h2>Game-Level Evidence and Takeaways</h2>
+          <div class="subtitle">The KOL is usually the highest-priority Werewolf target, and discussion-leader targeting appears repeatedly across games rather than in a few isolated cases.</div>
+        </div>
+        <div class="slide-num">5 / 5</div>
+      </div>
+      <div class="content two-col">
+        <div class="panel">
+          <img class="chart" src="./kol_target_analysis_50/kol_target_rank_distribution.svg" alt="KOL target rank distribution" />
+          <div class="caption">Figure 3. In 76% of games, the KOL had target rank 1. Only one game placed the KOL at rank 3.</div>
+          <img class="chart" src="./kol_target_analysis_50/leader_target_overlap_rate.svg" alt="Leader target overlap rate histogram" style="margin-top:16px;" />
+          <div class="caption">Figure 4. Across games, many persuasion windows directly align the targeted player with the current discussion leader.</div>
+        </div>
+        <div class="panel">
+          <div class="big-callout">Takeaways for the paper</div>
+          <ul>
+            <li><strong>KOL targeting is a dominant Werewolf strategy.</strong> In most games, the KOL is the top-ranked persuasion target.</li>
+            <li><strong>Leadership is a behavioral cue for strategic pressure.</strong> The stronger a player’s leadership signal, the more likely the Werewolf is to orient persuasion toward them.</li>
+            <li><strong>Windows often collapse target and leader.</strong> The targeted player is frequently the same person who is currently steering interpretation at the table.</li>
+          </ul>
+          <div class="caption">This supports a persuasion model where Werewolves try to influence the player most capable of shifting collective belief, rather than appealing uniformly to the group.</div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="footnote">Recommended headline: “Werewolves preferentially target key opinion leaders rather than the table at large.”</div>
+        <div></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let index = 0;
+
+    function showSlide(nextIndex) {
+      index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+    }
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown') {
+        event.preventDefault();
+        showSlide(index + 1);
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        showSlide(index - 1);
+      }
+      if (event.key === 'Home') {
+        showSlide(0);
+      }
+      if (event.key === 'End') {
+        showSlide(slides.length - 1);
+      }
+    });
+
+    window.addEventListener('click', (event) => {
+      if (event.target.closest('a')) return;
+      showSlide(index + 1);
+    });
+  </script>
+</body>
+</html>
