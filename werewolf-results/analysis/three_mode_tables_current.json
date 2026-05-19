@@ -1,0 +1,246 @@
+{
+  "runs_used": [
+    {
+      "path": "baseline-100-1.json",
+      "model_family": "gpt5_nano",
+      "mode": "normal",
+      "werewolf_win_rate": 0.48,
+      "avg_votes_on_werewolves": 2.09,
+      "avg_werewolf_vote_share": 0.41800000000000004,
+      "games_file": "werewolf-results/baseline-100-games-1.json"
+    },
+    {
+      "path": "baseline-100.json",
+      "model_family": "gpt5_nano",
+      "mode": "normal",
+      "werewolf_win_rate": 0.4,
+      "avg_votes_on_werewolves": 2.18,
+      "avg_werewolf_vote_share": 0.436,
+      "games_file": "werewolf-results/baseline-100-games.json"
+    },
+    {
+      "path": "gemini-100-1.json",
+      "model_family": "gemini",
+      "mode": "normal",
+      "werewolf_win_rate": 0.57,
+      "avg_votes_on_werewolves": 1.92,
+      "avg_werewolf_vote_share": 0.384,
+      "games_file": "werewolf-results/gemini-100-games-1.json"
+    },
+    {
+      "path": "gemini-100.json",
+      "model_family": "gemini",
+      "mode": "normal",
+      "werewolf_win_rate": 0.52,
+      "avg_votes_on_werewolves": 1.97,
+      "avg_werewolf_vote_share": 0.394,
+      "games_file": "werewolf-results/gemini-100-games.json"
+    },
+    {
+      "path": "gemini-prior-100-1.json",
+      "model_family": "gemini",
+      "mode": "prior",
+      "werewolf_win_rate": 0.7,
+      "avg_votes_on_werewolves": 1.4,
+      "avg_werewolf_vote_share": 0.28,
+      "games_file": "werewolf-results/gemini-prior-100-games-1.json"
+    },
+    {
+      "path": "gemini-prior-100.json",
+      "model_family": "gemini",
+      "mode": "prior",
+      "werewolf_win_rate": 0.75,
+      "avg_votes_on_werewolves": 1.21,
+      "avg_werewolf_vote_share": 0.24200000000000002,
+      "games_file": "werewolf-results/gemini-prior-100-games.json"
+    },
+    {
+      "path": "gemini-targeted-100-1.json",
+      "model_family": "gemini",
+      "mode": "targeted",
+      "werewolf_win_rate": 0.6767676767676768,
+      "avg_votes_on_werewolves": 1.505050505050505,
+      "avg_werewolf_vote_share": 0.301010101010101,
+      "games_file": "werewolf-results/gemini-targeted-100-games-1.json"
+    },
+    {
+      "path": "gemini-targeted-100.json",
+      "model_family": "gemini",
+      "mode": "targeted",
+      "werewolf_win_rate": 0.6442307692307693,
+      "avg_votes_on_werewolves": 1.6634615384615385,
+      "avg_werewolf_vote_share": 0.33269230769230773,
+      "games_file": "werewolf-results/gemini-targeted-100-games.json"
+    },
+    {
+      "path": "prior-100-1.json",
+      "model_family": "gpt5_nano",
+      "mode": "prior",
+      "werewolf_win_rate": 0.65,
+      "avg_votes_on_werewolves": 1.43,
+      "avg_werewolf_vote_share": 0.28600000000000003,
+      "games_file": "werewolf-results/prior-100-games-1.json"
+    },
+    {
+      "path": "prior-100.json",
+      "model_family": "gpt5_nano",
+      "mode": "prior",
+      "werewolf_win_rate": 0.6,
+      "avg_votes_on_werewolves": 1.47,
+      "avg_werewolf_vote_share": 0.294,
+      "games_file": "werewolf-results/prior-100-games.json"
+    },
+    {
+      "path": "qwen-100-1.json",
+      "model_family": "qwen",
+      "mode": "normal",
+      "werewolf_win_rate": 0.68,
+      "avg_votes_on_werewolves": 1.29,
+      "avg_werewolf_vote_share": 0.258,
+      "games_file": "werewolf-results/qwen-100-games-1.json"
+    },
+    {
+      "path": "qwen-100.json",
+      "model_family": "qwen",
+      "mode": "normal",
+      "werewolf_win_rate": 0.77,
+      "avg_votes_on_werewolves": 0.96,
+      "avg_werewolf_vote_share": 0.192,
+      "games_file": "werewolf-results/qwen-100-games.json"
+    },
+    {
+      "path": "qwen-prior-100-1.json",
+      "model_family": "qwen",
+      "mode": "prior",
+      "werewolf_win_rate": 0.8571428571428571,
+      "avg_votes_on_werewolves": 0.6964285714285714,
+      "avg_werewolf_vote_share": 0.1392857142857143,
+      "games_file": "werewolf-results/qwen-prior-100-games-1.json"
+    },
+    {
+      "path": "qwen-prior-100-2.json",
+      "model_family": "qwen",
+      "mode": "prior",
+      "werewolf_win_rate": 0.7857142857142857,
+      "avg_votes_on_werewolves": 0.7619047619047619,
+      "avg_werewolf_vote_share": 0.1523809523809524,
+      "games_file": "werewolf-results/qwen-prior-100-games-2.json"
+    },
+    {
+      "path": "qwen-prior-100.json",
+      "model_family": "qwen",
+      "mode": "prior",
+      "werewolf_win_rate": 0.85,
+      "avg_votes_on_werewolves": 0.6833333333333333,
+      "avg_werewolf_vote_share": 0.13666666666666666,
+      "games_file": "werewolf-results/qwen-prior-100-games.json"
+    },
+    {
+      "path": "qwen-targeted-100-1.json",
+      "model_family": "qwen",
+      "mode": "targeted",
+      "werewolf_win_rate": 0.67,
+      "avg_votes_on_werewolves": 1.21,
+      "avg_werewolf_vote_share": 0.242,
+      "games_file": "werewolf-results/qwen-targeted-100-games-1.json"
+    },
+    {
+      "path": "qwen-targeted-100.json",
+      "model_family": "qwen",
+      "mode": "targeted",
+      "werewolf_win_rate": 0.72,
+      "avg_votes_on_werewolves": 1.14,
+      "avg_werewolf_vote_share": 0.228,
+      "games_file": "werewolf-results/qwen-targeted-100-games.json"
+    },
+    {
+      "path": "target-100-1.json",
+      "model_family": "gpt5_nano",
+      "mode": "targeted",
+      "werewolf_win_rate": 0.63,
+      "avg_votes_on_werewolves": 1.71,
+      "avg_werewolf_vote_share": 0.342,
+      "games_file": "werewolf-results/target-100-games-1.json"
+    },
+    {
+      "path": "target-100.json",
+      "model_family": "gpt5_nano",
+      "mode": "targeted",
+      "werewolf_win_rate": 0.57,
+      "avg_votes_on_werewolves": 1.77,
+      "avg_werewolf_vote_share": 0.354,
+      "games_file": "werewolf-results/target-100-games.json"
+    },
+    {
+      "path": "targeted-100.json",
+      "model_family": "gpt5_nano",
+      "mode": "normal",
+      "werewolf_win_rate": 0.48,
+      "avg_votes_on_werewolves": 2.09,
+      "avg_werewolf_vote_share": 0.41800000000000004,
+      "games_file": "werewolf-results/targeted-100-games.json"
+    }
+  ],
+  "tables": {
+    "werewolf_win_rate": [
+      {
+        "model": "gpt5_nano",
+        "normal": 0.4533,
+        "targeted": 0.6,
+        "prior": 0.625
+      },
+      {
+        "model": "gemini",
+        "normal": 0.545,
+        "targeted": 0.6605,
+        "prior": 0.725
+      },
+      {
+        "model": "qwen",
+        "normal": 0.725,
+        "targeted": 0.695,
+        "prior": 0.831
+      }
+    ],
+    "avg_votes_on_werewolves": [
+      {
+        "model": "gpt5_nano",
+        "normal": 2.12,
+        "targeted": 1.74,
+        "prior": 1.45
+      },
+      {
+        "model": "gemini",
+        "normal": 1.945,
+        "targeted": 1.5843,
+        "prior": 1.305
+      },
+      {
+        "model": "qwen",
+        "normal": 1.125,
+        "targeted": 1.175,
+        "prior": 0.7139
+      }
+    ],
+    "avg_werewolf_vote_share": [
+      {
+        "model": "gpt5_nano",
+        "normal": 0.424,
+        "targeted": 0.348,
+        "prior": 0.29
+      },
+      {
+        "model": "gemini",
+        "normal": 0.389,
+        "targeted": 0.3169,
+        "prior": 0.261
+      },
+      {
+        "model": "qwen",
+        "normal": 0.225,
+        "targeted": 0.235,
+        "prior": 0.1428
+      }
+    ]
+  }
+}

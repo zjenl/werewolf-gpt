@@ -9,6 +9,20 @@ def safe_mean(values):
     return mean(values) if values else 0.0
 
 
+def quantile(sorted_values, p):
+    if not sorted_values:
+        return 0.0
+    if len(sorted_values) == 1:
+        return float(sorted_values[0])
+    index = (len(sorted_values) - 1) * p
+    lower = int(math.floor(index))
+    upper = int(math.ceil(index))
+    if lower == upper:
+        return float(sorted_values[lower])
+    weight = index - lower
+    return sorted_values[lower] * (1 - weight) + sorted_values[upper] * weight
+
+
 def rankdata(values):
     indexed = sorted(enumerate(values), key=lambda item: item[1])
     ranks = [0.0] * len(values)
@@ -198,6 +212,30 @@ def svg_circle(cx, cy, r, fill, stroke="none", opacity=0.85):
     return f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{fill}" stroke="{stroke}" opacity="{opacity}"/>'
 
 
+def box_stats(values):
+    if not values:
+        return None
+    sorted_values = sorted(values)
+    q1 = quantile(sorted_values, 0.25)
+    med = quantile(sorted_values, 0.5)
+    q3 = quantile(sorted_values, 0.75)
+    iqr = q3 - q1
+    lower_bound = q1 - 1.5 * iqr
+    upper_bound = q3 + 1.5 * iqr
+    whisker_low = next((value for value in sorted_values if value >= lower_bound), sorted_values[0])
+    whisker_high = next((value for value in reversed(sorted_values) if value <= upper_bound), sorted_values[-1])
+    outliers = [value for value in sorted_values if value < whisker_low or value > whisker_high]
+    return {
+        "q1": q1,
+        "median": med,
+        "q3": q3,
+        "iqr": iqr,
+        "whisker_low": whisker_low,
+        "whisker_high": whisker_high,
+        "outliers": outliers,
+    }
+
+
 def plot_scatter(player_rows, output_dir):
     width, height = 800, 520
     left, right, top, bottom = 80, 30, 50, 70
@@ -353,6 +391,84 @@ def plot_overlap_histogram(game_rows, output_dir):
     return path
 
 
+def plot_target_count_boxplot(player_rows, output_dir):
+    width, height = 820, 520
+    left, right, top, bottom = 90, 40, 55, 90
+    plot_w = width - left - right
+    plot_h = height - top - bottom
+    order = ["kol", "normal", "low_influence"]
+    labels = [label for label in order if any(row["influence"] == label for row in player_rows)]
+    groups = {
+        label: [row["werewolf_target_count"] for row in player_rows if row["influence"] == label]
+        for label in labels
+    }
+    max_y = max((max(values) for values in groups.values() if values), default=1)
+    colors = {"kol": "#d95f5f", "normal": "#5b8ff9", "low_influence": "#53b86c"}
+    stroke_colors = {"kol": "#a83f3f", "normal": "#2f5fbf", "low_influence": "#2f7a43"}
+
+    def scale_y(value):
+        return top + plot_h - (0 if max_y == 0 else (value / max_y) * plot_h)
+
+    elements = [
+        svg_text(width / 2, 28, "Werewolf Target Count by Influence Category", size=18, anchor="middle", weight="bold"),
+        svg_text(width / 2, 46, "Box plot with median and IQR labels for KOL, normal, and low-influence players", size=12, anchor="middle"),
+        svg_line(left, top, left, top + plot_h),
+        svg_line(left, top + plot_h, left + plot_w, top + plot_h),
+    ]
+
+    for tick in range(max_y + 1):
+        y = scale_y(tick)
+        elements.append(svg_line(left, y, left + plot_w, y, stroke="#e5e7eb", width=1))
+        elements.append(svg_line(left - 6, y, left, y, stroke="#555", width=1))
+        elements.append(svg_text(left - 12, y + 4, tick, size=11, anchor="end"))
+
+    gap = plot_w / max(len(labels), 1)
+    for idx, label in enumerate(labels):
+        center_x = left + gap * idx + gap / 2
+        values = sorted(groups[label])
+        if not values:
+            continue
+        fill = colors[label]
+
+        stats = box_stats(values)
+        if stats:
+            q1_y = scale_y(stats["q1"])
+            median_y = scale_y(stats["median"])
+            q3_y = scale_y(stats["q3"])
+            whisker_low_y = scale_y(stats["whisker_low"])
+            whisker_high_y = scale_y(stats["whisker_high"])
+            box_left = center_x - 28
+            box_right = center_x + 28
+            stroke = stroke_colors[label]
+            fill = colors[label]
+            elements.append(svg_line(center_x, whisker_high_y, center_x, q3_y, stroke=stroke, width=2))
+            elements.append(svg_line(center_x, q1_y, center_x, whisker_low_y, stroke=stroke, width=2))
+            elements.append(svg_line(center_x - 14, whisker_high_y, center_x + 14, whisker_high_y, stroke=stroke, width=2))
+            elements.append(svg_line(center_x - 14, whisker_low_y, center_x + 14, whisker_low_y, stroke=stroke, width=2))
+            elements.append(svg_rect(box_left, q3_y, box_right - box_left, max(q1_y - q3_y, 2), fill, stroke=stroke))
+            elements.append(svg_line(center_x - 48, median_y, center_x + 48, median_y, stroke="#ffffff", width=3))
+            elements.append(svg_line(center_x - 36, q1_y, center_x + 36, q1_y, stroke=stroke, width=1))
+            elements.append(svg_line(center_x - 36, q3_y, center_x + 36, q3_y, stroke=stroke, width=1))
+
+        label_y = top + 18
+        stat_y = top + 36
+        count_y = top + 52
+        elements.append(svg_text(center_x, label_y, label.replace("_", " "), size=12, anchor="middle", weight="bold"))
+        elements.append(svg_text(center_x, stat_y, f"med={stats['median']:.1f}, IQR={stats['iqr']:.1f}", size=10, anchor="middle"))
+        elements.append(svg_text(center_x, count_y, f"n={len(groups[label])}", size=10, anchor="middle"))
+        # soft underline to visually tie label to category color
+        elements.append(svg_line(center_x - 34, label_y + 6, center_x + 34, label_y + 6, stroke=stroke_colors[label], width=3))
+        if stats:
+            pass
+
+    elements.append(svg_text(width / 2, height - 16, "Influence category", size=13, anchor="middle"))
+    elements.append(svg_text(18, height / 2, "Werewolf target count", size=13, anchor="middle"))
+
+    path = os.path.join(output_dir, "target_count_boxplot_by_influence.svg")
+    write_svg(path, width, height, elements)
+    return path
+
+
 def ensure_dir(path):
     os.makedirs(path, exist_ok=True)
 
@@ -378,6 +494,7 @@ def main():
     influence_plot = plot_avg_target_by_influence(summary, args.output_dir)
     rank_plot = plot_kol_rank_distribution(summary, args.output_dir)
     overlap_plot = plot_overlap_histogram(game_rows, args.output_dir)
+    strip_plot = plot_target_count_boxplot(player_rows, args.output_dir)
 
     print(f"Saved summary JSON: {summary_json}")
     print(f"Saved summary text: {summary_txt}")
@@ -385,6 +502,7 @@ def main():
     print(f"Saved plot: {influence_plot}")
     print(f"Saved plot: {rank_plot}")
     print(f"Saved plot: {overlap_plot}")
+    print(f"Saved plot: {strip_plot}")
 
 
 if __name__ == "__main__":

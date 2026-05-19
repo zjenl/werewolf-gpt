@@ -1,4 +1,0 @@
-model_family,baseline,targeted,structured,personality_aware
-gemini,0.545,0.6605,0.6596,
-gpt5_nano,0.4533,0.6,0.6,
-qwen,0.725,0.695,0.77,

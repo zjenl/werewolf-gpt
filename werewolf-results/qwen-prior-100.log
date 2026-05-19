@@ -1,0 +1,149 @@
+Game 4/100: completed (1/100 finished)
+Game 5/100: completed (2/100 finished)
+Game 3/100: completed (3/100 finished)
+Game 2/100: completed (4/100 finished)
+Game 1/100: completed (5/100 finished)
+Game 7/100: completed (6/100 finished)
+Game 6/100: completed (7/100 finished)
+Game 8/100: completed (8/100 finished)
+Game 9/100: completed (9/100 finished)
+Game 13/100: completed (10/100 finished)
+Game 11/100: completed (11/100 finished)
+Game 10/100: completed (12/100 finished)
+Game 12/100: completed (13/100 finished)
+Game 15/100: completed (14/100 finished)
+Game 17/100: completed (15/100 finished)
+Game 16/100: completed (16/100 finished)
+No text returned from model.
+Game 19 error: 'NoneType' object has no attribute 'get'
+Game 19/100: failed (17/100 finished)
+Game 18/100: completed (18/100 finished)
+Game 14/100: completed (19/100 finished)
+Game 21/100: completed (20/100 finished)
+Game 22/100: completed (21/100 finished)
+Game 20/100: completed (22/100 finished)
+Game 23/100: completed (23/100 finished)
+Game 24/100: completed (24/100 finished)
+Game 26/100: completed (25/100 finished)
+Game 25/100: completed (26/100 finished)
+Game 29/100: completed (27/100 finished)
+Game 27/100: completed (28/100 finished)
+Game 28/100: completed (29/100 finished)
+Game 30/100: completed (30/100 finished)
+Game 32/100: completed (31/100 finished)
+Game 31/100: completed (32/100 finished)
+Game 36/100: completed (33/100 finished)
+Game 33/100: completed (34/100 finished)
+Game 34/100: completed (35/100 finished)
+Game 35/100: completed (36/100 finished)
+Game 37/100: completed (37/100 finished)
+Game 38/100: completed (38/100 finished)
+Game 39/100: completed (39/100 finished)
+Game 41/100: completed (40/100 finished)
+Game 40/100: completed (41/100 finished)
+Game 42/100: completed (42/100 finished)
+Game 44/100: completed (43/100 finished)
+Game 43/100: completed (44/100 finished)
+Game 45/100: completed (45/100 finished)
+Game 48/100: completed (46/100 finished)
+Game 47/100: completed (47/100 finished)
+Game 46/100: completed (48/100 finished)
+Game 50/100: completed (49/100 finished)
+Game 49/100: completed (50/100 finished)
+Game 51/100: completed (51/100 finished)
+Game 52/100: completed (52/100 finished)
+Game 53/100: completed (53/100 finished)
+Game 54/100: completed (54/100 finished)
+Game 55/100: completed (55/100 finished)
+Game 56/100: completed (56/100 finished)
+Game 59/100: completed (57/100 finished)
+Game 57/100: completed (58/100 finished)
+Game 60/100: completed (59/100 finished)
+Game 58/100: completed (60/100 finished)
+Game 62/100: completed (61/100 finished)
+Game 61 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 53657. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 61/100: failed (62/100 finished)
+Game 65 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 49934. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 65/100: failed (63/100 finished)
+Game 63 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 49934. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 63/100: failed (64/100 finished)
+Game 67 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 49934. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 67/100: failed (65/100 finished)
+Game 66 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 49934. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 66/100: failed (66/100 finished)
+Game 64 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 47817. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 64/100: failed (67/100 finished)
+Game 68 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 47817. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 68/100: failed (68/100 finished)
+Game 69 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 47817. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 69/100: failed (69/100 finished)
+Game 70 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 49934. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 70/100: failed (70/100 finished)
+Game 71 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 47817. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 71/100: failed (71/100 finished)
+Game 72 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 49934. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 72/100: failed (72/100 finished)
+Game 73 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 73/100: failed (73/100 finished)
+Game 74 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 74/100: failed (74/100 finished)
+Game 75 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 75/100: failed (75/100 finished)
+Game 76 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 76/100: failed (76/100 finished)
+Game 77 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 77/100: failed (77/100 finished)
+Game 78 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 78/100: failed (78/100 finished)
+Game 79 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 79/100: failed (79/100 finished)
+Game 80 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 80/100: failed (80/100 finished)
+Game 81 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 81/100: failed (81/100 finished)
+Game 82 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 40459. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 82/100: failed (82/100 finished)
+Game 83 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 83/100: failed (83/100 finished)
+Game 84 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 84/100: failed (84/100 finished)
+Game 85 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 85/100: failed (85/100 finished)
+Game 86 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 86/100: failed (86/100 finished)
+Game 87 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 87/100: failed (87/100 finished)
+Game 88 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 88/100: failed (88/100 finished)
+Game 89 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 89/100: failed (89/100 finished)
+Game 90 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 90/100: failed (90/100 finished)
+Game 91 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 91/100: failed (91/100 finished)
+Game 92 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 92/100: failed (92/100 finished)
+Game 93 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 93/100: failed (93/100 finished)
+Game 94 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 94/100: failed (94/100 finished)
+Game 95 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 95/100: failed (95/100 finished)
+Game 96 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 96/100: failed (96/100 finished)
+Game 97 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 97/100: failed (97/100 finished)
+Game 98 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 98/100: failed (98/100 finished)
+Game 99 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 99/100: failed (99/100 finished)
+Game 100 error: Error code: 402 - {'error': {'message': 'This request requires more credits, or fewer max_tokens. You requested up to 65536 tokens, but can only afford 38595. To increase, visit https://openrouter.ai/settings/credits and add more credits', 'code': 402, 'metadata': {'provider_name': None}}, 'user_id': 'user_3BkOxyqZfJh93n51TGyUsdQ95AH'}
+Game 100/100: failed (100/100 finished)
+
+Batch complete. Results saved to results/qwen-prior-100.json
+Generated game dialogue saved to results/qwen-prior-100-games.json
+Parallel games: 5
+Games completed: 60
+Games failed: 40
+Werewolf wins: 51
+Werewolf win rate: 85.00%

@@ -1,0 +1,4521 @@
+{
+  "summary": {
+    "model_mode": "openai-gpt5-nano",
+    "model": "gpt-5-nano",
+    "player_count": 5,
+    "discussion_depth": 20,
+    "targeted_werewolf_persuasion": false,
+    "structured_werewolf_persuasion": false,
+    "personality_aware_werewolf_persuasion": false,
+    "leader_prior_personality_werewolf_persuasion": true,
+    "parallel_games": 5,
+    "games_requested": 100,
+    "games_completed": 100,
+    "games_failed": 0,
+    "werewolf_wins": 65,
+    "werewolf_win_rate": 0.65,
+    "generated_at": "2026-05-13T16:41:42.183089+00:00"
+  },
+  "games": [
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Viktor was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 1,
+        "Vladimir": 0,
+        "Lucian": 0,
+        "Dracula": 0,
+        "Viktor": 4
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Minion"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Mason"
+        },
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        },
+        {
+          "name": "Dracula",
+          "card": "Seer"
+        },
+        {
+          "name": "Viktor",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 1,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Semira was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Vladimir": 1,
+        "Selene": 1,
+        "Michael": 0,
+        "Semira": 3,
+        "Emil": 0
+      },
+      "players": [
+        {
+          "name": "Vladimir",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Villager"
+        },
+        {
+          "name": "Michael",
+          "card": "Villager"
+        },
+        {
+          "name": "Semira",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Emil",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Werewolf",
+        "Seer"
+      ],
+      "game_number": 2,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Emil was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Emil": 3,
+        "Selene": 1,
+        "Ileana": 0,
+        "Alexia": 0,
+        "Kraven": 1
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Ileana",
+          "card": "Minion"
+        },
+        {
+          "name": "Alexia",
+          "card": "Villager"
+        },
+        {
+          "name": "Kraven",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Werewolf",
+        "Mason"
+      ],
+      "game_number": 3,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Andrei was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexandra": 0,
+        "Radu": 0,
+        "Mircea": 1,
+        "Andrei": 3,
+        "Selene": 1
+      },
+      "players": [
+        {
+          "name": "Alexandra",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Villager"
+        },
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        },
+        {
+          "name": "Andrei",
+          "card": "Minion"
+        },
+        {
+          "name": "Selene",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Werewolf"
+      ],
+      "game_number": 4,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Stefan was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Stefan": 2,
+        "Michael": 1,
+        "Alexia": 0,
+        "Kraven": 1,
+        "Cristina": 1
+      },
+      "players": [
+        {
+          "name": "Stefan",
+          "card": "Seer"
+        },
+        {
+          "name": "Michael",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexia",
+          "card": "Minion"
+        },
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Cristina",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Mason"
+      ],
+      "game_number": 5,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Radu was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Dracula": 1,
+        "Alexandra": 1,
+        "Emil": 1,
+        "Kraven": 0,
+        "Radu": 2
+      },
+      "players": [
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Mason"
+        },
+        {
+          "name": "Emil",
+          "card": "Seer"
+        },
+        {
+          "name": "Kraven",
+          "card": "Mason"
+        },
+        {
+          "name": "Radu",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 6,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dracula was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Mircea": 1,
+        "Alexia": 1,
+        "Emil": 0,
+        "Dracula": 3,
+        "Radu": 0
+      },
+      "players": [
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Emil",
+          "card": "Mason"
+        },
+        {
+          "name": "Dracula",
+          "card": "Seer"
+        },
+        {
+          "name": "Radu",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Mason"
+      ],
+      "game_number": 7,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Kraven was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Michael": 0,
+        "Radu": 0,
+        "Emil": 0,
+        "Semira": 1,
+        "Kraven": 4
+      },
+      "players": [
+        {
+          "name": "Michael",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Mason"
+        },
+        {
+          "name": "Emil",
+          "card": "Mason"
+        },
+        {
+          "name": "Semira",
+          "card": "Villager"
+        },
+        {
+          "name": "Kraven",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Seer",
+        "Minion"
+      ],
+      "game_number": 8,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Stefan was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Cristina": 1,
+        "Alexia": 1,
+        "Stefan": 3,
+        "Vladimir": 0,
+        "Mircea": 0
+      },
+      "players": [
+        {
+          "name": "Cristina",
+          "card": "Minion"
+        },
+        {
+          "name": "Alexia",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Villager"
+      ],
+      "game_number": 9,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Mircea, Semira. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Selene": 0,
+        "Cristina": 0,
+        "Mircea": 2,
+        "Lucian": 1,
+        "Semira": 2
+      },
+      "players": [
+        {
+          "name": "Selene",
+          "card": "Mason"
+        },
+        {
+          "name": "Cristina",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Mircea",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        },
+        {
+          "name": "Semira",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Minion",
+        "Seer"
+      ],
+      "game_number": 10,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Andrei, Cristina. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Kraven": 1,
+        "Andrei": 2,
+        "Dracula": 0,
+        "Cristina": 2,
+        "Radu": 0
+      },
+      "players": [
+        {
+          "name": "Kraven",
+          "card": "Minion"
+        },
+        {
+          "name": "Andrei",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Dracula",
+          "card": "Mason"
+        },
+        {
+          "name": "Cristina",
+          "card": "Seer"
+        },
+        {
+          "name": "Radu",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Villager"
+      ],
+      "game_number": 11,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dracula was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Emil": 0,
+        "Cristina": 0,
+        "Viktor": 0,
+        "Alexandra": 2,
+        "Dracula": 3
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Villager"
+        },
+        {
+          "name": "Cristina",
+          "card": "Villager"
+        },
+        {
+          "name": "Viktor",
+          "card": "Mason"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Dracula",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Mason",
+        "Werewolf"
+      ],
+      "game_number": 12,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Michael, Vladimir. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Kraven": 0,
+        "Michael": 2,
+        "Radu": 0,
+        "Mircea": 1,
+        "Vladimir": 2
+      },
+      "players": [
+        {
+          "name": "Kraven",
+          "card": "Minion"
+        },
+        {
+          "name": "Michael",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Seer"
+      ],
+      "game_number": 13,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Larisa was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Andrei": 0,
+        "Larisa": 3,
+        "Marius": 0,
+        "Vladimir": 2,
+        "Semira": 0
+      },
+      "players": [
+        {
+          "name": "Andrei",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Larisa",
+          "card": "Villager"
+        },
+        {
+          "name": "Marius",
+          "card": "Villager"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Minion"
+        },
+        {
+          "name": "Semira",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Mason"
+      ],
+      "game_number": 14,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dracula was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Viktor": 1,
+        "Alexandra": 0,
+        "Radu": 0,
+        "Dracula": 4,
+        "Michael": 0
+      },
+      "players": [
+        {
+          "name": "Viktor",
+          "card": "Seer"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Minion"
+        },
+        {
+          "name": "Radu",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Mason"
+      ],
+      "game_number": 15,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Stefan was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Stefan": 4,
+        "Larisa": 0,
+        "Ileana": 1,
+        "Michael": 0,
+        "Vladimir": 0
+      },
+      "players": [
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Larisa",
+          "card": "Villager"
+        },
+        {
+          "name": "Ileana",
+          "card": "Minion"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 16,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "There was a tie between Emil, Vladimir. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 0,
+        "Semira": 0,
+        "Emil": 2,
+        "Vladimir": 2,
+        "Cristina": 1
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Semira",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Emil",
+          "card": "Villager"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Cristina",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Mason",
+        "Minion"
+      ],
+      "game_number": 17,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Michael was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Radu": 0,
+        "Michael": 4,
+        "Dracula": 1,
+        "Lucian": 0,
+        "Dragos": 0
+      },
+      "players": [
+        {
+          "name": "Radu",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Michael",
+          "card": "Minion"
+        },
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        },
+        {
+          "name": "Lucian",
+          "card": "Villager"
+        },
+        {
+          "name": "Dragos",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Werewolf",
+        "Mason"
+      ],
+      "game_number": 18,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Cristina was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 1,
+        "Lucian": 0,
+        "Vladimir": 1,
+        "Dragos": 1,
+        "Cristina": 2
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Lucian",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Mason"
+        },
+        {
+          "name": "Dragos",
+          "card": "Mason"
+        },
+        {
+          "name": "Cristina",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Villager",
+        "Villager"
+      ],
+      "game_number": 19,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Kraven was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Mircea": 1,
+        "Semira": 0,
+        "Michael": 0,
+        "Lucian": 0,
+        "Kraven": 4
+      },
+      "players": [
+        {
+          "name": "Mircea",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Semira",
+          "card": "Mason"
+        },
+        {
+          "name": "Michael",
+          "card": "Seer"
+        },
+        {
+          "name": "Lucian",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Kraven",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Villager"
+      ],
+      "game_number": 20,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Alexia, Ileana. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Michael": 0,
+        "Alexia": 2,
+        "Andrei": 1,
+        "Ileana": 2,
+        "Emil": 0
+      },
+      "players": [
+        {
+          "name": "Michael",
+          "card": "Mason"
+        },
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Andrei",
+          "card": "Minion"
+        },
+        {
+          "name": "Ileana",
+          "card": "Seer"
+        },
+        {
+          "name": "Emil",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Mason"
+      ],
+      "game_number": 21,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Stefan, Dracula. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Stefan": 2,
+        "Emil": 1,
+        "Dracula": 2,
+        "Alexandra": 0,
+        "Mircea": 0
+      },
+      "players": [
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Emil",
+          "card": "Seer"
+        },
+        {
+          "name": "Dracula",
+          "card": "Mason"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Minion"
+        },
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Werewolf"
+      ],
+      "game_number": 22,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Viktor was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 0,
+        "Selene": 1,
+        "Viktor": 2,
+        "Radu": 1,
+        "Cristina": 1
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Selene",
+          "card": "Minion"
+        },
+        {
+          "name": "Viktor",
+          "card": "Mason"
+        },
+        {
+          "name": "Radu",
+          "card": "Seer"
+        },
+        {
+          "name": "Cristina",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Villager",
+        "Mason"
+      ],
+      "game_number": 23,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Kraven was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexandra": 0,
+        "Selene": 0,
+        "Kraven": 4,
+        "Marius": 1,
+        "Vladimir": 0
+      },
+      "players": [
+        {
+          "name": "Alexandra",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Mason"
+        },
+        {
+          "name": "Kraven",
+          "card": "Villager"
+        },
+        {
+          "name": "Marius",
+          "card": "Villager"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Werewolf",
+        "Werewolf"
+      ],
+      "game_number": 24,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dragos was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 2,
+        "Michael": 0,
+        "Marius": 0,
+        "Dragos": 3,
+        "Semira": 0
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        },
+        {
+          "name": "Marius",
+          "card": "Mason"
+        },
+        {
+          "name": "Dragos",
+          "card": "Villager"
+        },
+        {
+          "name": "Semira",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Minion",
+        "Villager"
+      ],
+      "game_number": 25,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Kraven was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexandra": 1,
+        "Kraven": 3,
+        "Mircea": 1,
+        "Marius": 0,
+        "Vladimir": 0
+      },
+      "players": [
+        {
+          "name": "Alexandra",
+          "card": "Seer"
+        },
+        {
+          "name": "Kraven",
+          "card": "Villager"
+        },
+        {
+          "name": "Mircea",
+          "card": "Minion"
+        },
+        {
+          "name": "Marius",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 26,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Emil was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Larisa": 1,
+        "Andrei": 0,
+        "Ileana": 0,
+        "Dragos": 0,
+        "Emil": 4
+      },
+      "players": [
+        {
+          "name": "Larisa",
+          "card": "Seer"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        },
+        {
+          "name": "Ileana",
+          "card": "Minion"
+        },
+        {
+          "name": "Dragos",
+          "card": "Mason"
+        },
+        {
+          "name": "Emil",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 27,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Stefan was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Cristina": 2,
+        "Stefan": 3,
+        "Lucian": 0,
+        "Selene": 0,
+        "Larisa": 0
+      },
+      "players": [
+        {
+          "name": "Cristina",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Lucian",
+          "card": "Villager"
+        },
+        {
+          "name": "Selene",
+          "card": "Mason"
+        },
+        {
+          "name": "Larisa",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Minion",
+        "Seer"
+      ],
+      "game_number": 28,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Vladimir was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 2,
+        "Mircea": 0,
+        "Larisa": 0,
+        "Cristina": 0,
+        "Vladimir": 3
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Seer"
+        },
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        },
+        {
+          "name": "Larisa",
+          "card": "Minion"
+        },
+        {
+          "name": "Cristina",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Werewolf"
+      ],
+      "game_number": 29,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Kraven was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Kraven": 4,
+        "Semira": 0,
+        "Andrei": 0,
+        "Alexandra": 1,
+        "Ileana": 0
+      },
+      "players": [
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Semira",
+          "card": "Mason"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Mason"
+        },
+        {
+          "name": "Ileana",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Villager",
+        "Seer"
+      ],
+      "game_number": 30,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dracula was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Cristina": 0,
+        "Alexia": 0,
+        "Marius": 1,
+        "Emil": 1,
+        "Dracula": 3
+      },
+      "players": [
+        {
+          "name": "Cristina",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexia",
+          "card": "Mason"
+        },
+        {
+          "name": "Marius",
+          "card": "Seer"
+        },
+        {
+          "name": "Emil",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Minion"
+      ],
+      "game_number": 31,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Kraven was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Emil": 1,
+        "Mircea": 0,
+        "Larisa": 0,
+        "Kraven": 4,
+        "Alexia": 0
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Villager"
+        },
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        },
+        {
+          "name": "Larisa",
+          "card": "Mason"
+        },
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexia",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Minion",
+        "Werewolf"
+      ],
+      "game_number": 32,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Radu was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Semira": 1,
+        "Radu": 4,
+        "Alexia": 0,
+        "Michael": 0,
+        "Dragos": 0
+      },
+      "players": [
+        {
+          "name": "Semira",
+          "card": "Seer"
+        },
+        {
+          "name": "Radu",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexia",
+          "card": "Mason"
+        },
+        {
+          "name": "Michael",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Dragos",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 33,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Dracula was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Emil": 0,
+        "Radu": 0,
+        "Dracula": 3,
+        "Vladimir": 0,
+        "Kraven": 2
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Villager"
+        },
+        {
+          "name": "Radu",
+          "card": "Minion"
+        },
+        {
+          "name": "Dracula",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Kraven",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Werewolf"
+      ],
+      "game_number": 34,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Kraven was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 0,
+        "Kraven": 3,
+        "Andrei": 0,
+        "Dracula": 2,
+        "Radu": 0
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Kraven",
+          "card": "Seer"
+        },
+        {
+          "name": "Andrei",
+          "card": "Mason"
+        },
+        {
+          "name": "Dracula",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Minion"
+      ],
+      "game_number": 35,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Kraven was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Viktor": 1,
+        "Vladimir": 0,
+        "Kraven": 4,
+        "Alexia": 0,
+        "Andrei": 0
+      },
+      "players": [
+        {
+          "name": "Viktor",
+          "card": "Minion"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexia",
+          "card": "Mason"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Werewolf"
+      ],
+      "game_number": 36,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Michael was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexandra": 1,
+        "Semira": 1,
+        "Michael": 3,
+        "Cristina": 0,
+        "Selene": 0
+      },
+      "players": [
+        {
+          "name": "Alexandra",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Semira",
+          "card": "Villager"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        },
+        {
+          "name": "Cristina",
+          "card": "Villager"
+        },
+        {
+          "name": "Selene",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Mason",
+        "Seer"
+      ],
+      "game_number": 37,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Marius was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Marius": 2,
+        "Emil": 1,
+        "Radu": 0,
+        "Stefan": 1,
+        "Alexandra": 1
+      },
+      "players": [
+        {
+          "name": "Marius",
+          "card": "Villager"
+        },
+        {
+          "name": "Emil",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Seer"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Minion",
+        "Werewolf"
+      ],
+      "game_number": 38,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Viktor was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 0,
+        "Dragos": 0,
+        "Stefan": 0,
+        "Kraven": 1,
+        "Viktor": 4
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Minion"
+        },
+        {
+          "name": "Dragos",
+          "card": "Mason"
+        },
+        {
+          "name": "Stefan",
+          "card": "Villager"
+        },
+        {
+          "name": "Kraven",
+          "card": "Mason"
+        },
+        {
+          "name": "Viktor",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Seer",
+        "Villager"
+      ],
+      "game_number": 39,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Kraven was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Kraven": 3,
+        "Alexia": 2,
+        "Semira": 0,
+        "Ileana": 0,
+        "Lucian": 0
+      },
+      "players": [
+        {
+          "name": "Kraven",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexia",
+          "card": "Villager"
+        },
+        {
+          "name": "Semira",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Ileana",
+          "card": "Mason"
+        },
+        {
+          "name": "Lucian",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Mason",
+        "Werewolf"
+      ],
+      "game_number": 40,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Viktor was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Mircea": 0,
+        "Alexandra": 2,
+        "Viktor": 3,
+        "Cristina": 0,
+        "Marius": 0
+      },
+      "players": [
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Viktor",
+          "card": "Villager"
+        },
+        {
+          "name": "Cristina",
+          "card": "Mason"
+        },
+        {
+          "name": "Marius",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Seer",
+        "Villager"
+      ],
+      "game_number": 41,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Vladimir was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Mircea": 1,
+        "Dragos": 0,
+        "Vladimir": 3,
+        "Kraven": 1,
+        "Michael": 0
+      },
+      "players": [
+        {
+          "name": "Mircea",
+          "card": "Minion"
+        },
+        {
+          "name": "Dragos",
+          "card": "Villager"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Seer"
+        },
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 42,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Semira was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Semira": 3,
+        "Mircea": 0,
+        "Dragos": 2,
+        "Selene": 0,
+        "Radu": 0
+      },
+      "players": [
+        {
+          "name": "Semira",
+          "card": "Villager"
+        },
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        },
+        {
+          "name": "Dragos",
+          "card": "Seer"
+        },
+        {
+          "name": "Selene",
+          "card": "Minion"
+        },
+        {
+          "name": "Radu",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 43,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Vladimir, Viktor. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Selene": 1,
+        "Alexia": 0,
+        "Ileana": 0,
+        "Vladimir": 2,
+        "Viktor": 2
+      },
+      "players": [
+        {
+          "name": "Selene",
+          "card": "Mason"
+        },
+        {
+          "name": "Alexia",
+          "card": "Villager"
+        },
+        {
+          "name": "Ileana",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Viktor",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Villager",
+        "Seer"
+      ],
+      "game_number": 44,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Stefan was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Michael": 0,
+        "Radu": 0,
+        "Vladimir": 1,
+        "Stefan": 4,
+        "Andrei": 0
+      },
+      "players": [
+        {
+          "name": "Michael",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Minion"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Villager"
+        },
+        {
+          "name": "Andrei",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Mason"
+      ],
+      "game_number": 45,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Dragos was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 0,
+        "Emil": 0,
+        "Dragos": 3,
+        "Lucian": 1,
+        "Mircea": 1
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Emil",
+          "card": "Mason"
+        },
+        {
+          "name": "Dragos",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        },
+        {
+          "name": "Mircea",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Villager",
+        "Villager"
+      ],
+      "game_number": 46,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Alexandra was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Stefan": 2,
+        "Alexandra": 3,
+        "Mircea": 0,
+        "Ileana": 0,
+        "Semira": 0
+      },
+      "players": [
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Villager"
+        },
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        },
+        {
+          "name": "Ileana",
+          "card": "Seer"
+        },
+        {
+          "name": "Semira",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Minion",
+        "Werewolf"
+      ],
+      "game_number": 47,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Mircea was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 1,
+        "Selene": 0,
+        "Alexia": 1,
+        "Mircea": 3,
+        "Marius": 0
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Seer"
+        },
+        {
+          "name": "Selene",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexia",
+          "card": "Mason"
+        },
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        },
+        {
+          "name": "Marius",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Minion"
+      ],
+      "game_number": 48,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Mircea was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Mircea": 3,
+        "Lucian": 1,
+        "Larisa": 0,
+        "Andrei": 1,
+        "Viktor": 0
+      },
+      "players": [
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        },
+        {
+          "name": "Lucian",
+          "card": "Villager"
+        },
+        {
+          "name": "Larisa",
+          "card": "Mason"
+        },
+        {
+          "name": "Andrei",
+          "card": "Mason"
+        },
+        {
+          "name": "Viktor",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Werewolf",
+        "Werewolf"
+      ],
+      "game_number": 49,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "There was a tie between Kraven, Stefan. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Kraven": 2,
+        "Radu": 0,
+        "Cristina": 0,
+        "Stefan": 2,
+        "Selene": 1
+      },
+      "players": [
+        {
+          "name": "Kraven",
+          "card": "Seer"
+        },
+        {
+          "name": "Radu",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Cristina",
+          "card": "Minion"
+        },
+        {
+          "name": "Stefan",
+          "card": "Villager"
+        },
+        {
+          "name": "Selene",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Mason"
+      ],
+      "game_number": 50,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Vladimir was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 0,
+        "Vladimir": 3,
+        "Cristina": 0,
+        "Radu": 0,
+        "Viktor": 2
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Cristina",
+          "card": "Villager"
+        },
+        {
+          "name": "Radu",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Viktor",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Minion",
+        "Mason"
+      ],
+      "game_number": 51,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Dracula was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Semira": 0,
+        "Cristina": 1,
+        "Selene": 0,
+        "Viktor": 1,
+        "Dracula": 3
+      },
+      "players": [
+        {
+          "name": "Semira",
+          "card": "Mason"
+        },
+        {
+          "name": "Cristina",
+          "card": "Villager"
+        },
+        {
+          "name": "Selene",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Viktor",
+          "card": "Minion"
+        },
+        {
+          "name": "Dracula",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Villager"
+      ],
+      "game_number": 52,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "There was a tie between Andrei, Viktor. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Andrei": 2,
+        "Dracula": 0,
+        "Marius": 0,
+        "Viktor": 2,
+        "Lucian": 1
+      },
+      "players": [
+        {
+          "name": "Andrei",
+          "card": "Minion"
+        },
+        {
+          "name": "Dracula",
+          "card": "Mason"
+        },
+        {
+          "name": "Marius",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Viktor",
+          "card": "Mason"
+        },
+        {
+          "name": "Lucian",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 53,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Stefan was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Stefan": 3,
+        "Vladimir": 0,
+        "Cristina": 1,
+        "Marius": 0,
+        "Emil": 1
+      },
+      "players": [
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Mason"
+        },
+        {
+          "name": "Cristina",
+          "card": "Minion"
+        },
+        {
+          "name": "Marius",
+          "card": "Seer"
+        },
+        {
+          "name": "Emil",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Mason",
+        "Villager"
+      ],
+      "game_number": 54,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Emil was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Dracula": 1,
+        "Emil": 2,
+        "Kraven": 0,
+        "Marius": 1,
+        "Semira": 1
+      },
+      "players": [
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        },
+        {
+          "name": "Emil",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Marius",
+          "card": "Minion"
+        },
+        {
+          "name": "Semira",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Mason",
+        "Villager"
+      ],
+      "game_number": 55,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Stefan was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 0,
+        "Kraven": 2,
+        "Michael": 0,
+        "Dracula": 0,
+        "Stefan": 3
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Kraven",
+          "card": "Seer"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        },
+        {
+          "name": "Dracula",
+          "card": "Mason"
+        },
+        {
+          "name": "Stefan",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Villager",
+        "Villager"
+      ],
+      "game_number": 56,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dracula was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Emil": 0,
+        "Dragos": 1,
+        "Kraven": 1,
+        "Dracula": 2,
+        "Lucian": 1
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Mason"
+        },
+        {
+          "name": "Dragos",
+          "card": "Seer"
+        },
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        },
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 57,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Viktor was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Selene": 1,
+        "Mircea": 0,
+        "Viktor": 4,
+        "Vladimir": 0,
+        "Dracula": 0
+      },
+      "players": [
+        {
+          "name": "Selene",
+          "card": "Seer"
+        },
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        },
+        {
+          "name": "Viktor",
+          "card": "Minion"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Mason"
+        },
+        {
+          "name": "Dracula",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Mason"
+      ],
+      "game_number": 58,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Emil was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Emil": 3,
+        "Ileana": 0,
+        "Stefan": 1,
+        "Alexandra": 0,
+        "Kraven": 1
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Villager"
+        },
+        {
+          "name": "Ileana",
+          "card": "Mason"
+        },
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Villager"
+        },
+        {
+          "name": "Kraven",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Seer",
+        "Minion"
+      ],
+      "game_number": 59,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Stefan was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Radu": 0,
+        "Selene": 1,
+        "Stefan": 4,
+        "Kraven": 0,
+        "Larisa": 0
+      },
+      "players": [
+        {
+          "name": "Radu",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Stefan",
+          "card": "Villager"
+        },
+        {
+          "name": "Kraven",
+          "card": "Mason"
+        },
+        {
+          "name": "Larisa",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Minion",
+        "Werewolf"
+      ],
+      "game_number": 60,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Michael was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Semira": 0,
+        "Michael": 4,
+        "Viktor": 1,
+        "Marius": 0,
+        "Larisa": 0
+      },
+      "players": [
+        {
+          "name": "Semira",
+          "card": "Villager"
+        },
+        {
+          "name": "Michael",
+          "card": "Villager"
+        },
+        {
+          "name": "Viktor",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Marius",
+          "card": "Mason"
+        },
+        {
+          "name": "Larisa",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Mason",
+        "Minion"
+      ],
+      "game_number": 61,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Semira was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Semira": 2,
+        "Ileana": 1,
+        "Radu": 0,
+        "Alexia": 1,
+        "Stefan": 1
+      },
+      "players": [
+        {
+          "name": "Semira",
+          "card": "Minion"
+        },
+        {
+          "name": "Ileana",
+          "card": "Mason"
+        },
+        {
+          "name": "Radu",
+          "card": "Mason"
+        },
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Stefan",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Seer"
+      ],
+      "game_number": 62,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Ileana was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 3,
+        "Dracula": 1,
+        "Lucian": 1,
+        "Andrei": 0,
+        "Mircea": 0
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        },
+        {
+          "name": "Lucian",
+          "card": "Minion"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        },
+        {
+          "name": "Mircea",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Mason",
+        "Werewolf"
+      ],
+      "game_number": 63,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Kraven was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Mircea": 2,
+        "Larisa": 0,
+        "Vladimir": 0,
+        "Kraven": 3,
+        "Alexia": 0
+      },
+      "players": [
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        },
+        {
+          "name": "Larisa",
+          "card": "Villager"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Minion"
+        },
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexia",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 64,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Kraven, Vladimir. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Marius": 0,
+        "Kraven": 2,
+        "Lucian": 1,
+        "Stefan": 0,
+        "Vladimir": 2
+      },
+      "players": [
+        {
+          "name": "Marius",
+          "card": "Seer"
+        },
+        {
+          "name": "Kraven",
+          "card": "Minion"
+        },
+        {
+          "name": "Lucian",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Villager",
+        "Mason"
+      ],
+      "game_number": 65,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dracula was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Selene": 1,
+        "Kraven": 0,
+        "Andrei": 0,
+        "Dracula": 3,
+        "Radu": 1
+      },
+      "players": [
+        {
+          "name": "Selene",
+          "card": "Minion"
+        },
+        {
+          "name": "Kraven",
+          "card": "Mason"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        },
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        },
+        {
+          "name": "Radu",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Seer"
+      ],
+      "game_number": 66,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "There was a tie between Alexia, Stefan. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 2,
+        "Stefan": 2,
+        "Andrei": 0,
+        "Ileana": 1,
+        "Radu": 0
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Mason"
+        },
+        {
+          "name": "Stefan",
+          "card": "Seer"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        },
+        {
+          "name": "Ileana",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 67,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dracula was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Selene": 0,
+        "Stefan": 0,
+        "Michael": 1,
+        "Dracula": 3,
+        "Larisa": 1
+      },
+      "players": [
+        {
+          "name": "Selene",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Michael",
+          "card": "Villager"
+        },
+        {
+          "name": "Dracula",
+          "card": "Minion"
+        },
+        {
+          "name": "Larisa",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Werewolf"
+      ],
+      "game_number": 68,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Cristina was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Dragos": 2,
+        "Cristina": 3,
+        "Alexandra": 0,
+        "Radu": 0,
+        "Mircea": 0
+      },
+      "players": [
+        {
+          "name": "Dragos",
+          "card": "Seer"
+        },
+        {
+          "name": "Cristina",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Villager"
+        },
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Minion"
+      ],
+      "game_number": 69,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Michael was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Michael": 3,
+        "Larisa": 0,
+        "Stefan": 2,
+        "Viktor": 0,
+        "Cristina": 0
+      },
+      "players": [
+        {
+          "name": "Michael",
+          "card": "Villager"
+        },
+        {
+          "name": "Larisa",
+          "card": "Mason"
+        },
+        {
+          "name": "Stefan",
+          "card": "Minion"
+        },
+        {
+          "name": "Viktor",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Cristina",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Seer",
+        "Villager"
+      ],
+      "game_number": 70,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Lucian was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Lucian": 3,
+        "Alexandra": 0,
+        "Larisa": 0,
+        "Michael": 1,
+        "Vladimir": 1
+      },
+      "players": [
+        {
+          "name": "Lucian",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Mason"
+        },
+        {
+          "name": "Larisa",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Michael",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Minion"
+      ],
+      "game_number": 71,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Emil, Dracula. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Emil": 2,
+        "Mircea": 0,
+        "Stefan": 1,
+        "Dracula": 2,
+        "Alexandra": 0
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Minion"
+        },
+        {
+          "name": "Mircea",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Stefan",
+          "card": "Seer"
+        },
+        {
+          "name": "Dracula",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Mason"
+      ],
+      "game_number": 72,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Dracula was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Dracula": 4,
+        "Selene": 0,
+        "Andrei": 0,
+        "Viktor": 1,
+        "Dragos": 0
+      },
+      "players": [
+        {
+          "name": "Dracula",
+          "card": "Villager"
+        },
+        {
+          "name": "Selene",
+          "card": "Mason"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        },
+        {
+          "name": "Viktor",
+          "card": "Mason"
+        },
+        {
+          "name": "Dragos",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Werewolf",
+        "Werewolf"
+      ],
+      "game_number": 73,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Kraven, Andrei. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Selene": 1,
+        "Radu": 0,
+        "Marius": 0,
+        "Kraven": 2,
+        "Andrei": 2
+      },
+      "players": [
+        {
+          "name": "Selene",
+          "card": "Seer"
+        },
+        {
+          "name": "Radu",
+          "card": "Mason"
+        },
+        {
+          "name": "Marius",
+          "card": "Minion"
+        },
+        {
+          "name": "Kraven",
+          "card": "Villager"
+        },
+        {
+          "name": "Andrei",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Werewolf"
+      ],
+      "game_number": 74,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Viktor was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Viktor": 3,
+        "Semira": 0,
+        "Selene": 0,
+        "Kraven": 0,
+        "Vladimir": 2
+      },
+      "players": [
+        {
+          "name": "Viktor",
+          "card": "Villager"
+        },
+        {
+          "name": "Semira",
+          "card": "Villager"
+        },
+        {
+          "name": "Selene",
+          "card": "Minion"
+        },
+        {
+          "name": "Kraven",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Werewolf"
+      ],
+      "game_number": 75,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Andrei was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Marius": 1,
+        "Radu": 1,
+        "Dragos": 0,
+        "Larisa": 1,
+        "Andrei": 2
+      },
+      "players": [
+        {
+          "name": "Marius",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Seer"
+        },
+        {
+          "name": "Dragos",
+          "card": "Villager"
+        },
+        {
+          "name": "Larisa",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Mason",
+        "Mason"
+      ],
+      "game_number": 76,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Andrei was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Viktor": 0,
+        "Ileana": 1,
+        "Andrei": 3,
+        "Vladimir": 1,
+        "Cristina": 0
+      },
+      "players": [
+        {
+          "name": "Viktor",
+          "card": "Mason"
+        },
+        {
+          "name": "Ileana",
+          "card": "Seer"
+        },
+        {
+          "name": "Andrei",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Cristina",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 77,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Dragos was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Dragos": 3,
+        "Stefan": 1,
+        "Ileana": 0,
+        "Alexandra": 1,
+        "Selene": 0
+      },
+      "players": [
+        {
+          "name": "Dragos",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Stefan",
+          "card": "Minion"
+        },
+        {
+          "name": "Ileana",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Seer"
+      ],
+      "game_number": 78,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Michael was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Michael": 4,
+        "Cristina": 0,
+        "Emil": 1,
+        "Alexandra": 0,
+        "Lucian": 0
+      },
+      "players": [
+        {
+          "name": "Michael",
+          "card": "Villager"
+        },
+        {
+          "name": "Cristina",
+          "card": "Mason"
+        },
+        {
+          "name": "Emil",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Seer"
+        },
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Minion",
+        "Werewolf"
+      ],
+      "game_number": 79,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Stefan was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 0,
+        "Semira": 1,
+        "Stefan": 3,
+        "Radu": 0,
+        "Lucian": 1
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Semira",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Mason"
+        },
+        {
+          "name": "Radu",
+          "card": "Mason"
+        },
+        {
+          "name": "Lucian",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Minion",
+        "Werewolf"
+      ],
+      "game_number": 80,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Viktor was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 0,
+        "Mircea": 0,
+        "Kraven": 1,
+        "Alexandra": 0,
+        "Viktor": 4
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Seer"
+        },
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        },
+        {
+          "name": "Kraven",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Minion"
+        },
+        {
+          "name": "Viktor",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Mason"
+      ],
+      "game_number": 81,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Dracula was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Alexia": 0,
+        "Michael": 2,
+        "Ileana": 0,
+        "Dracula": 3,
+        "Mircea": 0
+      },
+      "players": [
+        {
+          "name": "Alexia",
+          "card": "Villager"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        },
+        {
+          "name": "Ileana",
+          "card": "Minion"
+        },
+        {
+          "name": "Dracula",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Seer",
+        "Mason"
+      ],
+      "game_number": 82,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Michael was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Semira": 1,
+        "Michael": 3,
+        "Lucian": 0,
+        "Selene": 1,
+        "Radu": 0
+      },
+      "players": [
+        {
+          "name": "Semira",
+          "card": "Minion"
+        },
+        {
+          "name": "Michael",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Villager"
+        },
+        {
+          "name": "Radu",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 83,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Vladimir was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 0,
+        "Michael": 1,
+        "Vladimir": 4,
+        "Lucian": 0,
+        "Selene": 0
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Michael",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Villager",
+        "Minion"
+      ],
+      "game_number": 84,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "There was a tie between Dragos, Radu. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Mircea": 0,
+        "Stefan": 1,
+        "Viktor": 0,
+        "Dragos": 2,
+        "Radu": 2
+      },
+      "players": [
+        {
+          "name": "Mircea",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Seer"
+        },
+        {
+          "name": "Viktor",
+          "card": "Minion"
+        },
+        {
+          "name": "Dragos",
+          "card": "Villager"
+        },
+        {
+          "name": "Radu",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Mason"
+      ],
+      "game_number": 85,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Stefan was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Stefan": 3,
+        "Kraven": 1,
+        "Mircea": 0,
+        "Ileana": 0,
+        "Andrei": 1
+      },
+      "players": [
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Kraven",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Mircea",
+          "card": "Seer"
+        },
+        {
+          "name": "Ileana",
+          "card": "Minion"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Mason",
+        "Villager"
+      ],
+      "game_number": 86,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Semira was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Larisa": 0,
+        "Semira": 3,
+        "Stefan": 2,
+        "Selene": 0,
+        "Radu": 0
+      },
+      "players": [
+        {
+          "name": "Larisa",
+          "card": "Villager"
+        },
+        {
+          "name": "Semira",
+          "card": "Seer"
+        },
+        {
+          "name": "Stefan",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Radu",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Mason",
+        "Minion"
+      ],
+      "game_number": 87,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Emil was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Semira": 1,
+        "Kraven": 1,
+        "Emil": 2,
+        "Ileana": 1,
+        "Larisa": 0
+      },
+      "players": [
+        {
+          "name": "Semira",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Kraven",
+          "card": "Minion"
+        },
+        {
+          "name": "Emil",
+          "card": "Mason"
+        },
+        {
+          "name": "Ileana",
+          "card": "Villager"
+        },
+        {
+          "name": "Larisa",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 88,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "There was a tie between Ileana, Alexia. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Ileana": 2,
+        "Mircea": 1,
+        "Alexia": 2,
+        "Emil": 0,
+        "Lucian": 0
+      },
+      "players": [
+        {
+          "name": "Ileana",
+          "card": "Mason"
+        },
+        {
+          "name": "Mircea",
+          "card": "Seer"
+        },
+        {
+          "name": "Alexia",
+          "card": "Minion"
+        },
+        {
+          "name": "Emil",
+          "card": "Mason"
+        },
+        {
+          "name": "Lucian",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Villager",
+        "Werewolf"
+      ],
+      "game_number": 89,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "There was a tie between Andrei, Cristina. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Lucian": 0,
+        "Andrei": 2,
+        "Larisa": 1,
+        "Alexia": 0,
+        "Cristina": 2
+      },
+      "players": [
+        {
+          "name": "Lucian",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Andrei",
+          "card": "Villager"
+        },
+        {
+          "name": "Larisa",
+          "card": "Mason"
+        },
+        {
+          "name": "Alexia",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Cristina",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Mason",
+        "Seer"
+      ],
+      "game_number": 90,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Kraven was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Emil": 1,
+        "Alexia": 0,
+        "Kraven": 3,
+        "Selene": 1,
+        "Semira": 0
+      },
+      "players": [
+        {
+          "name": "Emil",
+          "card": "Mason"
+        },
+        {
+          "name": "Alexia",
+          "card": "Minion"
+        },
+        {
+          "name": "Kraven",
+          "card": "Seer"
+        },
+        {
+          "name": "Selene",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Semira",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Mason",
+        "Werewolf"
+      ],
+      "game_number": 91,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Stefan was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Stefan": 3,
+        "Semira": 1,
+        "Marius": 0,
+        "Ileana": 0,
+        "Dragos": 1
+      },
+      "players": [
+        {
+          "name": "Stefan",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Semira",
+          "card": "Villager"
+        },
+        {
+          "name": "Marius",
+          "card": "Mason"
+        },
+        {
+          "name": "Ileana",
+          "card": "Mason"
+        },
+        {
+          "name": "Dragos",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 92,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Vladimir was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Dragos": 1,
+        "Vladimir": 3,
+        "Lucian": 0,
+        "Alexandra": 1,
+        "Semira": 0
+      },
+      "players": [
+        {
+          "name": "Dragos",
+          "card": "Seer"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Minion"
+        },
+        {
+          "name": "Lucian",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Alexandra",
+          "card": "Mason"
+        },
+        {
+          "name": "Semira",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 93,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Marius was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Radu": 0,
+        "Vladimir": 0,
+        "Larisa": 0,
+        "Michael": 2,
+        "Marius": 3
+      },
+      "players": [
+        {
+          "name": "Radu",
+          "card": "Villager"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Mason"
+        },
+        {
+          "name": "Larisa",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        },
+        {
+          "name": "Marius",
+          "card": "Minion"
+        }
+      ],
+      "middle_cards": [
+        "Seer",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 94,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Viktor was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Andrei": 2,
+        "Stefan": 0,
+        "Radu": 0,
+        "Viktor": 3,
+        "Lucian": 0
+      },
+      "players": [
+        {
+          "name": "Andrei",
+          "card": "Seer"
+        },
+        {
+          "name": "Stefan",
+          "card": "Mason"
+        },
+        {
+          "name": "Radu",
+          "card": "Mason"
+        },
+        {
+          "name": "Viktor",
+          "card": "Minion"
+        },
+        {
+          "name": "Lucian",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 95,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Alexia was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Vladimir": 1,
+        "Viktor": 1,
+        "Andrei": 0,
+        "Radu": 1,
+        "Alexia": 2
+      },
+      "players": [
+        {
+          "name": "Vladimir",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Viktor",
+          "card": "Mason"
+        },
+        {
+          "name": "Andrei",
+          "card": "Mason"
+        },
+        {
+          "name": "Radu",
+          "card": "Villager"
+        },
+        {
+          "name": "Alexia",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Minion",
+        "Werewolf",
+        "Seer"
+      ],
+      "game_number": 96,
+      "status": "completed"
+    },
+    {
+      "winner": "villagers",
+      "werewolf_win": false,
+      "result": "Viktor was killed. The villagers win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Larisa": 0,
+        "Stefan": 1,
+        "Viktor": 4,
+        "Marius": 0,
+        "Michael": 0
+      },
+      "players": [
+        {
+          "name": "Larisa",
+          "card": "Villager"
+        },
+        {
+          "name": "Stefan",
+          "card": "Mason"
+        },
+        {
+          "name": "Viktor",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Marius",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Michael",
+          "card": "Villager"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Minion",
+        "Seer"
+      ],
+      "game_number": 97,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Kraven was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Lucian": 0,
+        "Michael": 0,
+        "Kraven": 4,
+        "Marius": 1,
+        "Cristina": 0
+      },
+      "players": [
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        },
+        {
+          "name": "Michael",
+          "card": "Mason"
+        },
+        {
+          "name": "Kraven",
+          "card": "Seer"
+        },
+        {
+          "name": "Marius",
+          "card": "Villager"
+        },
+        {
+          "name": "Cristina",
+          "card": "Werewolf"
+        }
+      ],
+      "middle_cards": [
+        "Werewolf",
+        "Minion",
+        "Villager"
+      ],
+      "game_number": 98,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Vladimir was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Lucian": 0,
+        "Andrei": 2,
+        "Dragos": 0,
+        "Kraven": 0,
+        "Vladimir": 3
+      },
+      "players": [
+        {
+          "name": "Lucian",
+          "card": "Mason"
+        },
+        {
+          "name": "Andrei",
+          "card": "Werewolf"
+        },
+        {
+          "name": "Dragos",
+          "card": "Minion"
+        },
+        {
+          "name": "Kraven",
+          "card": "Villager"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Mason",
+        "Werewolf",
+        "Villager"
+      ],
+      "game_number": 99,
+      "status": "completed"
+    },
+    {
+      "winner": "werewolves",
+      "werewolf_win": true,
+      "result": "Stefan was killed. The werewolves win.",
+      "targeted_werewolf_persuasion": false,
+      "structured_werewolf_persuasion": false,
+      "personality_aware_werewolf_persuasion": false,
+      "leader_prior_personality_werewolf_persuasion": true,
+      "votes": {
+        "Stefan": 4,
+        "Mircea": 0,
+        "Vladimir": 1,
+        "Semira": 0,
+        "Selene": 0
+      },
+      "players": [
+        {
+          "name": "Stefan",
+          "card": "Minion"
+        },
+        {
+          "name": "Mircea",
+          "card": "Mason"
+        },
+        {
+          "name": "Vladimir",
+          "card": "Villager"
+        },
+        {
+          "name": "Semira",
+          "card": "Mason"
+        },
+        {
+          "name": "Selene",
+          "card": "Seer"
+        }
+      ],
+      "middle_cards": [
+        "Villager",
+        "Werewolf",
+        "Werewolf"
+      ],
+      "game_number": 100,
+      "status": "completed"
+    }
+  ]
+}
