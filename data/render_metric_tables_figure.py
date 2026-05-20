@@ -7,11 +7,11 @@ from PIL import Image, ImageDraw, ImageFont
 INPUT_DIR = Path("werewolf-results/analysis")
 OUTPUT_SVG = INPUT_DIR / "three_metric_comparison_tables.svg"
 OUTPUT_PNG = INPUT_DIR / "three_metric_comparison_tables.png"
-MODES = ["baseline", "targeted", "structured"]
+MODES = ["baseline", "targeted", "prior"]
 MODE_LABELS = {
     "baseline": "Baseline",
     "targeted": "Targeted",
-    "structured": "Structured",
+    "prior": "Prior",
 }
 MODEL_LABELS = {
     "gemini": "Gemini",
@@ -34,7 +34,7 @@ TITLE_BG = "#e0e7ff"
 MODE_COLORS = {
     "baseline": "#cbd5e1",
     "targeted": "#93c5fd",
-    "structured": "#c4b5fd",
+    "prior": "#c4b5fd",
 }
 
 

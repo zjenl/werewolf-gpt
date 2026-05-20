@@ -81,10 +81,6 @@ def infer_log_path(summary_path):
 
 
 def infer_persuasion_mode(summary):
-    if summary.get("personality_aware_werewolf_persuasion"):
-        return "personality_aware"
-    if summary.get("structured_werewolf_persuasion"):
-        return "structured"
     if summary.get("targeted_werewolf_persuasion"):
         return "targeted"
     return "baseline"
@@ -327,7 +323,7 @@ def group_rows(rows, group_key):
 
 def build_model_mode_matrix(rows):
     models = sorted({row["model_family"] for row in rows})
-    modes = ["baseline", "targeted", "structured", "personality_aware"]
+    modes = ["baseline", "targeted"]
     matrix = []
     for model in models:
         row = {"model_family": model}
@@ -344,7 +340,7 @@ def build_model_mode_matrix(rows):
 
 def build_metric_matrix(rows, metric_key, models=None, modes=None):
     models = models or sorted({row["model_family"] for row in rows})
-    modes = modes or ["baseline", "targeted", "structured", "personality_aware"]
+    modes = modes or ["baseline", "targeted"]
     matrix = []
     for model in models:
         row = {"model_family": model}
@@ -443,8 +439,6 @@ def svg_circle(cx, cy, r, fill, opacity=0.85):
 MODE_COLORS = {
     "baseline": "#94a3b8",
     "targeted": "#2563eb",
-    "structured": "#7c3aed",
-    "personality_aware": "#059669",
 }
 
 MODEL_COLORS = {
@@ -590,7 +584,7 @@ def plot_scatter(rows, x_key, y_key, title, subtitle, output_name, output_dir):
 
 
 def plot_heatmap(matrix_rows, output_dir):
-    modes = ["baseline", "targeted", "structured", "personality_aware"]
+    modes = ["baseline", "targeted"]
     width = 860
     height = 420
     left, top = 180, 90

@@ -1,0 +1,103 @@
+{
+  "games_analyzed": 50,
+  "player_profile_count": 221,
+  "trait_distribution": {
+    "openness": {
+      "low": {
+        "count": 43,
+        "proportion": 0.19457013574660634
+      },
+      "moderate": {
+        "count": 103,
+        "proportion": 0.4660633484162896
+      },
+      "high": {
+        "count": 75,
+        "proportion": 0.3393665158371041
+      }
+    },
+    "conscientiousness": {
+      "low": {
+        "count": 44,
+        "proportion": 0.19909502262443438
+      },
+      "moderate": {
+        "count": 83,
+        "proportion": 0.3755656108597285
+      },
+      "high": {
+        "count": 94,
+        "proportion": 0.4253393665158371
+      }
+    },
+    "extraversion": {
+      "low": {
+        "count": 29,
+        "proportion": 0.13122171945701358
+      },
+      "moderate": {
+        "count": 60,
+        "proportion": 0.27149321266968324
+      },
+      "high": {
+        "count": 132,
+        "proportion": 0.5972850678733032
+      }
+    },
+    "agreeableness": {
+      "low": {
+        "count": 74,
+        "proportion": 0.334841628959276
+      },
+      "moderate": {
+        "count": 88,
+        "proportion": 0.39819004524886875
+      },
+      "high": {
+        "count": 59,
+        "proportion": 0.2669683257918552
+      }
+    },
+    "neuroticism": {
+      "low": {
+        "count": 127,
+        "proportion": 0.5746606334841629
+      },
+      "moderate": {
+        "count": 54,
+        "proportion": 0.24434389140271492
+      },
+      "high": {
+        "count": 40,
+        "proportion": 0.18099547511312217
+      }
+    }
+  },
+  "skew_flags": {
+    "openness": {
+      "dominant_level": "moderate",
+      "dominant_share": 0.4660633484162896,
+      "is_potentially_skewed": false
+    },
+    "conscientiousness": {
+      "dominant_level": "high",
+      "dominant_share": 0.4253393665158371,
+      "is_potentially_skewed": false
+    },
+    "extraversion": {
+      "dominant_level": "high",
+      "dominant_share": 0.5972850678733032,
+      "is_potentially_skewed": false
+    },
+    "agreeableness": {
+      "dominant_level": "moderate",
+      "dominant_share": 0.39819004524886875,
+      "is_potentially_skewed": false
+    },
+    "neuroticism": {
+      "dominant_level": "low",
+      "dominant_share": 0.5746606334841629,
+      "is_potentially_skewed": false
+    }
+  }
+}

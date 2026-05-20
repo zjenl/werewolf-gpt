@@ -21,10 +21,6 @@ def ensure_dir(path):
 
 
 def normalize_mode(summary):
-    if summary.get("personality_aware_werewolf_persuasion"):
-        return "personality_aware"
-    if summary.get("structured_werewolf_persuasion"):
-        return "structured"
     if summary.get("targeted_werewolf_persuasion"):
         return "targeted"
     return "baseline"

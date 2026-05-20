@@ -38,12 +38,6 @@ The current workflow is:
 - [prompts/werewolf_targeted_day.txt](prompts/werewolf_targeted_day.txt)  
   Targeted persuasion prompt.
 
-- [prompts/werewolf_structured_targeted_day.txt](prompts/werewolf_structured_targeted_day.txt)  
-  Structured persuasion prompt that explicitly reasons about influence and personality.
-
-- [prompts/werewolf_personality_aware_day.txt](prompts/werewolf_personality_aware_day.txt)  
-  Personality-aware prompt without explicit target selection.
-
 - [prompts/werewolf_personality_leader_prior_day.txt](prompts/werewolf_personality_leader_prior_day.txt)  
   Personality-aware prompt with a human-derived prior about influenceable opinion leaders.
 
@@ -177,19 +171,16 @@ These files are updated incrementally during long runs.
 
 ## Werewolf Prompt Conditions
 
-The simulator currently supports four special Werewolf prompting modes:
+The simulator currently supports two special Werewolf prompting modes:
 
 - `--targeted-werewolf-persuasion`  
   The Werewolf explicitly identifies the most useful player to persuade and aims its public statement at that player.
 
-- `--structured-werewolf-persuasion`  
-  The Werewolf explicitly targets the current highest-influence player and adapts persuasion to inferred Big Five traits.
-
-- `--personality-aware-werewolf-persuasion`  
-  The Werewolf uses Big Five reasoning without being told to explicitly choose a target.
-
 - `--leader-prior-personality-werewolf-persuasion`  
-  The Werewolf uses the personality-aware strategy plus a human-data prior about influenceable opinion leaders.
+  The Werewolf uses a human-data prior about influenceable opinion leaders on top of targeted persuasion logic.
+
+- `--staged-werewolf-persuasion`  
+  The Werewolf uses one prompt mode for an initial discussion block, triggers an interim vote, then switches to a second mode for continued discussion before the final vote.
 
 Example targeted run:
 

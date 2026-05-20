@@ -1,0 +1,35 @@
+All-player Big Five distribution
+===============================
+
+Games analyzed: 50
+Player profiles analyzed: 221
+
+Openness
+- low: 43 (19.5%)
+- moderate: 103 (46.6%)
+- high: 75 (33.9%)
+- dominant level: moderate (46.6%); potentially skewed: False
+
+Conscientiousness
+- low: 44 (19.9%)
+- moderate: 83 (37.6%)
+- high: 94 (42.5%)
+- dominant level: high (42.5%); potentially skewed: False
+
+Extraversion
+- low: 29 (13.1%)
+- moderate: 60 (27.1%)
+- high: 132 (59.7%)
+- dominant level: high (59.7%); potentially skewed: False
+
+Agreeableness
+- low: 74 (33.5%)
+- moderate: 88 (39.8%)
+- high: 59 (26.7%)
+- dominant level: moderate (39.8%); potentially skewed: False
+
+Neuroticism
+- low: 127 (57.5%)
+- moderate: 54 (24.4%)
+- high: 40 (18.1%)
+- dominant level: low (57.5%); potentially skewed: False

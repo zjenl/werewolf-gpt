@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 OUTPUT_MODELS = {"gpt5_nano": "gpt5-nano", "gemini": "gemini", "qwen": "qwen"}
-OUTPUT_MODES = ["normal", "targeted", "structured", "prior"]
+OUTPUT_MODES = ["normal", "targeted", "prior"]
 
 
 def load_json(path):
@@ -37,8 +37,6 @@ def infer_model_family(summary):
 def infer_mode(summary):
     if summary.get("leader_prior_personality_werewolf_persuasion"):
         return "prior"
-    if summary.get("structured_werewolf_persuasion"):
-        return "structured"
     if summary.get("targeted_werewolf_persuasion"):
         return "targeted"
     return "normal"

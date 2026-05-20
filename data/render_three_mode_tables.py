@@ -101,8 +101,6 @@ def infer_model_family(summary):
 def infer_mode(summary):
     if summary.get("leader_prior_personality_werewolf_persuasion"):
         return "prior"
-    if summary.get("structured_werewolf_persuasion"):
-        return "structured"
     if summary.get("targeted_werewolf_persuasion"):
         return "targeted"
     return "normal"
