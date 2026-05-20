@@ -237,6 +237,9 @@ class Player:
     def append_memory(self, memory_item):
         self.memory.append(memory_item)
 
+    def clear_memory(self):
+        self.memory = []
+
     def run_prompt(self, prompt):
         memory_block = ''
         if len(self.memory) > 0:
@@ -461,6 +464,19 @@ class Game:
             self.rendering_engine = MarkdownRenderingEngine()
         else:
             self.rendering_engine = ConsoleRenderingEngine()
+
+    def reset_runtime_state(self):
+        self.card_list = None
+        self.player_names = []
+        self.players = []
+        self.middle_cards = []
+        self.result = None
+        self.dialogue = []
+        self.voting_outcome = []
+        self.warning = ''
+        self.stage_vote_history = []
+        self.vote_change_summary = None
+        self.branch_results = {}
 
     def record_dialogue_turn(self, speaker, phase, utterance, thoughts, stage=None):
         rec_id = len(self.dialogue) + 1
@@ -726,6 +742,7 @@ class Game:
         return branch_vote
 
     def play(self):
+        self.reset_runtime_state()
 
         self.initialize_game()
         
