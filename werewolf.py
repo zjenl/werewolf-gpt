@@ -607,15 +607,23 @@ class Game:
                 alloted_cards.append('Minion')
             else:
                 alloted_cards.append('Villager')
-        
-        card_list = '* ' + '\n* '.join(alloted_cards)
+
+        non_werewolf_cards = [card for card in alloted_cards if card != 'Werewolf']
+        random.shuffle(non_werewolf_cards)
+
+        player_cards = ['Werewolf'] + non_werewolf_cards[:self.player_count - 1]
+        middle_cards = ['Werewolf'] + non_werewolf_cards[self.player_count - 1:]
+
+        random.shuffle(player_cards)
+        random.shuffle(middle_cards)
+
+        dealt_cards = player_cards + middle_cards
+        card_list = '* ' + '\n* '.join(dealt_cards)
         self.card_list = card_list
-        
-        random.shuffle(alloted_cards) 
 
         self.player_names = self.get_player_names(self.player_count)
-        self.players = [Player(name, i, self.get_other_players(i, self.player_names), alloted_cards[i - 1], card_list, self.model) for i, name in enumerate(self.player_names, 1)]
-        self.middle_cards = alloted_cards[self.player_count:] 
+        self.players = [Player(name, i, self.get_other_players(i, self.player_names), player_cards[i - 1], card_list, self.model) for i, name in enumerate(self.player_names, 1)]
+        self.middle_cards = middle_cards
 
     def introduce_players(self):
         for player in self.players:

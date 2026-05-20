@@ -1,0 +1,74 @@
+[
+  {
+    "summary_file": "gpt5-nano-normal.json",
+    "detailed_file": "gpt5-nano-normal-game.json",
+    "original_games": 314,
+    "kept_games": 193,
+    "removed_games": 121,
+    "werewolf_win_rate": 0.33678756476683935
+  },
+  {
+    "summary_file": "gpt5-nano-targeted.json",
+    "detailed_file": "gpt5-nano-targeted-game.json",
+    "original_games": 290,
+    "kept_games": 160,
+    "removed_games": 130,
+    "werewolf_win_rate": 0.59375
+  },
+  {
+    "summary_file": "gpt5-nano-prior.json",
+    "detailed_file": "gpt5-nano-prior-game.json",
+    "original_games": 275,
+    "kept_games": 173,
+    "removed_games": 102,
+    "werewolf_win_rate": 0.6127167630057804
+  },
+  {
+    "summary_file": "gemini-normal.json",
+    "detailed_file": "gemini-normal-game.json",
+    "original_games": 159,
+    "kept_games": 159,
+    "removed_games": 0,
+    "werewolf_win_rate": 0.5534591194968553
+  },
+  {
+    "summary_file": "gemini-targeted.json",
+    "detailed_file": "gemini-targeted-game.json",
+    "original_games": 297,
+    "kept_games": 164,
+    "removed_games": 133,
+    "werewolf_win_rate": 0.6402439024390244
+  },
+  {
+    "summary_file": "gemini-prior.json",
+    "detailed_file": "gemini-prior-game.json",
+    "original_games": 155,
+    "kept_games": 155,
+    "removed_games": 0,
+    "werewolf_win_rate": 0.6645161290322581
+  },
+  {
+    "summary_file": "qwen-normal.json",
+    "detailed_file": "qwen-normal-game.json",
+    "original_games": 293,
+    "kept_games": 157,
+    "removed_games": 136,
+    "werewolf_win_rate": 0.6815286624203821
+  },
+  {
+    "summary_file": "qwen-targeted.json",
+    "detailed_file": "qwen-targeted-game.json",
+    "original_games": 299,
+    "kept_games": 150,
+    "removed_games": 149,
+    "werewolf_win_rate": 0.6733333333333333
+  },
+  {
+    "summary_file": "qwen-prior.json",
+    "detailed_file": "qwen-prior-game.json",
+    "original_games": 282,
+    "kept_games": 165,
+    "removed_games": 117,
+    "werewolf_win_rate": 0.8181818181818182
+  }
+]

@@ -1,3 +1,4 @@
+import argparse
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -6,11 +7,7 @@ from statistics import mean
 from PIL import Image, ImageDraw, ImageFont
 
 
-RESULTS_DIR = Path("werewolf-results")
-OUTPUT_DIR = RESULTS_DIR / "analysis"
-SUMMARY_JSON = OUTPUT_DIR / "three_mode_tables_current.json"
-SUMMARY_MD = OUTPUT_DIR / "three_mode_tables_current.md"
-COMBINED_PNG = OUTPUT_DIR / "three_mode_tables_combined.png"
+DEFAULT_RESULTS_DIR = Path("werewolf-results")
 
 MODELS = ["gpt5_nano", "gemini", "qwen"]
 MODES = ["normal", "targeted", "prior"]
@@ -124,9 +121,9 @@ def paired_games_path(summary_path):
     return None
 
 
-def load_summary_runs():
+def load_summary_runs(results_dir):
     rows = []
-    for path in sorted(RESULTS_DIR.glob("*.json")):
+    for path in sorted(results_dir.glob("*.json")):
         if "-games" in path.stem or path.parent.name == "analysis":
             continue
         try:
@@ -278,7 +275,7 @@ def draw_combined_image(metric_tables):
     return combined
 
 
-def write_summary_files(rows, metric_tables):
+def write_summary_files(rows, metric_tables, summary_json_path, summary_md_path):
     summary_payload = {
         "runs_used": rows,
         "tables": {
@@ -294,7 +291,7 @@ def write_summary_files(rows, metric_tables):
             for metric, table_rows in metric_tables.items()
         },
     }
-    with open(SUMMARY_JSON, "w", encoding="utf-8") as f:
+    with open(summary_json_path, "w", encoding="utf-8") as f:
         json.dump(summary_payload, f, indent=2, ensure_ascii=False)
 
     lines = ["# Three Mode Tables", ""]
@@ -314,15 +311,35 @@ def write_summary_files(rows, metric_tables):
         lines.append(
             f"- {row['path']} ({row['model_family']} / {row['mode']})"
         )
-    with open(SUMMARY_MD, "w", encoding="utf-8") as f:
+    with open(summary_md_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
 
 def main():
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    rows = load_summary_runs()
+    parser = argparse.ArgumentParser(description="Render the three-mode comparison tables from the current results directory.")
+    parser.add_argument(
+        "--results-dir",
+        default=str(DEFAULT_RESULTS_DIR),
+        help="Directory containing experiment summary JSON files.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        default="",
+        help="Directory where rendered tables and audit files will be written. Defaults to <results-dir>/analysis.",
+    )
+    args = parser.parse_args()
+
+    results_dir = Path(args.results_dir)
+    output_dir = Path(args.output_dir) if args.output_dir else results_dir / "analysis"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    summary_json_path = output_dir / "three_mode_tables_current.json"
+    summary_md_path = output_dir / "three_mode_tables_current.md"
+    combined_png = output_dir / "three_mode_tables_combined.png"
+
+    rows = load_summary_runs(results_dir)
     metric_tables = aggregate_metric_tables(rows)
-    write_summary_files(rows, metric_tables)
+    write_summary_files(rows, metric_tables, summary_json_path, summary_md_path)
 
     for spec in METRIC_SPECS:
         image = draw_table_image(
@@ -331,16 +348,16 @@ def main():
             spec["format"],
             metric_tables[spec["key"]],
         )
-        output_path = OUTPUT_DIR / spec["filename"]
+        output_path = output_dir / spec["filename"]
         image.save(output_path, dpi=(300, 300))
         print(f"Wrote {output_path}")
 
     combined = draw_combined_image(metric_tables)
-    combined.save(COMBINED_PNG, dpi=(300, 300))
-    print(f"Wrote {COMBINED_PNG}")
+    combined.save(combined_png, dpi=(300, 300))
+    print(f"Wrote {combined_png}")
 
-    print(f"Wrote {SUMMARY_JSON}")
-    print(f"Wrote {SUMMARY_MD}")
+    print(f"Wrote {summary_json_path}")
+    print(f"Wrote {summary_md_path}")
 
 
 if __name__ == "__main__":
