@@ -431,7 +431,7 @@ class SilentRenderingEngine:
 
 class Game:
 
-    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False, leader_prior_personality_werewolf_persuasion=False, staged_werewolf_persuasion=False, stage_one_mode='targeted', stage_two_mode='prior', stage_one_rounds=10, stage_two_rounds=5):
+    def __init__(self, player_count, discussion_depth, model, render_markdown=False, silent=False, targeted_werewolf_persuasion=False, leader_prior_personality_werewolf_persuasion=False, staged_werewolf_persuasion=False, werewolf_branch_comparison=False, stage_one_mode='targeted', stage_two_mode='prior', stage_one_rounds=10, stage_two_rounds=10):
         self.player_count = player_count
         self.discussion_depth = discussion_depth
         self.card_list = None
@@ -446,6 +446,7 @@ class Game:
         self.targeted_werewolf_persuasion = targeted_werewolf_persuasion
         self.leader_prior_personality_werewolf_persuasion = leader_prior_personality_werewolf_persuasion
         self.staged_werewolf_persuasion = staged_werewolf_persuasion
+        self.werewolf_branch_comparison = werewolf_branch_comparison
         self.stage_one_mode = stage_one_mode
         self.stage_two_mode = stage_two_mode
         self.stage_one_rounds = stage_one_rounds
@@ -523,13 +524,16 @@ class Game:
         return candidate
 
     def resolve_active_werewolf_prompt_mode(self):
-        if self.staged_werewolf_persuasion:
+        if self.uses_multi_stage_mode():
             return None
         if self.leader_prior_personality_werewolf_persuasion:
             return 'prior'
         if self.targeted_werewolf_persuasion:
             return 'targeted'
         return 'normal'
+
+    def uses_multi_stage_mode(self):
+        return self.staged_werewolf_persuasion or self.werewolf_branch_comparison
 
     def uses_targeted_reasoning_mode(self, prompt_mode):
         return prompt_mode in {'targeted', 'prior'}
@@ -580,7 +584,7 @@ class Game:
             'endRoles': [player.card for player in self.players],
             'warning': self.warning
         }
-        if self.staged_werewolf_persuasion and self.stage_vote_history:
+        if self.uses_multi_stage_mode() and self.stage_vote_history:
             game_json['stageVotingOutcomes'] = [stage_vote['voting_outcome'] for stage_vote in self.stage_vote_history]
             game_json['stageVoteHistory'] = self.stage_vote_history
             game_json['voteChangeSummary'] = self.vote_change_summary
@@ -657,6 +661,47 @@ class Game:
         for player in self.players:
             player.memory = list(snapshot['players_memory'][player.player_name])
 
+    def get_single_werewolf_player(self):
+        werewolf_players = [player for player in self.players if player.card == 'Werewolf']
+        if len(werewolf_players) != 1:
+            raise ValueError(f'Expected exactly one in-play Werewolf, found {len(werewolf_players)}.')
+        return werewolf_players[0]
+
+    def run_day_turn(self, player, werewolf_prompt_mode=None, stage_label=None):
+        self.rendering_engine.render_player_turn_init(player)
+
+        day_prompt = open('prompts/day.txt').read()
+        prompt = self.get_day_prompt(player, day_prompt, werewolf_prompt_mode=werewolf_prompt_mode)
+        response = player.run_prompt(prompt)
+
+        action = return_dict_from_json_or_fix(response, self.model)
+        if (
+            self.targeted_werewolf_persuasion
+            or self.leader_prior_personality_werewolf_persuasion
+            or self.uses_targeted_reasoning_mode(werewolf_prompt_mode)
+        ) and player.card == 'Werewolf':
+            reasoning = self.get_targeted_werewolf_reasoning(action, response, player.player_name)
+        else:
+            reasoning = self.get_reasoning(action, response, player.player_name, 'DAY')
+        statement = self.get_statement(action, player.player_name)
+
+        thoughts_message = f'DAY ROUND THOUGHTS: {reasoning}'
+        player.append_memory(thoughts_message)
+
+        message = f'{player.player_name}: {statement}'
+        for i_player in self.players:
+            i_player.append_memory(message)
+
+        self.record_dialogue_turn(player.player_name, 'DAY', statement, reasoning, stage=stage_label)
+
+        self.rendering_engine.render_player_turn(
+            player,
+            statement,
+            reasoning
+        )
+
+        return action
+
     def run_branch(self, snapshot, mode_label, stage_label, discussion_rounds):
         self.restore_branch_state(snapshot)
         self.rendering_engine.render_phase(f'{stage_label} DAY')
@@ -665,6 +710,19 @@ class Game:
         branch_vote = self.vote(stage_label=stage_label, mode_label=mode_label, final_vote=True, record_as_game_result=False)
         branch_vote['dialogue'] = deepcopy(self.dialogue)
         branch_vote['warning'] = self.warning
+        return branch_vote
+
+    def run_werewolf_only_branch(self, snapshot, mode_label, stage_label):
+        self.restore_branch_state(snapshot)
+        self.rendering_engine.render_phase(f'{stage_label} WEREWOLF FOLLOW-UP')
+        self.rendering_engine.render_game_statement('Only the Werewolf gives one final public follow-up before the vote.')
+        werewolf_player = self.get_single_werewolf_player()
+        self.run_day_turn(werewolf_player, werewolf_prompt_mode=mode_label, stage_label=stage_label)
+        self.rendering_engine.render_phase(f'{stage_label} FINAL VOTE')
+        branch_vote = self.vote(stage_label=stage_label, mode_label=mode_label, final_vote=True, record_as_game_result=False)
+        branch_vote['dialogue'] = deepcopy(self.dialogue)
+        branch_vote['warning'] = self.warning
+        branch_vote['followup_speaker'] = werewolf_player.player_name
         return branch_vote
 
     def play(self):
@@ -717,6 +775,7 @@ class Game:
                 'targeted_werewolf_persuasion': self.targeted_werewolf_persuasion,
                 'leader_prior_personality_werewolf_persuasion': self.leader_prior_personality_werewolf_persuasion,
                 'staged_werewolf_persuasion': True,
+                'werewolf_branch_comparison': False,
                 'votes': switched_mode_branch['votes'],
                 'players': [
                     {
@@ -729,6 +788,45 @@ class Game:
                 'stage_vote_history': self.stage_vote_history,
                 'branch_results': self.branch_results,
                 'vote_change_summary': self.vote_change_summary,
+            }
+        elif self.werewolf_branch_comparison:
+            self.day(discussion_depth=self.stage_one_rounds, werewolf_prompt_mode=self.stage_one_mode, stage_label='STAGE_1')
+            self.rendering_engine.render_phase('INTERIM VOTE')
+            interim_vote = self.vote(stage_label='INTERMEDIATE', mode_label=self.stage_one_mode, final_vote=False, reveal_results=False)
+            branch_snapshot = self.snapshot_branch_state()
+            same_mode_branch = self.run_werewolf_only_branch(branch_snapshot, self.stage_one_mode, 'SAME_MODE')
+            switched_mode_branch = self.run_werewolf_only_branch(branch_snapshot, self.stage_two_mode, 'SWITCH_MODE')
+            self.branch_results = {
+                'same_mode': same_mode_branch,
+                'switched_mode': switched_mode_branch,
+            }
+            self.stage_vote_history = [interim_vote]
+            self.vote_change_summary = self.compute_vote_change_summary()
+
+            self.dialogue = deepcopy(switched_mode_branch['dialogue'])
+            self.warning = switched_mode_branch['warning']
+            self.voting_outcome = switched_mode_branch['voting_outcome']
+            self.result = {
+                'winner': switched_mode_branch['winner'],
+                'werewolf_win': switched_mode_branch['werewolf_win'],
+                'result': switched_mode_branch['result'],
+                'targeted_werewolf_persuasion': self.targeted_werewolf_persuasion,
+                'leader_prior_personality_werewolf_persuasion': self.leader_prior_personality_werewolf_persuasion,
+                'staged_werewolf_persuasion': False,
+                'werewolf_branch_comparison': True,
+                'votes': switched_mode_branch['votes'],
+                'players': [
+                    {
+                        'name': player.player_name,
+                        'card': player.card
+                    }
+                    for player in self.players
+                ],
+                'middle_cards': self.middle_cards,
+                'stage_vote_history': self.stage_vote_history,
+                'branch_results': self.branch_results,
+                'vote_change_summary': self.vote_change_summary,
+                'branch_followup_turns': 1,
             }
         else:
             self.day()
@@ -929,7 +1027,6 @@ class Game:
             self.rendering_engine.render_game_statement('Everyone, Wake up!')
 
         day_prompt = open('prompts/day.txt').read()
-
         pointer = -1
 
         discussion_count = 0
@@ -1041,7 +1138,7 @@ class Game:
             'werewolf_vote_total': werewolf_vote_summary['werewolf_vote_total'],
             'werewolf_vote_share': werewolf_vote_summary['werewolf_vote_share'],
         }
-        if self.staged_werewolf_persuasion:
+        if self.uses_multi_stage_mode() and not final_vote:
             self.stage_vote_history.append(stage_vote_summary)
 
         if reveal_results:
@@ -1096,6 +1193,7 @@ class Game:
             'targeted_werewolf_persuasion': self.targeted_werewolf_persuasion,
             'leader_prior_personality_werewolf_persuasion': self.leader_prior_personality_werewolf_persuasion,
             'staged_werewolf_persuasion': self.staged_werewolf_persuasion,
+            'werewolf_branch_comparison': self.werewolf_branch_comparison,
             'votes': votes,
             'players': [
                 {
@@ -1136,7 +1234,7 @@ def write_json_file(json_file, payload):
         json.dump(payload, f, indent=2)
 
 
-def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds):
+def run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds):
     game = Game(
         player_count=player_count,
         discussion_depth=discussion_depth,
@@ -1145,6 +1243,7 @@ def run_batch_game(game_number, player_count, discussion_depth, model, targeted_
         targeted_werewolf_persuasion=targeted_werewolf_persuasion,
         leader_prior_personality_werewolf_persuasion=leader_prior_personality_werewolf_persuasion,
         staged_werewolf_persuasion=staged_werewolf_persuasion,
+        werewolf_branch_comparison=werewolf_branch_comparison,
         stage_one_mode=stage_one_mode,
         stage_two_mode=stage_two_mode,
         stage_one_rounds=stage_one_rounds,
@@ -1179,7 +1278,7 @@ def record_batch_result(payload, games_json, result, game_json, results_file, ga
 def finalize_batch_summary(payload):
     completed_games = [game for game in payload['games'] if game.get('status') == 'completed']
     summary = payload['summary']
-    if not summary.get('staged_werewolf_persuasion'):
+    if not (summary.get('staged_werewolf_persuasion') or summary.get('werewolf_branch_comparison')):
         return
 
     intermediate_vote_totals = []
@@ -1247,7 +1346,7 @@ def finalize_batch_summary(payload):
     summary['games_with_branch_outcome_change_rate'] = games_with_outcome_change / game_count
 
 
-def run_batch(player_count, discussion_depth, model_mode, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games):
+def run_batch(player_count, discussion_depth, model_mode, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games):
     payload = {
         'summary': {
             'model_mode': model_mode,
@@ -1257,10 +1356,12 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
             'targeted_werewolf_persuasion': targeted_werewolf_persuasion,
             'leader_prior_personality_werewolf_persuasion': leader_prior_personality_werewolf_persuasion,
             'staged_werewolf_persuasion': staged_werewolf_persuasion,
-            'stage_one_mode': stage_one_mode if staged_werewolf_persuasion else None,
-            'stage_two_mode': stage_two_mode if staged_werewolf_persuasion else None,
-            'stage_one_rounds': stage_one_rounds if staged_werewolf_persuasion else None,
+            'werewolf_branch_comparison': werewolf_branch_comparison,
+            'stage_one_mode': stage_one_mode if (staged_werewolf_persuasion or werewolf_branch_comparison) else None,
+            'stage_two_mode': stage_two_mode if (staged_werewolf_persuasion or werewolf_branch_comparison) else None,
+            'stage_one_rounds': stage_one_rounds if (staged_werewolf_persuasion or werewolf_branch_comparison) else None,
             'stage_two_rounds': stage_two_rounds if staged_werewolf_persuasion else None,
+            'branch_followup_turns': 1 if werewolf_branch_comparison else None,
             'parallel_games': parallel_games,
             'games_requested': game_count,
             'games_completed': 0,
@@ -1296,7 +1397,7 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
     if parallel_games <= 1:
         for game_number in range(1, game_count + 1):
             try:
-                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds)
+                result, game_json = run_batch_game(game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds)
             except Exception as e:
                 result = {
                     'game_number': game_number,
@@ -1315,7 +1416,7 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
         finished = 0
         with ThreadPoolExecutor(max_workers=parallel_games) as executor:
             futures = {
-                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds): game_number
+                executor.submit(run_batch_game, game_number, player_count, discussion_depth, model, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds): game_number
                 for game_number in range(1, game_count + 1)
             }
 
@@ -1357,13 +1458,14 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
 @click.option('--targeted-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze candidates and target the highest-utility player during day discussion')
 @click.option('--leader-prior-personality-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players use human-game priors about influenceable discussion leaders on top of targeted persuasion')
 @click.option('--staged-werewolf-persuasion', is_flag=True, default=False, help='Run a two-stage day discussion with an interim vote after stage one and a mode switch before stage two')
+@click.option('--werewolf-branch-comparison', is_flag=True, default=False, help='Run stage one discussion, take a private interim vote, then compare one extra Werewolf-only follow-up under stage-one mode versus stage-two mode')
 @click.option('--stage-one-mode', type=click.Choice(WEREWOLF_PROMPT_MODE_CHOICES), default='targeted', show_default=True, help='Werewolf prompt mode used during stage one of staged persuasion')
 @click.option('--stage-two-mode', type=click.Choice(WEREWOLF_PROMPT_MODE_CHOICES), default='prior', show_default=True, help='Werewolf prompt mode used during stage two of staged persuasion')
 @click.option('--stage-one-rounds', type=int, default=10, show_default=True, help='Number of day discussion turns before the interim vote in staged persuasion mode')
 @click.option('--stage-two-rounds', type=int, default=10, show_default=True, help='Number of day discussion turns after the mode switch in staged persuasion mode')
 @click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
-def play_game(player_count, discussion_depth, model_mode, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, use_gpt4, render_markdown):
+def play_game(player_count, discussion_depth, model_mode, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, use_gpt4, render_markdown):
     model_config = resolve_model_config(model_mode, model, api_base_url)
     model = model_config['model']
     api_base_url = model_config['api_base_url']
@@ -1378,14 +1480,18 @@ def play_game(player_count, discussion_depth, model_mode, model, api_base_url, g
         raise click.ClickException('--games must be at least 1.')
     if parallel_games < 1:
         raise click.ClickException('--parallel-games must be at least 1.')
+    if staged_werewolf_persuasion and werewolf_branch_comparison:
+        raise click.ClickException('--staged-werewolf-persuasion and --werewolf-branch-comparison cannot be used together.')
     if stage_one_rounds < 1 or stage_two_rounds < 1:
         raise click.ClickException('--stage-one-rounds and --stage-two-rounds must both be at least 1.')
     if staged_werewolf_persuasion:
         discussion_depth = stage_one_rounds + stage_two_rounds
+    elif werewolf_branch_comparison:
+        discussion_depth = stage_one_rounds + 1
 
     if games > 1:
         parallel_games = min(parallel_games, games)
-        summary = run_batch(player_count, discussion_depth, model_mode, model, games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games)
+        summary = run_batch(player_count, discussion_depth, model_mode, model, games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games)
         click.echo()
         click.echo(f'Batch complete. Results saved to {results_file}')
         click.echo(f'Generated game dialogue saved to {games_json_file}')
@@ -1394,9 +1500,12 @@ def play_game(player_count, discussion_depth, model_mode, model, api_base_url, g
         click.echo(f'Games failed: {summary["games_failed"]}')
         click.echo(f'Werewolf wins: {summary["werewolf_wins"]}')
         click.echo(f'Werewolf win rate: {summary["werewolf_win_rate"]:.2%}')
-        if summary.get('staged_werewolf_persuasion'):
+        if summary.get('staged_werewolf_persuasion') or summary.get('werewolf_branch_comparison'):
             click.echo(f'Stage one mode: {summary["stage_one_mode"]} ({summary["stage_one_rounds"]} rounds)')
-            click.echo(f'Stage two mode: {summary["stage_two_mode"]} ({summary["stage_two_rounds"]} rounds)')
+            if summary.get('werewolf_branch_comparison'):
+                click.echo(f'Branch comparison follow-up: 1 Werewolf-only turn under {summary["stage_one_mode"]} vs {summary["stage_two_mode"]}')
+            else:
+                click.echo(f'Stage two mode: {summary["stage_two_mode"]} ({summary["stage_two_rounds"]} rounds)')
             click.echo(f'Avg intermediate votes on Werewolves: {summary["avg_intermediate_votes_on_werewolves"]:.2f}')
             click.echo(f'Avg same-mode final votes on Werewolves: {summary["avg_same_mode_final_votes_on_werewolves"]:.2f}')
             click.echo(f'Avg switched-mode final votes on Werewolves: {summary["avg_switched_mode_final_votes_on_werewolves"]:.2f}')
@@ -1414,6 +1523,7 @@ def play_game(player_count, discussion_depth, model_mode, model, api_base_url, g
             targeted_werewolf_persuasion=targeted_werewolf_persuasion,
             leader_prior_personality_werewolf_persuasion=leader_prior_personality_werewolf_persuasion,
             staged_werewolf_persuasion=staged_werewolf_persuasion,
+            werewolf_branch_comparison=werewolf_branch_comparison,
             stage_one_mode=stage_one_mode,
             stage_two_mode=stage_two_mode,
             stage_one_rounds=stage_one_rounds,
