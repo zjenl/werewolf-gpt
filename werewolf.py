@@ -5,6 +5,7 @@ import threading
 import time
 import uuid
 import hashlib
+from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
@@ -451,6 +452,7 @@ class Game:
         self.stage_two_rounds = stage_two_rounds
         self.stage_vote_history = []
         self.vote_change_summary = None
+        self.branch_results = {}
 
         if silent:
             self.rendering_engine = SilentRenderingEngine()
@@ -582,6 +584,7 @@ class Game:
             game_json['stageVotingOutcomes'] = [stage_vote['voting_outcome'] for stage_vote in self.stage_vote_history]
             game_json['stageVoteHistory'] = self.stage_vote_history
             game_json['voteChangeSummary'] = self.vote_change_summary
+            game_json['branchResults'] = self.branch_results
         return game_json
 
     def summarize_werewolf_votes(self, votes):
@@ -598,29 +601,71 @@ class Game:
         return f'{stage_label} VOTE RESULTS: {ordered}'
 
     def compute_vote_change_summary(self):
-        if len(self.stage_vote_history) < 2:
+        if len(self.stage_vote_history) < 1 or not self.branch_results:
             return None
 
-        first_stage = self.stage_vote_history[0]
-        second_stage = self.stage_vote_history[-1]
-        changed_voters = [
-            player_name
-            for player_name in self.player_names
-            if first_stage['vote_by_voter'].get(player_name) != second_stage['vote_by_voter'].get(player_name)
-        ]
+        interim_stage = self.stage_vote_history[0]
         summary = {
-            'stage_one_mode': first_stage.get('mode'),
-            'stage_two_mode': second_stage.get('mode'),
-            'stage_one_votes_on_werewolves': first_stage['werewolf_vote_total'],
-            'stage_two_votes_on_werewolves': second_stage['werewolf_vote_total'],
-            'delta_votes_on_werewolves': second_stage['werewolf_vote_total'] - first_stage['werewolf_vote_total'],
-            'stage_one_werewolf_vote_share': first_stage['werewolf_vote_share'],
-            'stage_two_werewolf_vote_share': second_stage['werewolf_vote_share'],
-            'delta_werewolf_vote_share': second_stage['werewolf_vote_share'] - first_stage['werewolf_vote_share'],
-            'players_changed_votes': len(changed_voters),
-            'changed_voters': changed_voters,
+            'intermediate_mode': interim_stage.get('mode'),
+            'intermediate_votes_on_werewolves': interim_stage['werewolf_vote_total'],
+            'intermediate_werewolf_vote_share': interim_stage['werewolf_vote_share'],
         }
+
+        for branch_key, branch_label in [('same_mode', 'same_mode'), ('switched_mode', 'switched_mode')]:
+            branch = self.branch_results.get(branch_key)
+            if not branch:
+                continue
+            changed_voters = [
+                player_name
+                for player_name in self.player_names
+                if interim_stage['vote_by_voter'].get(player_name) != branch['vote_by_voter'].get(player_name)
+            ]
+            summary[f'{branch_label}_mode'] = branch.get('mode')
+            summary[f'{branch_label}_votes_on_werewolves'] = branch['werewolf_vote_total']
+            summary[f'{branch_label}_delta_votes_on_werewolves'] = branch['werewolf_vote_total'] - interim_stage['werewolf_vote_total']
+            summary[f'{branch_label}_werewolf_vote_share'] = branch['werewolf_vote_share']
+            summary[f'{branch_label}_delta_werewolf_vote_share'] = branch['werewolf_vote_share'] - interim_stage['werewolf_vote_share']
+            summary[f'{branch_label}_players_changed_votes'] = len(changed_voters)
+            summary[f'{branch_label}_changed_voters'] = changed_voters
+            summary[f'{branch_label}_werewolf_win'] = branch['werewolf_win']
+
+        if self.branch_results.get('same_mode') and self.branch_results.get('switched_mode'):
+            summary['switch_vs_same_delta_votes_on_werewolves'] = (
+                self.branch_results['switched_mode']['werewolf_vote_total']
+                - self.branch_results['same_mode']['werewolf_vote_total']
+            )
+            summary['switch_vs_same_delta_werewolf_vote_share'] = (
+                self.branch_results['switched_mode']['werewolf_vote_share']
+                - self.branch_results['same_mode']['werewolf_vote_share']
+            )
+            summary['switch_changed_outcome'] = (
+                self.branch_results['switched_mode']['werewolf_win']
+                != self.branch_results['same_mode']['werewolf_win']
+            )
         return summary
+
+    def snapshot_branch_state(self):
+        return {
+            'dialogue': deepcopy(self.dialogue),
+            'warning': self.warning,
+            'players_memory': {player.player_name: list(player.memory) for player in self.players},
+        }
+
+    def restore_branch_state(self, snapshot):
+        self.dialogue = deepcopy(snapshot['dialogue'])
+        self.warning = snapshot['warning']
+        for player in self.players:
+            player.memory = list(snapshot['players_memory'][player.player_name])
+
+    def run_branch(self, snapshot, mode_label, stage_label, discussion_rounds):
+        self.restore_branch_state(snapshot)
+        self.rendering_engine.render_phase(f'{stage_label} DAY')
+        self.day(discussion_depth=discussion_rounds, werewolf_prompt_mode=mode_label, stage_label=stage_label)
+        self.rendering_engine.render_phase(f'{stage_label} FINAL VOTE')
+        branch_vote = self.vote(stage_label=stage_label, mode_label=mode_label, final_vote=True, record_as_game_result=False)
+        branch_vote['dialogue'] = deepcopy(self.dialogue)
+        branch_vote['warning'] = self.warning
+        return branch_vote
 
     def play(self):
 
@@ -651,11 +696,40 @@ class Game:
         if self.staged_werewolf_persuasion:
             self.day(discussion_depth=self.stage_one_rounds, werewolf_prompt_mode=self.stage_one_mode, stage_label='STAGE_1')
             self.rendering_engine.render_phase('INTERIM VOTE')
-            self.vote(stage_label='STAGE_1', mode_label=self.stage_one_mode, final_vote=False)
-            self.rendering_engine.render_phase('DAY')
-            self.day(discussion_depth=self.stage_two_rounds, werewolf_prompt_mode=self.stage_two_mode, stage_label='STAGE_2')
-            self.rendering_engine.render_phase('FINAL VOTE')
-            self.vote(stage_label='STAGE_2', mode_label=self.stage_two_mode, final_vote=True)
+            interim_vote = self.vote(stage_label='INTERMEDIATE', mode_label=self.stage_one_mode, final_vote=False)
+            branch_snapshot = self.snapshot_branch_state()
+            same_mode_branch = self.run_branch(branch_snapshot, self.stage_one_mode, 'SAME_MODE', self.stage_two_rounds)
+            switched_mode_branch = self.run_branch(branch_snapshot, self.stage_two_mode, 'SWITCH_MODE', self.stage_two_rounds)
+            self.branch_results = {
+                'same_mode': same_mode_branch,
+                'switched_mode': switched_mode_branch,
+            }
+            self.stage_vote_history = [interim_vote]
+            self.vote_change_summary = self.compute_vote_change_summary()
+
+            self.dialogue = deepcopy(switched_mode_branch['dialogue'])
+            self.warning = switched_mode_branch['warning']
+            self.voting_outcome = switched_mode_branch['voting_outcome']
+            self.result = {
+                'winner': switched_mode_branch['winner'],
+                'werewolf_win': switched_mode_branch['werewolf_win'],
+                'result': switched_mode_branch['result'],
+                'targeted_werewolf_persuasion': self.targeted_werewolf_persuasion,
+                'leader_prior_personality_werewolf_persuasion': self.leader_prior_personality_werewolf_persuasion,
+                'staged_werewolf_persuasion': True,
+                'votes': switched_mode_branch['votes'],
+                'players': [
+                    {
+                        'name': player.player_name,
+                        'card': player.card
+                    }
+                    for player in self.players
+                ],
+                'middle_cards': self.middle_cards,
+                'stage_vote_history': self.stage_vote_history,
+                'branch_results': self.branch_results,
+                'vote_change_summary': self.vote_change_summary,
+            }
         else:
             self.day()
 
@@ -916,7 +990,7 @@ class Game:
 
             discussion_count += 1
 
-    def vote(self, stage_label='FINAL', mode_label=None, final_vote=True):
+    def vote(self, stage_label='FINAL', mode_label=None, final_vote=True, record_as_game_result=True):
         vote_intro = 'It\'s time to vote!' if final_vote else 'It\'s time for an interim vote before the mode switch!'
         self.rendering_engine.render_game_statement(vote_intro)
 
@@ -1010,8 +1084,7 @@ class Game:
         self.rendering_engine.render_game_statement(game_result)
 
         winner = 'werewolves' if game_result.endswith('The werewolves win.') else 'villagers'
-        self.vote_change_summary = self.compute_vote_change_summary()
-        self.result = {
+        final_result = {
             'winner': winner,
             'werewolf_win': winner == 'werewolves',
             'result': game_result,
@@ -1028,10 +1101,15 @@ class Game:
             ],
             'middle_cards': self.middle_cards
         }
-        if self.staged_werewolf_persuasion:
-            self.result['stage_vote_history'] = self.stage_vote_history
-            self.result['vote_change_summary'] = self.vote_change_summary
-        return self.result
+        final_result.update(stage_vote_summary)
+        if record_as_game_result:
+            self.vote_change_summary = self.compute_vote_change_summary()
+            self.result = final_result
+            if self.staged_werewolf_persuasion:
+                self.result['stage_vote_history'] = self.stage_vote_history
+                self.result['vote_change_summary'] = self.vote_change_summary
+            return self.result
+        return final_result
 
     def get_player_names(self, player_count):
         name_options = ['Alexandra', 'Alexia', 'Andrei', 'Cristina', 'Dragos', 'Dracula', 'Emil', 'Ileana', 'Kraven', 'Larisa', 'Lucian', 'Marius', 'Michael', 'Mircea', 'Radu', 'Semira', 'Selene', 'Stefan', 'Viktor', 'Vladimir']
@@ -1099,42 +1177,69 @@ def finalize_batch_summary(payload):
     if not summary.get('staged_werewolf_persuasion'):
         return
 
-    stage_one_vote_totals = []
-    stage_two_vote_totals = []
-    stage_one_vote_shares = []
-    stage_two_vote_shares = []
-    changed_vote_counts = []
-    games_with_vote_change = 0
+    intermediate_vote_totals = []
+    same_mode_vote_totals = []
+    switched_mode_vote_totals = []
+    intermediate_vote_shares = []
+    same_mode_vote_shares = []
+    switched_mode_vote_shares = []
+    same_mode_changed_vote_counts = []
+    switched_mode_changed_vote_counts = []
+    games_with_switch_vote_change = 0
+    same_mode_wins = 0
+    switched_mode_wins = 0
+    games_with_outcome_change = 0
 
     for game in completed_games:
         vote_change_summary = game.get('vote_change_summary')
         if not vote_change_summary:
             continue
-        stage_one_vote_totals.append(vote_change_summary['stage_one_votes_on_werewolves'])
-        stage_two_vote_totals.append(vote_change_summary['stage_two_votes_on_werewolves'])
-        stage_one_vote_shares.append(vote_change_summary['stage_one_werewolf_vote_share'])
-        stage_two_vote_shares.append(vote_change_summary['stage_two_werewolf_vote_share'])
-        changed_vote_counts.append(vote_change_summary['players_changed_votes'])
-        if vote_change_summary['players_changed_votes'] > 0:
-            games_with_vote_change += 1
+        intermediate_vote_totals.append(vote_change_summary['intermediate_votes_on_werewolves'])
+        same_mode_vote_totals.append(vote_change_summary['same_mode_votes_on_werewolves'])
+        switched_mode_vote_totals.append(vote_change_summary['switched_mode_votes_on_werewolves'])
+        intermediate_vote_shares.append(vote_change_summary['intermediate_werewolf_vote_share'])
+        same_mode_vote_shares.append(vote_change_summary['same_mode_werewolf_vote_share'])
+        switched_mode_vote_shares.append(vote_change_summary['switched_mode_werewolf_vote_share'])
+        same_mode_changed_vote_counts.append(vote_change_summary['same_mode_players_changed_votes'])
+        switched_mode_changed_vote_counts.append(vote_change_summary['switched_mode_players_changed_votes'])
+        if vote_change_summary['switched_mode_players_changed_votes'] > 0:
+            games_with_switch_vote_change += 1
+        same_mode_wins += int(vote_change_summary['same_mode_werewolf_win'])
+        switched_mode_wins += int(vote_change_summary['switched_mode_werewolf_win'])
+        games_with_outcome_change += int(vote_change_summary['switch_changed_outcome'])
 
-    if not stage_one_vote_totals:
+    if not intermediate_vote_totals:
         return
 
-    game_count = len(stage_one_vote_totals)
-    summary['avg_stage_one_votes_on_werewolves'] = sum(stage_one_vote_totals) / game_count
-    summary['avg_stage_two_votes_on_werewolves'] = sum(stage_two_vote_totals) / game_count
-    summary['avg_delta_votes_on_werewolves_after_switch'] = (
-        summary['avg_stage_two_votes_on_werewolves'] - summary['avg_stage_one_votes_on_werewolves']
+    game_count = len(intermediate_vote_totals)
+    summary['avg_intermediate_votes_on_werewolves'] = sum(intermediate_vote_totals) / game_count
+    summary['avg_same_mode_final_votes_on_werewolves'] = sum(same_mode_vote_totals) / game_count
+    summary['avg_switched_mode_final_votes_on_werewolves'] = sum(switched_mode_vote_totals) / game_count
+    summary['avg_delta_same_mode_votes_on_werewolves'] = (
+        summary['avg_same_mode_final_votes_on_werewolves'] - summary['avg_intermediate_votes_on_werewolves']
     )
-    summary['avg_stage_one_werewolf_vote_share'] = sum(stage_one_vote_shares) / game_count
-    summary['avg_stage_two_werewolf_vote_share'] = sum(stage_two_vote_shares) / game_count
-    summary['avg_delta_werewolf_vote_share_after_switch'] = (
-        summary['avg_stage_two_werewolf_vote_share'] - summary['avg_stage_one_werewolf_vote_share']
+    summary['avg_delta_switched_mode_votes_on_werewolves'] = (
+        summary['avg_switched_mode_final_votes_on_werewolves'] - summary['avg_intermediate_votes_on_werewolves']
     )
-    summary['avg_changed_votes_after_switch'] = sum(changed_vote_counts) / game_count
-    summary['games_with_any_vote_change'] = games_with_vote_change
-    summary['games_with_any_vote_change_rate'] = games_with_vote_change / game_count
+    summary['avg_intermediate_werewolf_vote_share'] = sum(intermediate_vote_shares) / game_count
+    summary['avg_same_mode_final_werewolf_vote_share'] = sum(same_mode_vote_shares) / game_count
+    summary['avg_switched_mode_final_werewolf_vote_share'] = sum(switched_mode_vote_shares) / game_count
+    summary['avg_delta_same_mode_werewolf_vote_share'] = (
+        summary['avg_same_mode_final_werewolf_vote_share'] - summary['avg_intermediate_werewolf_vote_share']
+    )
+    summary['avg_delta_switched_mode_werewolf_vote_share'] = (
+        summary['avg_switched_mode_final_werewolf_vote_share'] - summary['avg_intermediate_werewolf_vote_share']
+    )
+    summary['avg_same_mode_changed_votes'] = sum(same_mode_changed_vote_counts) / game_count
+    summary['avg_switched_mode_changed_votes'] = sum(switched_mode_changed_vote_counts) / game_count
+    summary['same_mode_werewolf_wins'] = same_mode_wins
+    summary['switched_mode_werewolf_wins'] = switched_mode_wins
+    summary['same_mode_werewolf_win_rate'] = same_mode_wins / game_count
+    summary['switched_mode_werewolf_win_rate'] = switched_mode_wins / game_count
+    summary['games_with_any_switched_vote_change'] = games_with_switch_vote_change
+    summary['games_with_any_switched_vote_change_rate'] = games_with_switch_vote_change / game_count
+    summary['games_with_branch_outcome_change'] = games_with_outcome_change
+    summary['games_with_branch_outcome_change_rate'] = games_with_outcome_change / game_count
 
 
 def run_batch(player_count, discussion_depth, model_mode, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games):
@@ -1157,15 +1262,26 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
             'games_failed': 0,
             'werewolf_wins': 0,
             'werewolf_win_rate': 0.0,
-            'avg_stage_one_votes_on_werewolves': 0.0,
-            'avg_stage_two_votes_on_werewolves': 0.0,
-            'avg_delta_votes_on_werewolves_after_switch': 0.0,
-            'avg_stage_one_werewolf_vote_share': 0.0,
-            'avg_stage_two_werewolf_vote_share': 0.0,
-            'avg_delta_werewolf_vote_share_after_switch': 0.0,
-            'avg_changed_votes_after_switch': 0.0,
-            'games_with_any_vote_change': 0,
-            'games_with_any_vote_change_rate': 0.0,
+            'avg_intermediate_votes_on_werewolves': 0.0,
+            'avg_same_mode_final_votes_on_werewolves': 0.0,
+            'avg_switched_mode_final_votes_on_werewolves': 0.0,
+            'avg_delta_same_mode_votes_on_werewolves': 0.0,
+            'avg_delta_switched_mode_votes_on_werewolves': 0.0,
+            'avg_intermediate_werewolf_vote_share': 0.0,
+            'avg_same_mode_final_werewolf_vote_share': 0.0,
+            'avg_switched_mode_final_werewolf_vote_share': 0.0,
+            'avg_delta_same_mode_werewolf_vote_share': 0.0,
+            'avg_delta_switched_mode_werewolf_vote_share': 0.0,
+            'avg_same_mode_changed_votes': 0.0,
+            'avg_switched_mode_changed_votes': 0.0,
+            'same_mode_werewolf_wins': 0,
+            'switched_mode_werewolf_wins': 0,
+            'same_mode_werewolf_win_rate': 0.0,
+            'switched_mode_werewolf_win_rate': 0.0,
+            'games_with_any_switched_vote_change': 0,
+            'games_with_any_switched_vote_change_rate': 0.0,
+            'games_with_branch_outcome_change': 0,
+            'games_with_branch_outcome_change_rate': 0.0,
             'generated_at': datetime.now(timezone.utc).isoformat()
         },
         'games': []
@@ -1229,17 +1345,17 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
 @click.option('--model-mode', type=click.Choice(list(MODEL_PRESETS.keys())), default=DEFAULT_MODEL_MODE, show_default=True, help='Preset model/API mode')
 @click.option('--model', default=None, help='Optional model override used for every player and JSON repair call')
 @click.option('--api-base-url', default=None, help='Optional OpenAI-compatible API base URL override')
-@click.option('--games', type=int, default=1, show_default=True, help='Number of games to run. Use 1000 for a baseline batch.')
+@click.option('--games', type=int, default=5, show_default=True, help='Number of games to run. Use 1000 for a baseline batch.')
 @click.option('--parallel-games', type=int, default=1, show_default=True, help='Number of independent games to run concurrently during batch mode')
 @click.option('--results-file', default=DEFAULT_RESULTS_FILE, show_default=True, help='JSON file for batch results')
 @click.option('--games-json-file', default=DEFAULT_GAMES_JSON_FILE, show_default=True, help='Ego4D-like JSON file containing generated game dialogue')
 @click.option('--targeted-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players analyze candidates and target the highest-utility player during day discussion')
-@click.option('--leader-prior-personality-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players use human-game priors about influenceable discussion leaders on top of personality-aware persuasion')
+@click.option('--leader-prior-personality-werewolf-persuasion', is_flag=True, default=False, help='Make Werewolf players use human-game priors about influenceable discussion leaders on top of targeted persuasion')
 @click.option('--staged-werewolf-persuasion', is_flag=True, default=False, help='Run a two-stage day discussion with an interim vote after stage one and a mode switch before stage two')
 @click.option('--stage-one-mode', type=click.Choice(WEREWOLF_PROMPT_MODE_CHOICES), default='targeted', show_default=True, help='Werewolf prompt mode used during stage one of staged persuasion')
 @click.option('--stage-two-mode', type=click.Choice(WEREWOLF_PROMPT_MODE_CHOICES), default='prior', show_default=True, help='Werewolf prompt mode used during stage two of staged persuasion')
 @click.option('--stage-one-rounds', type=int, default=10, show_default=True, help='Number of day discussion turns before the interim vote in staged persuasion mode')
-@click.option('--stage-two-rounds', type=int, default=5, show_default=True, help='Number of day discussion turns after the mode switch in staged persuasion mode')
+@click.option('--stage-two-rounds', type=int, default=10, show_default=True, help='Number of day discussion turns after the mode switch in staged persuasion mode')
 @click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
 def play_game(player_count, discussion_depth, model_mode, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, use_gpt4, render_markdown):
@@ -1276,12 +1392,14 @@ def play_game(player_count, discussion_depth, model_mode, model, api_base_url, g
         if summary.get('staged_werewolf_persuasion'):
             click.echo(f'Stage one mode: {summary["stage_one_mode"]} ({summary["stage_one_rounds"]} rounds)')
             click.echo(f'Stage two mode: {summary["stage_two_mode"]} ({summary["stage_two_rounds"]} rounds)')
-            click.echo(f'Avg votes on Werewolves before switch: {summary["avg_stage_one_votes_on_werewolves"]:.2f}')
-            click.echo(f'Avg votes on Werewolves after switch: {summary["avg_stage_two_votes_on_werewolves"]:.2f}')
-            click.echo(f'Avg change in votes on Werewolves: {summary["avg_delta_votes_on_werewolves_after_switch"]:+.2f}')
-            click.echo(f'Avg Werewolf vote share before switch: {summary["avg_stage_one_werewolf_vote_share"]:.2%}')
-            click.echo(f'Avg Werewolf vote share after switch: {summary["avg_stage_two_werewolf_vote_share"]:.2%}')
-            click.echo(f'Games with any vote change after switch: {summary["games_with_any_vote_change"]} ({summary["games_with_any_vote_change_rate"]:.2%})')
+            click.echo(f'Avg intermediate votes on Werewolves: {summary["avg_intermediate_votes_on_werewolves"]:.2f}')
+            click.echo(f'Avg same-mode final votes on Werewolves: {summary["avg_same_mode_final_votes_on_werewolves"]:.2f}')
+            click.echo(f'Avg switched-mode final votes on Werewolves: {summary["avg_switched_mode_final_votes_on_werewolves"]:.2f}')
+            click.echo(f'Avg switched delta in votes on Werewolves: {summary["avg_delta_switched_mode_votes_on_werewolves"]:+.2f}')
+            click.echo(f'Same-mode Werewolf win rate: {summary["same_mode_werewolf_win_rate"]:.2%}')
+            click.echo(f'Switched-mode Werewolf win rate: {summary["switched_mode_werewolf_win_rate"]:.2%}')
+            click.echo(f'Games with any switched-branch vote change: {summary["games_with_any_switched_vote_change"]} ({summary["games_with_any_switched_vote_change_rate"]:.2%})')
+            click.echo(f'Games where switching changed the final winner: {summary["games_with_branch_outcome_change"]} ({summary["games_with_branch_outcome_change_rate"]:.2%})')
     else:
         game = Game(
             player_count=player_count,
