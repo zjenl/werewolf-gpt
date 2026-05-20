@@ -696,7 +696,7 @@ class Game:
         if self.staged_werewolf_persuasion:
             self.day(discussion_depth=self.stage_one_rounds, werewolf_prompt_mode=self.stage_one_mode, stage_label='STAGE_1')
             self.rendering_engine.render_phase('INTERIM VOTE')
-            interim_vote = self.vote(stage_label='INTERMEDIATE', mode_label=self.stage_one_mode, final_vote=False)
+            interim_vote = self.vote(stage_label='INTERMEDIATE', mode_label=self.stage_one_mode, final_vote=False, reveal_results=False)
             branch_snapshot = self.snapshot_branch_state()
             same_mode_branch = self.run_branch(branch_snapshot, self.stage_one_mode, 'SAME_MODE', self.stage_two_rounds)
             switched_mode_branch = self.run_branch(branch_snapshot, self.stage_two_mode, 'SWITCH_MODE', self.stage_two_rounds)
@@ -990,7 +990,7 @@ class Game:
 
             discussion_count += 1
 
-    def vote(self, stage_label='FINAL', mode_label=None, final_vote=True, record_as_game_result=True):
+    def vote(self, stage_label='FINAL', mode_label=None, final_vote=True, record_as_game_result=True, reveal_results=True):
         vote_intro = 'It\'s time to vote!' if final_vote else 'It\'s time for an interim vote before the mode switch!'
         self.rendering_engine.render_game_statement(vote_intro)
 
@@ -1028,7 +1028,8 @@ class Game:
             for player in self.players
         ]
 
-        self.rendering_engine.render_vote_results(votes, self.players)
+        if reveal_results:
+            self.rendering_engine.render_vote_results(votes, self.players)
 
         werewolf_vote_summary = self.summarize_werewolf_votes(votes)
         stage_vote_summary = {
@@ -1043,12 +1044,16 @@ class Game:
         if self.staged_werewolf_persuasion:
             self.stage_vote_history.append(stage_vote_summary)
 
-        vote_results_memory = self.format_vote_results_for_memory(stage_label, votes)
-        for player in self.players:
-            player.append_memory(vote_results_memory)
+        if reveal_results:
+            vote_results_memory = self.format_vote_results_for_memory(stage_label, votes)
+            for player in self.players:
+                player.append_memory(vote_results_memory)
 
         if not final_vote:
-            self.rendering_engine.render_game_statement(vote_results_memory)
+            if reveal_results:
+                self.rendering_engine.render_game_statement(vote_results_memory)
+            else:
+                self.rendering_engine.render_game_statement('The interim votes have been recorded privately. Continue the discussion without seeing the tally.')
             return stage_vote_summary
 
         self.voting_outcome = voting_outcome
