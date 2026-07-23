@@ -22,24 +22,40 @@ OPENROUTER_API_BASE_URL = 'https://openrouter.ai/api/v1'
 MODEL_PRESETS = {
     'openai-gpt5-nano': {
         'model': 'gpt-5-nano',
+        'api_source': 'openai',
         'api_base_url': None,
+        'api_key_env': 'OPENAI_API_KEY',
     },
     'openrouter-grok': {
         'model': 'x-ai/grok-4.1-fast',
+        'api_source': 'openrouter',
         'api_base_url': OPENROUTER_API_BASE_URL,
+        'api_key_env': 'OPENROUTER_API_KEY',
     },
     'openrouter-qwen': {
         'model': 'qwen/qwen3.5-flash-02-23',
+        'api_source': 'openrouter',
         'api_base_url': OPENROUTER_API_BASE_URL,
+        'api_key_env': 'OPENROUTER_API_KEY',
     },
     'openrouter-gemini': {
         'model': 'google/gemini-2.5-flash-lite',
+        'api_source': 'openrouter',
         'api_base_url': OPENROUTER_API_BASE_URL,
+        'api_key_env': 'OPENROUTER_API_KEY',
+    },
+    'custom': {
+        'model': None,
+        'api_source': 'custom',
+        'api_base_url': None,
+        'api_key_env': None,
     },
 }
 DEFAULT_MODEL_MODE = 'openai-gpt5-nano'
 DEFAULT_MODEL = MODEL_PRESETS[DEFAULT_MODEL_MODE]['model']
+DEFAULT_API_SOURCE = MODEL_PRESETS[DEFAULT_MODEL_MODE]['api_source']
 DEFAULT_API_BASE_URL = MODEL_PRESETS[DEFAULT_MODEL_MODE]['api_base_url']
+DEFAULT_API_KEY_ENV = MODEL_PRESETS[DEFAULT_MODEL_MODE]['api_key_env']
 DEFAULT_RESULTS_FILE = 'results/baseline-results.json'
 DEFAULT_GAMES_JSON_FILE = 'results/baseline-games.json'
 MODEL_MAX_RETRIES = 3
@@ -51,7 +67,10 @@ if os.path.isfile('.env'):
     dotenv.load_dotenv()
 
 client_state = threading.local()
+configured_api_source = DEFAULT_API_SOURCE
 configured_api_base_url = DEFAULT_API_BASE_URL
+configured_api_key = None
+configured_api_key_env = DEFAULT_API_KEY_ENV
 
 
 def get_model_preset(mode):
@@ -61,48 +80,107 @@ def get_model_preset(mode):
     return preset
 
 
-def resolve_model_config(model_mode, model, api_base_url):
+def normalize_api_source(api_source):
+    if api_source is None:
+        return None
+    return api_source.strip().lower()
+
+
+def resolve_model_config(model_mode, model, api_source, api_base_url, api_key, api_key_env):
     preset = get_model_preset(model_mode)
     resolved_model = model or preset['model']
+    resolved_api_source = normalize_api_source(api_source) or preset['api_source']
     if api_base_url is None:
         resolved_api_base_url = preset['api_base_url']
     else:
         resolved_api_base_url = api_base_url
+    resolved_api_key_env = api_key_env or preset.get('api_key_env')
+
+    if resolved_api_source == 'openrouter' and resolved_api_base_url is None:
+        resolved_api_base_url = OPENROUTER_API_BASE_URL
+
+    if not resolved_model:
+        raise click.ClickException('Provide --model when using --model-mode custom.')
+
+    if resolved_api_source not in ('openai', 'openrouter') and not resolved_api_base_url:
+        raise click.ClickException('Provide --api-base-url when using a custom API source.')
 
     return {
         'model_mode': model_mode,
         'model': resolved_model,
+        'api_source': resolved_api_source,
         'api_base_url': resolved_api_base_url,
+        'api_key': api_key,
+        'api_key_env': resolved_api_key_env,
     }
 
 
-def configure_client(api_base_url=None):
-    global configured_api_base_url
+def get_configured_api_key(api_source, api_key=None, api_key_env=None):
+    if api_key:
+        return api_key
 
+    env_candidates = []
+    if api_key_env:
+        env_candidates.append(api_key_env)
+    elif api_source == 'openrouter':
+        env_candidates.extend(['OPENROUTER_API_KEY', 'OPENAI_API_KEY'])
+    elif api_source == 'openai':
+        env_candidates.append('OPENAI_API_KEY')
+    else:
+        env_candidates.append('OPENAI_API_KEY')
+
+    seen = set()
+    for env_name in env_candidates:
+        if not env_name or env_name in seen:
+            continue
+        seen.add(env_name)
+        env_value = os.getenv(env_name)
+        if env_value:
+            return env_value
+
+    expected = api_key_env or ('OPENROUTER_API_KEY' if api_source == 'openrouter' else 'OPENAI_API_KEY')
+    raise click.ClickException(
+        f'Set {expected} in your environment/.env file, or pass --api-key, before running model games.'
+    )
+
+
+def configure_client(api_source=None, api_base_url=None, api_key=None, api_key_env=None):
+    global configured_api_source, configured_api_base_url, configured_api_key, configured_api_key_env
+
+    if api_source is not None:
+        configured_api_source = normalize_api_source(api_source)
     if api_base_url is not None:
         configured_api_base_url = api_base_url
     else:
         api_base_url = configured_api_base_url
+    if api_key is not None:
+        configured_api_key = api_key
+    else:
+        api_key = configured_api_key
+    if api_key_env is not None:
+        configured_api_key_env = api_key_env
+    else:
+        api_key_env = configured_api_key_env
+    api_source = configured_api_source
+    resolved_api_key = get_configured_api_key(api_source, api_key=api_key, api_key_env=api_key_env)
 
     thread_client = getattr(client_state, 'client', None)
+    thread_api_source = getattr(client_state, 'api_source', None)
     thread_base_url = getattr(client_state, 'base_url', None)
-    if thread_client is not None and thread_base_url == api_base_url:
+    thread_api_key = getattr(client_state, 'api_key', None)
+    if (
+        thread_client is not None
+        and thread_api_source == api_source
+        and thread_base_url == api_base_url
+        and thread_api_key == resolved_api_key
+    ):
         return thread_client
 
-    uses_openrouter = bool(api_base_url and 'openrouter.ai' in api_base_url)
-    if uses_openrouter:
-        api_key = os.getenv('OPENROUTER_API_KEY') or os.getenv('OPENAI_API_KEY')
-        if not api_key:
-            raise click.ClickException('Set OPENROUTER_API_KEY in your environment or .env file before running OpenRouter model games.')
-    else:
-        api_key = os.getenv('OPENAI_API_KEY')
-        if not api_key:
-            raise click.ClickException('Set OPENAI_API_KEY in your environment or .env file before running OpenAI model games.')
-
-    client_args = {'api_key': api_key}
+    client_args = {'api_key': resolved_api_key}
     if api_base_url:
         client_args['base_url'] = api_base_url
 
+    uses_openrouter = api_source == 'openrouter' or bool(api_base_url and 'openrouter.ai' in api_base_url)
     if uses_openrouter:
         headers = {
             'X-OpenRouter-Title': os.getenv('OPENROUTER_APP_TITLE', 'Werewolf GPT')
@@ -114,8 +192,10 @@ def configure_client(api_base_url=None):
 
     thread_client = OpenAI(**client_args)
     client_state.client = thread_client
+    client_state.api_source = api_source
     client_state.base_url = api_base_url
-    openai.api_key = api_key
+    client_state.api_key = resolved_api_key
+    openai.api_key = resolved_api_key
     return thread_client
 
 
@@ -136,10 +216,11 @@ def run_model_prompt(prompt, model, json_mode=False, prompt_cache_key=None):
     }
 
     client = configure_client()
+    api_source = getattr(client_state, 'api_source', None)
     api_base_url = getattr(client_state, 'base_url', None)
-    uses_openrouter = bool(api_base_url and 'openrouter.ai' in api_base_url)
+    uses_native_openai = api_source == 'openai' and not api_base_url
 
-    if not uses_openrouter:
+    if uses_native_openai:
         if prompt_cache_key:
             request_args['prompt_cache_key'] = prompt_cache_key
         request_args['prompt_cache_retention'] = 'in_memory'
@@ -1363,11 +1444,13 @@ def finalize_batch_summary(payload):
     summary['games_with_branch_outcome_change_rate'] = games_with_outcome_change / game_count
 
 
-def run_batch(player_count, discussion_depth, model_mode, model, game_count, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games):
+def run_batch(player_count, discussion_depth, model_mode, model, api_source, api_base_url, game_count, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games):
     payload = {
         'summary': {
             'model_mode': model_mode,
             'model': model,
+            'api_source': api_source,
+            'api_base_url': api_base_url,
             'player_count': player_count,
             'discussion_depth': discussion_depth,
             'targeted_werewolf_persuasion': targeted_werewolf_persuasion,
@@ -1467,7 +1550,10 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
 @click.option('--discussion-depth', type=int, default=20, help='Number of discussion rounds')
 @click.option('--model-mode', type=click.Choice(list(MODEL_PRESETS.keys())), default=DEFAULT_MODEL_MODE, show_default=True, help='Preset model/API mode')
 @click.option('--model', default=None, help='Optional model override used for every player and JSON repair call')
+@click.option('--api-source', default=None, help='API provider source, e.g. openai, openrouter, deepinfra, together, or custom')
 @click.option('--api-base-url', default=None, help='Optional OpenAI-compatible API base URL override')
+@click.option('--api-key-env', default=None, help='Environment variable containing the API key, e.g. OPENAI_API_KEY or OPENROUTER_API_KEY')
+@click.option('--api-key', default=None, help='API key value. Prefer --api-key-env or environment variables for security.')
 @click.option('--games', type=int, default=5, show_default=True, help='Number of games to run. Use 1000 for a baseline batch.')
 @click.option('--parallel-games', type=int, default=1, show_default=True, help='Number of independent games to run concurrently during batch mode')
 @click.option('--results-file', default=DEFAULT_RESULTS_FILE, show_default=True, help='JSON file for batch results')
@@ -1482,16 +1568,22 @@ def run_batch(player_count, discussion_depth, model_mode, model, game_count, res
 @click.option('--stage-two-rounds', type=int, default=10, show_default=True, help='Number of day discussion turns after the mode switch in staged persuasion mode')
 @click.option('--use-gpt4', is_flag=True, default=False, help='Legacy alias: use openai/gpt-4 instead of the default model')
 @click.option('--render-markdown', is_flag=True, default=False, help='Render output as markdown')
-def play_game(player_count, discussion_depth, model_mode, model, api_base_url, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, use_gpt4, render_markdown):
-    model_config = resolve_model_config(model_mode, model, api_base_url)
+def play_game(player_count, discussion_depth, model_mode, model, api_source, api_base_url, api_key_env, api_key, games, parallel_games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, use_gpt4, render_markdown):
+    model_config = resolve_model_config(model_mode, model, api_source, api_base_url, api_key, api_key_env)
     model = model_config['model']
+    api_source = model_config['api_source']
     api_base_url = model_config['api_base_url']
+    api_key = model_config['api_key']
+    api_key_env = model_config['api_key_env']
 
     if use_gpt4:
         model = 'openai/gpt-4'
+        api_source = 'openrouter'
         api_base_url = OPENROUTER_API_BASE_URL
+        if not api_key and api_key_env in (None, DEFAULT_API_KEY_ENV):
+            api_key_env = 'OPENROUTER_API_KEY'
 
-    configure_client(api_base_url)
+    configure_client(api_source=api_source, api_base_url=api_base_url, api_key=api_key, api_key_env=api_key_env)
 
     if games < 1:
         raise click.ClickException('--games must be at least 1.')
@@ -1508,7 +1600,7 @@ def play_game(player_count, discussion_depth, model_mode, model, api_base_url, g
 
     if games > 1:
         parallel_games = min(parallel_games, games)
-        summary = run_batch(player_count, discussion_depth, model_mode, model, games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games)
+        summary = run_batch(player_count, discussion_depth, model_mode, model, api_source, api_base_url, games, results_file, games_json_file, targeted_werewolf_persuasion, leader_prior_personality_werewolf_persuasion, staged_werewolf_persuasion, werewolf_branch_comparison, stage_one_mode, stage_two_mode, stage_one_rounds, stage_two_rounds, parallel_games)
         click.echo()
         click.echo(f'Batch complete. Results saved to {results_file}')
         click.echo(f'Generated game dialogue saved to {games_json_file}')

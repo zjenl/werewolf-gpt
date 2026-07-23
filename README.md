@@ -147,6 +147,44 @@ Example:
 python3 werewolf.py --model-mode openrouter-qwen
 ```
 
+### Custom OpenAI-Compatible APIs
+
+You can also run the simulator with any OpenAI-compatible API by providing the model code, base URL, and API key source directly.
+
+Use `--model-mode custom` when you do not want to use one of the preset model modes:
+
+```bash
+python3 werewolf.py \
+  --model-mode custom \
+  --model MODEL_CODE \
+  --api-base-url BASE_URL \
+  --api-key-env YOUR_KEY_ENV
+```
+
+Example using OpenRouter through the custom interface:
+
+```bash
+python3 werewolf.py \
+  --model-mode custom \
+  --model x-ai/grok-4.1-fast \
+  --api-base-url https://openrouter.ai/api/v1 \
+  --api-key-env OPENROUTER_API_KEY
+```
+
+Example using another OpenAI-compatible provider:
+
+```bash
+export TOGETHER_API_KEY="your_key_here"
+
+python3 werewolf.py \
+  --model-mode custom \
+  --model meta-llama/Llama-3.3-70B-Instruct-Turbo \
+  --api-base-url https://api.together.xyz/v1 \
+  --api-key-env TOGETHER_API_KEY
+```
+
+You can also pass `--api-key` directly, but environment variables are recommended so the key is not saved in shell history or logs.
+
 ### Batch Runs
 
 Run 100 games and save both compact results and generated game dialogue:
